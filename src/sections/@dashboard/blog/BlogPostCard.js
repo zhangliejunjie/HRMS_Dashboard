@@ -58,7 +58,7 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+  const { cover, title, description, view, comment, share, author, createdAt } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
@@ -69,9 +69,9 @@ export default function BlogPostCard({ post, index }) {
   ];
 
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 24 : 12}>
       <Card sx={{ position: 'relative' }}>
-        <CardMediaStyle
+        {/* <CardMediaStyle
           sx={{
             ...((latestPostLarge || latestPost) && {
               pt: 'calc(100% * 4 / 3)',
@@ -120,7 +120,7 @@ export default function BlogPostCard({ post, index }) {
           />
 
           <CoverImgStyle alt={title} src={cover} />
-        </CardMediaStyle>
+        </CardMediaStyle> */}
 
         <CardContent
           sx={{
@@ -132,8 +132,8 @@ export default function BlogPostCard({ post, index }) {
             }),
           }}
         >
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
-            {fDate(createdAt)}
+          <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
+            {title}
           </Typography>
 
           <TitleStyle
@@ -149,7 +149,7 @@ export default function BlogPostCard({ post, index }) {
               }),
             }}
           >
-            {title}
+            {description}
           </TitleStyle>
 
           <InfoStyle>
@@ -165,8 +165,8 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
-                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
-                <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
+                {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
+                <Typography variant="caption">{2002}</Typography>
               </Box>
             ))}
           </InfoStyle>
