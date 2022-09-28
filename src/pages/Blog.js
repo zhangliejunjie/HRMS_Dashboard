@@ -8,6 +8,11 @@ import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashb
 // mock
 import POSTS from '../_mock/blog';
 
+import { faker } from '@faker-js/faker';
+import {
+  AppNewsUpdate,
+} from '../sections/@dashboard/app';
+
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -22,6 +27,20 @@ export default function Blog() {
   return (
     <Page title="Dashboard: Blog">
       <Container>
+
+      <Grid item xs={12} md={6} lg={8}>
+            <AppNewsUpdate
+              title="News Update"
+              list={[...Array(5)].map((_, index) => ({
+                id: faker.datatype.uuid(),
+                title: faker.name.jobTitle(),
+                description: faker.name.jobTitle(),
+                image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
+                postedAt: faker.date.recent(),
+              }))}
+            />
+          </Grid>
+
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Jobs
