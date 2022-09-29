@@ -4,6 +4,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
+// Kiet import Modal 
+import ModalEditor from '../blog/ModalEditor';
 
 // ----------------------------------------------------------------------
 
@@ -34,12 +36,14 @@ export default function UserMoreMenu() {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        {/* <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+          
+        </MenuItem> */}
+        <ModalEditor></ModalEditor>
       </Menu>
     </>
   );
