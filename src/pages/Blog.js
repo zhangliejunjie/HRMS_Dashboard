@@ -38,7 +38,8 @@ const SORT_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function Blog() {
-  const [value, setValue] = React.useState(null);
+  const [value1, setValue1] = React.useState(null);
+  const [value2, setValue2] = React.useState(null);
   const [openFilter, setOpenFilter] = useState(false);
   const [openEditor, setOpenEditor] = useState(false);
   const handleOpenFilter = () => {
@@ -78,17 +79,17 @@ export default function Blog() {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Start date"
-            value={value}
+            value={value1}
             onChange={(newValue) => {
-              setValue(newValue);
+              setValue1(newValue);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
           <DatePicker
             label="End date"
-            value={value}
+            value={value2}
             onChange={(newValue) => {
-              setValue(newValue);
+              setValue2(newValue);
             }}
             renderInput={(params) => <TextField {...params} />}
           />
