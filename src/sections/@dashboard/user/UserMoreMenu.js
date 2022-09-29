@@ -22,7 +22,7 @@ export default function UserMoreMenu() {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: '100%' },
+          sx: { width: 200, maxWidth: '100%'},
         }}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}

@@ -128,7 +128,7 @@ export default function BlogPostCard({ post, index }) {
 
           <CoverImgStyle alt={title} src={cover} />
         </CardMediaStyle> */}
-
+           {/* <UserMoreMenu /> */}
         <CardContent
           sx={{
             pt: 4,
@@ -176,7 +176,9 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
+                
                 {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
+                
                 <Typography variant="caption">{2002}</Typography>
                 
               </Box>
