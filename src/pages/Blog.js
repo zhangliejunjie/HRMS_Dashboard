@@ -12,8 +12,8 @@ import {
 } from '../sections/@dashboard/app';
 import { faker } from '@faker-js/faker';
 import { useTheme } from '@mui/material/styles';
-
-
+import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
+import { useState } from 'react';
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -22,9 +22,20 @@ const SORT_OPTIONS = [
   { value: 'oldest', label: 'Oldest' },
 ];
 
+
 // ----------------------------------------------------------------------
 
 export default function Blog() {
+  const [openFilter, setOpenFilter] = useState(false);
+
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
   return (
     <Page title="Dashboard: Blog">
       <Container>
@@ -37,7 +48,17 @@ export default function Blog() {
             New Job
           </Button>
         </Stack>
-        
+        <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
+          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+            <ProductFilterSidebar
+              isOpenFilter={openFilter}
+              onOpenFilter={handleOpenFilter}
+              onCloseFilter={handleCloseFilter}
+            />
+            <ProductSort />
+          </Stack>
+        </Stack>
+
         <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <BlogPostsSearch posts={POSTS} />
           <BlogPostsSort options={SORT_OPTIONS} />
