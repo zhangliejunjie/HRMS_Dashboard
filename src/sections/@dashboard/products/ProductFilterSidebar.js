@@ -67,7 +67,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
   return (
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
-        Filters&nbsp;
+        Category&nbsp;
       </Button>
 
       <Drawer

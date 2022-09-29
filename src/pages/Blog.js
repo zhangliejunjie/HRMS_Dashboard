@@ -25,6 +25,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // Kiet import ModalEditor
 import CampaignModalEditor from 'src/sections/@dashboard/blog/CampaignModalEditor';
+import CampaignCreateModal from 'src/sections/@dashboard/blog/CampaignCreateModal';
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -63,7 +64,7 @@ export default function Blog() {
     <Page title="Dashboard: Blog">
       <Container>
         {/* Trang added form for add new campaign */}
-        <Box
+        {/* <Box
           component="form"
           sx={{
             '& > :not(style)': { m: 1, width: '50ch' },
@@ -92,25 +93,20 @@ export default function Blog() {
             }}
             renderInput={(params) => <TextField {...params} />}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Campaigns
           </Typography>
 
-          {/* Kiet added modal for editing */}
-          <CampaignModalEditor>
-            <Typography variant="h4" gutterBottom>
-              Kiet added modal for editing
-            </Typography>
-          </CampaignModalEditor>
+          <CampaignCreateModal></CampaignCreateModal>
         </Stack>
 
 
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={8} mb={5}>
           <AppNewsUpdate
-            title="Campaigns"
+            title="Highlights"
             list={[...Array(5)].map((_, index) => ({
               id: faker.datatype.uuid(),
               title: faker.name.jobTitle(),
@@ -125,11 +121,19 @@ export default function Blog() {
           <Typography variant="h4" gutterBottom>
             Jobs
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
+
+          <ProductFilterSidebar
+              isOpenFilter={openFilter}
+              onOpenFilter={handleOpenFilter}
+              onCloseFilter={handleCloseFilter}
+            />
+
+          <Button variant="contained" component={RouterLink} to="/register" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Job
           </Button>
+
         </Stack>
-        <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
+        {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
             <ProductFilterSidebar
               isOpenFilter={openFilter}
@@ -138,12 +142,12 @@ export default function Blog() {
             />
             <ProductSort />
           </Stack>
-        </Stack>
+        </Stack> */}
 
-        <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
+        {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <BlogPostsSearch posts={POSTS} />
           <BlogPostsSort options={SORT_OPTIONS} />
-        </Stack>
+        </Stack> */}
         {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="News Update"

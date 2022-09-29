@@ -12,8 +12,8 @@ import { useState } from 'react';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
-
-
+// Kiet imported 
+import { RegisterForm } from 'src/sections/auth/register';
 
 const style = {
     position: 'absolute',
@@ -27,8 +27,8 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor({ open, onClose }) {
-
+export default function JobModalEditor({open, onClose}) {
+    
     const [value1, setValue1] = React.useState(null);
     const [value2, setValue2] = React.useState(null);
     return (
@@ -41,11 +41,9 @@ export default function CampaignModalEditor({ open, onClose }) {
 
             </MenuItem> */}
 
-            
-
             {/* <Button onClick={handleOpen}>Open modal</Button> */}
             {/* onClick={handleOpen} */}
-
+            
             <Modal
                 open={open}
                 onClose={onClose}
@@ -67,40 +65,9 @@ export default function CampaignModalEditor({ open, onClose }) {
 
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Campaign Editor
+                        Job Editor
                     </Typography>
-                    <Box
-                        component="form"
-                        sx={{
-                            '& > :not(style)': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <TextField id="standard-basic" label="Title" variant="standard" />
-                        <TextField id="standard-basic" label="Description" variant="standard" />
-                    </Box>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Start date"
-                            value={value1}
-                            onChange={(newValue) => {
-                                setValue1(newValue);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="End date"
-                            value={value2}
-                            onChange={(newValue) => {
-                                setValue2(newValue);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
+                    <RegisterForm />
                     {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
                     </Typography> */}
