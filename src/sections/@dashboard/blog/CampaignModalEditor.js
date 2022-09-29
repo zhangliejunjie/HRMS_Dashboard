@@ -14,6 +14,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
 
 
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -26,27 +27,26 @@ const style = {
     p: 4,
 };
 
-export default function ModalEditor() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+export default function CampaignModalEditor({open, onClose}) {
+    
     const [value1, setValue1] = React.useState(null);
     const [value2, setValue2] = React.useState(null);
     return (
         <div>
-            <MenuItem onClick={handleOpen} sx={{ color: 'text.secondary' }}>
+            {/* <MenuItem onClick={handleOpen} sx={{ color: 'text.secondary' }}>
                 <ListItemIcon>
                     <Iconify icon="eva:edit-fill" width={24} height={24} />
                 </ListItemIcon>
                 <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
 
-            </MenuItem>
+            </MenuItem> */}
 
             {/* <Button onClick={handleOpen}>Open modal</Button> */}
+            {/* onClick={handleOpen} */}
             
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={onClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
