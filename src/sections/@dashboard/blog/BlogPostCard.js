@@ -59,19 +59,19 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { cover, title, description, view, comment, share, author, createdAt } = post;
+  const { id, name, description, salary, quantity, campaign, category } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
 
-  const POST_INFO = [
-    { number: comment, icon: 'eva:message-circle-fill' },
-    { number: view, icon: 'eva:eye-fill' },
-    { number: share, icon: 'eva:share-fill' },
-  ];
+  // const POST_INFO = [
+  //   { number: comment, icon: 'eva:message-circle-fill' },
+  //   { number: view, icon: 'eva:eye-fill' },
+  //   { number: share, icon: 'eva:share-fill' },
+  // ];
 
   return (
     // Adding a list of Campaigns 
-  
+
 
 
 
@@ -128,7 +128,7 @@ export default function BlogPostCard({ post, index }) {
 
           <CoverImgStyle alt={title} src={cover} />
         </CardMediaStyle> */}
-           {/* <UserMoreMenu /> */}
+        {/* <UserMoreMenu /> */}
         <CardContent
           sx={{
             pt: 4,
@@ -139,12 +139,12 @@ export default function BlogPostCard({ post, index }) {
             }),
           }}
         >
-          
+
           <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
-            {title} 
-            <UserMoreMenu sx={{ justifyContent: 'flex-end' }}/>
+            {name}
+            <UserMoreMenu sx={{ justifyContent: 'flex-end' }} />
           </Typography>
-          
+
           <TitleStyle
             to="#"
             color="inherit"
@@ -159,11 +159,11 @@ export default function BlogPostCard({ post, index }) {
             }}
           >
             {description}
-            
+
           </TitleStyle>
-          
-          <InfoStyle>
-          
+
+          {/* <InfoStyle>
+
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -176,18 +176,18 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
-                
-                {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
-                
+
+                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
+
                 <Typography variant="caption">{2002}</Typography>
-                
+
               </Box>
             ))}
-            
-          </InfoStyle>
-          
+
+          </InfoStyle> */}
+
         </CardContent>
-        
+
       </Card>
     </Grid>
   );

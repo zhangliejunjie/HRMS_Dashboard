@@ -25,6 +25,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // Kiet import ModalEditor
 import CampaignModalEditor from 'src/sections/@dashboard/blog/CampaignModalEditor';
+import axios from 'axios';
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -58,6 +59,47 @@ export default function Blog() {
   const handleCloseEditor = () => {
     setOpenEditor(false);
   };
+
+
+
+  const [campaigns, setCampaigns] = useState([]);
+  React.useEffect(() => {
+    async function fetchCampaign() {
+      const data = await axios.get("http://localhost:8000/api/campaign");
+      const { campaigns } = data.data;
+
+      console.log(campaigns);
+      setCampaigns(campaigns);
+    }
+    fetchCampaign();
+  }, [])
+
+  const [jobs, setJobs] = useState([]);
+  React.useEffect(() => {
+    async function fetchCampaign() {
+      const data = await axios.get("http://localhost:8000/api/job");
+      const { jobs } = data.data;
+
+      console.log(jobs);
+      setJobs(jobs);
+    }
+    fetchCampaign();
+  }, [])
+  // const posts = [jobs.map((job, index) => ({
+  //   id: job.id,
+  //   cover: `/static/mock-images/covers/cover_${index + 1}.jpg`,
+  //   name: job.name,
+  //   description: POST_DES[index + 1],
+  //   createdAt: faker.date.past(),
+  //   view: faker.datatype.number(),
+  //   comment: faker.datatype.number(),
+  //   share: faker.datatype.number(),
+  //   favorite: faker.datatype.number(),
+  //   author: {
+  //     name: faker.name.findName(),
+  //     avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
+  //   },
+  // }));
 
   return (
     <Page title="Dashboard: Blog">
@@ -107,16 +149,16 @@ export default function Blog() {
           </CampaignModalEditor>
         </Stack>
 
-
+        {/* Dat  */}
         <Grid item xs={12} md={6} lg={8}>
           <AppNewsUpdate
             title="Campaigns"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.datatype.uuid(),
-              title: faker.name.jobTitle(),
-              description: faker.name.jobTitle(),
+            list={campaigns.map((campaign, index) => ({
+              id: campaign.id,
+              title: campaign.title,
+              description: campaign.description,
               image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
-              postedAt: faker.date.recent(),
+              // postedAt: faker.date.recent(),
             }))}
           />
         </Grid>
@@ -158,8 +200,12 @@ export default function Blog() {
             />
            
           </Grid> */}
+
+
+
+
         <Grid container spacing={3}>
-          {POSTS.map((post, index) => (
+          {jobs.map((post, index) => (
             <BlogPostCard key={post.id} post={post} index={index} />
           ))}
 
