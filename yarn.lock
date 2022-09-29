@@ -1169,38 +1169,38 @@
   "resolved" "https://registry.npmjs.org/@csstools/selector-specificity/-/selector-specificity-2.0.1.tgz"
   "version" "2.0.1"
 
-"@date-io/core@^2.14.0":
-  "integrity" "sha512-qFN64hiFjmlDHJhu+9xMkdfDG2jLsggNxKXglnekUpXSq8faiqZgtHm2lsHCUuaPDTV6wuXHcCl8J1GQ5wLmPw=="
-  "resolved" "https://registry.npmjs.org/@date-io/core/-/core-2.14.0.tgz"
-  "version" "2.14.0"
+"@date-io/core@^2.16.0":
+  "integrity" "sha512-DYmSzkr+jToahwWrsiRA2/pzMEtz9Bq1euJwoOuYwuwIYXnZFtHajY2E6a1VNVDc9jP8YUXK1BvnZH9mmT19Zg=="
+  "resolved" "https://registry.npmjs.org/@date-io/core/-/core-2.16.0.tgz"
+  "version" "2.16.0"
 
 "@date-io/date-fns@^2.11.0":
-  "integrity" "sha512-4fJctdVyOd5cKIKGaWUM+s3MUXMuzkZaHuTY15PH70kU1YTMrCoauA7hgQVx9qj0ZEbGrH9VSPYJYnYro7nKiA=="
-  "resolved" "https://registry.npmjs.org/@date-io/date-fns/-/date-fns-2.14.0.tgz"
-  "version" "2.14.0"
+  "integrity" "sha512-bfm5FJjucqlrnQcXDVU5RD+nlGmL3iWgkHTq3uAZWVIuBu6dDmGa3m8a6zo2VQQpu8ambq9H22UyUpn7590joA=="
+  "resolved" "https://registry.npmjs.org/@date-io/date-fns/-/date-fns-2.16.0.tgz"
+  "version" "2.16.0"
   dependencies:
-    "@date-io/core" "^2.14.0"
+    "@date-io/core" "^2.16.0"
 
 "@date-io/dayjs@^2.11.0":
-  "integrity" "sha512-4fRvNWaOh7AjvOyJ4h6FYMS7VHLQnIEeAV5ahv6sKYWx+1g1UwYup8h7+gPuoF+sW2hTScxi7PVaba2Jk/U8Og=="
-  "resolved" "https://registry.npmjs.org/@date-io/dayjs/-/dayjs-2.14.0.tgz"
-  "version" "2.14.0"
+  "integrity" "sha512-y5qKyX2j/HG3zMvIxTobYZRGnd1FUW2olZLS0vTj7bEkBQkjd2RO7/FEwDY03Z1geVGlXKnzIATEVBVaGzV4Iw=="
+  "resolved" "https://registry.npmjs.org/@date-io/dayjs/-/dayjs-2.16.0.tgz"
+  "version" "2.16.0"
   dependencies:
-    "@date-io/core" "^2.14.0"
+    "@date-io/core" "^2.16.0"
 
 "@date-io/luxon@^2.11.1":
-  "integrity" "sha512-KmpBKkQFJ/YwZgVd0T3h+br/O0uL9ZdE7mn903VPAG2ZZncEmaUfUdYKFT7v7GyIKJ4KzCp379CRthEbxevEVg=="
-  "resolved" "https://registry.npmjs.org/@date-io/luxon/-/luxon-2.14.0.tgz"
-  "version" "2.14.0"
+  "integrity" "sha512-L8UXHa/9VbfRqP4KB7JUZwFgOVxo22rONVod1o7GMN2Oku4PzJ0k1kXc+nLP9lRlF1UAA28oQsQqn85Y/PdBZw=="
+  "resolved" "https://registry.npmjs.org/@date-io/luxon/-/luxon-2.16.0.tgz"
+  "version" "2.16.0"
   dependencies:
-    "@date-io/core" "^2.14.0"
+    "@date-io/core" "^2.16.0"
 
 "@date-io/moment@^2.11.0":
-  "integrity" "sha512-VsoLXs94GsZ49ecWuvFbsa081zEv2xxG7d+izJsqGa2L8RPZLlwk27ANh87+SNnOUpp+qy2AoCAf0mx4XXhioA=="
-  "resolved" "https://registry.npmjs.org/@date-io/moment/-/moment-2.14.0.tgz"
-  "version" "2.14.0"
+  "integrity" "sha512-wvu/40k128kF6P0jPbiyZcPR14VjJAgYEs+mYtsXz/AyWpC2DEJKly7ub+dpevUywbTzzpZysyCxCdzLzxD/uw=="
+  "resolved" "https://registry.npmjs.org/@date-io/moment/-/moment-2.16.0.tgz"
+  "version" "2.16.0"
   dependencies:
-    "@date-io/core" "^2.14.0"
+    "@date-io/core" "^2.16.0"
 
 "@emotion/babel-plugin@^11.7.1":
   "integrity" "sha512-Pr/7HGH6H6yKgnVFNEj2MVlreu3ADqftqjqwUvDy/OJzKFgxKeTQ+eeUf20FOTuHVkDON2iNa25rAXVYtWJCjw=="
@@ -1952,7 +1952,7 @@
     "deepmerge" "^4.2.2"
     "svgo" "^2.5.0"
 
-"@svgr/webpack@^5.5.0", "@svgr/webpack@^6.2.1":
+"@svgr/webpack@^6.2.1":
   "integrity" "sha512-h09ngMNd13hnePwgXa+Y5CgOjzlCvfWLHg+MBnydEedAnuLRzUHUJmGS3o2OsrhxTOOqEsPOFt5v/f6C5Qulcw=="
   "resolved" "https://registry.npmjs.org/@svgr/webpack/-/webpack-6.2.1.tgz"
   "version" "6.2.1"

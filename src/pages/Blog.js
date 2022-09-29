@@ -23,6 +23,7 @@ import * as React from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import CampaignEditor from 'src/sections/@dashboard/blog/CampaignEditor';
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -37,6 +38,7 @@ const SORT_OPTIONS = [
 export default function Blog() {
   const [value, setValue] = React.useState(null);
   const [openFilter, setOpenFilter] = useState(false);
+  const [openEditor, setOpenEditor] = useState(false);
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -45,52 +47,62 @@ export default function Blog() {
     setOpenFilter(false);
   };
 
+  // 
+  
+  const handleOpenEditor = () => {
+    setOpenEditor(true);
+  };
+
+  const handleCloseEditor = () => {
+    setOpenEditor(false);
+  };
+
   return (
     <Page title="Dashboard: Blog">
       <Container>
-      <Box
-      component="form"
-      sx={{
-        '& > :not(style)': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-      <TextField id="filled-basic" label="Filled" variant="filled" /> */}
-      <TextField id="standard-basic" label="Title" variant="standard" />
-      <TextField id="standard-basic" label="Description" variant="standard" />
-      {/* <TextField id="standard-basic" label="Standard" variant="standard" />
-      <TextField id="standard-basic" label="Standard" variant="standard" />
-      <TextField id="standard-basic" label="Standard" variant="standard" /> */}
-    </Box>
-      
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label="Start date"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
-      <DatePicker
-        label="End date"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </LocalizationProvider>
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, width: '50ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField id="standard-basic" label="Title" variant="standard" />
+          <TextField id="standard-basic" label="Description" variant="standard" />
+        </Box>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Start date"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+          <DatePicker
+            label="End date"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Campaigns
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
+          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Campaign
-          </Button>
+          </Button> */}
+          <CampaignEditor
+              isOpenEditor={openEditor}
+              onOpenEditor={handleOpenEditor}
+              onCloseEditor={handleCloseEditor}
+            />
         </Stack>
 
 
