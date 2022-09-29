@@ -24,8 +24,8 @@ export default function UserMoreMenu() {
         PaperProps={{
           sx: { width: 200, maxWidth: '100%'},
         }}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>

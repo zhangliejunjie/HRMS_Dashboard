@@ -9,7 +9,8 @@ import { fShortenNumber } from '../../../utils/formatNumber';
 //
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
-import {  UserMoreMenu } from '../user';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
+
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -69,6 +70,12 @@ export default function BlogPostCard({ post, index }) {
   ];
 
   return (
+    // Adding a list of Campaigns 
+  
+
+
+
+
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 24 : 12}>
       <Card sx={{ position: 'relative' }}>
         {/* <CardMediaStyle
@@ -121,7 +128,7 @@ export default function BlogPostCard({ post, index }) {
 
           <CoverImgStyle alt={title} src={cover} />
         </CardMediaStyle> */}
-           <UserMoreMenu />
+           {/* <UserMoreMenu /> */}
         <CardContent
           sx={{
             pt: 4,
@@ -132,8 +139,10 @@ export default function BlogPostCard({ post, index }) {
             }),
           }}
         >
+          
           <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
-            {title}
+            {title} 
+            <UserMoreMenu sx={{ justifyContent: 'flex-end' }}/>
           </Typography>
           
           <TitleStyle
@@ -150,10 +159,11 @@ export default function BlogPostCard({ post, index }) {
             }}
           >
             {description}
-          </TitleStyle>
-       
-          <InfoStyle>
             
+          </TitleStyle>
+          
+          <InfoStyle>
+          
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -170,10 +180,14 @@ export default function BlogPostCard({ post, index }) {
                 {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
                 
                 <Typography variant="caption">{2002}</Typography>
+                
               </Box>
             ))}
+            
           </InfoStyle>
+          
         </CardContent>
+        
       </Card>
     </Grid>
   );

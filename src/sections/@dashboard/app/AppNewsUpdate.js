@@ -6,7 +6,8 @@ import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
-import {  UserMoreMenu } from '../user';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
+
 // ----------------------------------------------------------------------
 
 AppNewsUpdate.propTypes = {
@@ -66,7 +67,7 @@ function NewsItem({ news }) {
           {description}
         </Typography>
       </Box>
-      <UserMoreMenu />
+      <UserMoreMenu/>
       {/* <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
         {fToNow(postedAt)}
       </Typography> */}
