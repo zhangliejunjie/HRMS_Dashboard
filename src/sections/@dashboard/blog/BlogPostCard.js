@@ -9,7 +9,7 @@ import { fShortenNumber } from '../../../utils/formatNumber';
 //
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
-
+import {  UserMoreMenu } from '../user';
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -121,7 +121,7 @@ export default function BlogPostCard({ post, index }) {
 
           <CoverImgStyle alt={title} src={cover} />
         </CardMediaStyle> */}
-
+           <UserMoreMenu />
         <CardContent
           sx={{
             pt: 4,
@@ -135,7 +135,7 @@ export default function BlogPostCard({ post, index }) {
           <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
             {title}
           </Typography>
-
+          
           <TitleStyle
             to="#"
             color="inherit"
@@ -151,8 +151,9 @@ export default function BlogPostCard({ post, index }) {
           >
             {description}
           </TitleStyle>
-
+       
           <InfoStyle>
+            
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -165,7 +166,9 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
+                
                 {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
+                
                 <Typography variant="caption">{2002}</Typography>
               </Box>
             ))}

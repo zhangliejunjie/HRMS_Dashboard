@@ -13,6 +13,7 @@ import {
 import { faker } from '@faker-js/faker';
 import { useTheme } from '@mui/material/styles';
 
+
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -51,7 +52,9 @@ export default function Blog() {
                 image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
                 postedAt: faker.date.recent(),
               }))}
+              
             />
+           
           </Grid>
         <Grid container spacing={3}>
           {POSTS.map((post, index) => (
