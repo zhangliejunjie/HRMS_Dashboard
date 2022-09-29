@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
-
+import * as React from 'react';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
@@ -19,15 +20,17 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    title: Yup.string().required('Job title required'),
+    description: Yup.string().required('Description required'),
+    quantity: Yup.string().required('Quantity required'),
+    salary: Yup.string().required('Salary required'),
+    // email: Yup.string().required('Last name required'),
+    // password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
+    title: '',
+    description: '',
     email: '',
     password: '',
   };
@@ -49,12 +52,13 @@ export default function RegisterForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
-        </Stack>
-
-        <RHFTextField name="email" label="Email address" />
+      <Typography variant="h3"> Campaign name </Typography>
+          <RHFTextField name="title" label="Job Title" />
+          <RHFTextField name="description" label="Description" />
+         
+          <RHFTextField name="quantity" label="Quantity" type="number"/>
+          <RHFTextField name="salary" label="Salary per month" type="number" />
+        {/* <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
           name="password"
@@ -69,10 +73,10 @@ export default function RegisterForm() {
               </InputAdornment>
             ),
           }}
-        />
+        /> */}
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Register
+         Create
         </LoadingButton>
       </Stack>
     </FormProvider>
