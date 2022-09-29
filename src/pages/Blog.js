@@ -23,9 +23,8 @@ import * as React from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import CampaignEditor from 'src/sections/@dashboard/blog/CampaignEditor';
 // Kiet import ModalEditor
-import ModalEditor from 'src/sections/@dashboard/blog/ModalEditor';
+import CampaignModalEditor from 'src/sections/@dashboard/blog/CampaignModalEditor';
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -101,11 +100,11 @@ export default function Blog() {
           </Typography>
 
           {/* Kiet added modal for editing */}
-          <ModalEditor>
+          <CampaignModalEditor>
             <Typography variant="h4" gutterBottom>
               Kiet added modal for editing
             </Typography>
-          </ModalEditor>
+          </CampaignModalEditor>
         </Stack>
 
 

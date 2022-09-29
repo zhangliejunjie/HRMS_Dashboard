@@ -1,16 +1,22 @@
+import * as React from 'react';
 import { useRef, useState } from 'react';
+
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
 // Kiet import Modal 
-import ModalEditor from '../blog/ModalEditor';
+import CampaignModalEditor from '../blog/CampaignModalEditor';
+import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 export default function UserMoreMenu() {
   const ref = useRef(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -24,7 +30,7 @@ export default function UserMoreMenu() {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: '100%'},
+          sx: { width: 200, maxWidth: '100%' },
         }}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -36,14 +42,20 @@ export default function UserMoreMenu() {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        {/* <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
+        <MenuItem onClick={() => {
+          handleOpen()
+
+        }} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-          
-        </MenuItem> */}
-        <ModalEditor></ModalEditor>
+        </MenuItem>
+        <CampaignModalEditor open={open} onClose={() => setOpen(false)}/>
+        
+
+        {/* <CampaignModalEditor open={open} ></CampaignModalEditor> */}
+        {/* <CampaignModalEditor onClick={handleOpen} ></CampaignModalEditor> */}
       </Menu>
     </>
   );
