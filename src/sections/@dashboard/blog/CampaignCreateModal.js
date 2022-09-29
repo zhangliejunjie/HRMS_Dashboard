@@ -13,8 +13,6 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
 
-
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -27,47 +25,28 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor({ open, onClose }) {
+export default function CampaignCreateModal() {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const [value1, setValue1] = React.useState(null);
     const [value2, setValue2] = React.useState(null);
+
     return (
         <div>
-            {/* <MenuItem onClick={handleOpen} sx={{ color: 'text.secondary' }}>
-                <ListItemIcon>
-                    <Iconify icon="eva:edit-fill" width={24} height={24} />
-                </ListItemIcon>
-                <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-
-            </MenuItem> */}
-
-            
-
-            {/* <Button onClick={handleOpen}>Open modal</Button> */}
-            {/* onClick={handleOpen} */}
-
+            <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
+                New Campaign
+            </Button>
             <Modal
                 open={open}
-                onClose={onClose}
+                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                {/* <Box
-                    component="form"
-                    sx={{
-                        '& > :not(style)': { m: 1, width: '50ch' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                    <TextField id="standard-basic" label="Title" variant="standard" />
-                    <TextField id="standard-basic" label="Description" variant="standard" />
-                </Box> */}
-
-
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Campaign Editor
+                        Create Campaign
                     </Typography>
                     <Box
                         component="form"
@@ -90,8 +69,6 @@ export default function CampaignModalEditor({ open, onClose }) {
                             }}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="End date"
                             value={value2}
@@ -101,9 +78,6 @@ export default function CampaignModalEditor({ open, onClose }) {
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
-                    {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography> */}
                 </Box>
             </Modal>
         </div>

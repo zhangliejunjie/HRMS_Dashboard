@@ -11,6 +11,9 @@ import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 
+// Kiet imported 
+import JobUserMoreMenu from './JobUserMoreMenu';
+
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -142,7 +145,7 @@ export default function BlogPostCard({ post, index }) {
           
           <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
             {title} 
-            <UserMoreMenu sx={{ justifyContent: 'flex-end' }}/>
+            <JobUserMoreMenu sx={{ justifyContent: 'flex-end' }}/>
           </Typography>
           
           <TitleStyle
