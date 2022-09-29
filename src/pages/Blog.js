@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Grid, Button, Container, Stack, Typography } from '@mui/material';
+import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -24,6 +24,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CampaignEditor from 'src/sections/@dashboard/blog/CampaignEditor';
+// Kiet import ModalEditor
+import ModalEditor from 'src/sections/@dashboard/blog/ModalEditor';
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
@@ -48,7 +50,7 @@ export default function Blog() {
   };
 
   // 
-  
+
   const handleOpenEditor = () => {
     setOpenEditor(true);
   };
@@ -60,6 +62,7 @@ export default function Blog() {
   return (
     <Page title="Dashboard: Blog">
       <Container>
+        {/* Trang added form for add new campaign */}
         <Box
           component="form"
           sx={{
@@ -95,14 +98,13 @@ export default function Blog() {
           <Typography variant="h4" gutterBottom>
             Campaigns
           </Typography>
-          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Campaign
-          </Button> */}
-          <CampaignEditor
-              isOpenEditor={openEditor}
-              onOpenEditor={handleOpenEditor}
-              onCloseEditor={handleCloseEditor}
-            />
+
+          {/* Kiet added modal for editing */}
+          <ModalEditor>
+            <Typography variant="h4" gutterBottom>
+              Kiet added modal for editing
+            </Typography>
+          </ModalEditor>
         </Stack>
 
 
