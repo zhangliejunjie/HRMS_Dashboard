@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { Card, Link, Container, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 // Kiet import library of date time and form
 import TextField from '@mui/material/TextField';
@@ -12,6 +13,7 @@ import { useState } from 'react';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
+import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
 
 const style = {
     position: 'absolute',
@@ -19,8 +21,8 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    // bgcolor: 'background.paper',
+    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -44,11 +46,14 @@ export default function CampaignCreateModal() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Card sx={style}>
+                    {/* <Typography id="modal-modal-title" variant="h3" component="h2">
                         Create Campaign
-                    </Typography>
-                    <Box
+                    </Typography> */}
+
+                    <NewCampaignForm></NewCampaignForm>
+
+                    {/* <Box
                         component="form"
                         sx={{
                             '& > :not(style)': { m: 1, width: '25ch' },
@@ -77,8 +82,8 @@ export default function CampaignCreateModal() {
                             }}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                    </LocalizationProvider>
-                </Box>
+                    </LocalizationProvider> */}
+                </Card>
             </Modal>
         </div>
     );

@@ -148,7 +148,7 @@ export default function Blog() {
         {/* Dat  */}
         <Grid item xs={12} md={6} lg={8}>
           <AppNewsUpdate
-            title="Campaigns"
+            title="Highlights"
             list={campaigns.map((campaign, index) => ({
               id: campaign.id,
               title: campaign.title,
