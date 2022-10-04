@@ -6,7 +6,11 @@ import Page from '../components/Page';
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
 import PRODUCTS from '../_mock/products';
-
+import { Grid } from '@mui/material';
+import { faker } from '@faker-js/faker';
+import {
+  AppNewsUpdate,
+} from '../sections/@dashboard/app';
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
@@ -26,7 +30,18 @@ export default function EcommerceShop() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Products
         </Typography>
-
+        <Grid item xs={12} md={6} lg={8}>
+            <AppNewsUpdate
+              title="Campaign"
+              list={[...Array(5)].map((_, index) => ({
+                id: faker.datatype.uuid(),
+                title: faker.name.jobTitle(),
+                description: faker.date.month(),
+                image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
+                postedAt: faker.date.recent(),
+              }))}
+            />
+          </Grid>
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
             <ProductFilterSidebar

@@ -69,7 +69,7 @@ export default function BlogPostCard({ post, index }) {
   ];
 
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
+    <Grid item xs={6} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
         <CardMediaStyle
           sx={{
@@ -86,7 +86,7 @@ export default function BlogPostCard({ post, index }) {
             }),
             ...(latestPostLarge && {
               pt: {
-                xs: 'calc(100% * 4 / 3)',
+                // xs: 'calc(100% * 4 / 3)',
                 sm: 'calc(100% * 3 / 4.66)',
               },
             }),
@@ -105,7 +105,7 @@ export default function BlogPostCard({ post, index }) {
               ...((latestPostLarge || latestPost) && { display: 'none' }),
             }}
           />
-          <AvatarStyle
+          {/* <AvatarStyle
             alt={author.name}
             src={author.avatarUrl}
             sx={{
@@ -117,9 +117,9 @@ export default function BlogPostCard({ post, index }) {
                 height: 40,
               }),
             }}
-          />
+          /> */}
 
-          <CoverImgStyle alt={title} src={cover} />
+          {/* <CoverImgStyle alt={title} src={cover} /> */}
         </CardMediaStyle>
 
         <CardContent
@@ -165,7 +165,7 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
-                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
+                {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
                 <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
               </Box>
             ))}
