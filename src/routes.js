@@ -30,7 +30,7 @@ export default function Router() {
       element: <Login />,
     },
     {
-      path: 'register',
+      path: 'newJob',
       element: <Register />,
     },
     {

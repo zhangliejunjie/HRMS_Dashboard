@@ -170,7 +170,7 @@ export default function Blog() {
               onCloseFilter={handleCloseFilter}
             />
 
-          <Button variant="contained" component={RouterLink} to="/register" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Job
           </Button>
 
