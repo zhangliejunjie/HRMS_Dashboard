@@ -30,14 +30,14 @@ export const SORT_BY_OPTIONS = [
 ];
 export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
 export const FILTER_CATEGORY_OPTIONS = ['All', 'Cloud Computing Engineer',
-'Computer Network Specialist',
-'Computer Support Specialist',
-'Database Administrator',
-'Information Technology Analyst',
-'Information Technology Leadership',
-'Information Security Specialist',
-'Software/Application Developer',
-'Web Developer', 'Undefined']; //Tuan Kiet customes
+  'Computer Network Specialist',
+  'Computer Support Specialist',
+  'Database Administrator',
+  'Information Technology Analyst',
+  'Information Technology Leadership',
+  'Information Security Specialist',
+  'Software/Application Developer',
+  'Web Developer', 'Undefined']; //Tuan Kiet customes
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
   { value: 'below', label: 'Below $25' },

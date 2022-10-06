@@ -1,118 +1,126 @@
+import React from 'react';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// form
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-// @mui
-import { Stack, IconButton, InputAdornment, Typography } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-// components
-import Iconify from '../../../components/Iconify';
-import { FormProvider, RHFTextField } from '../../../components/hook-form';
-import * as React from 'react';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import moment from 'moment/moment';
+import { useEffect } from 'react';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import axios from 'axios';
 
-// Kiet imported
-import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-// ----------------------------------------------------------------------
-
-export default function CampaignCreateModal() {
-    const navigate = useNavigate();
-
-    const [showPassword, setShowPassword] = useState(false);
-
-    const [value1, setValue1] = React.useState(null);
-    const [value2, setValue2] = React.useState(null);
+const useStyles = makeStyles((theme) => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
+    },
+}));
 
 
-    const RegisterSchema = Yup.object().shape({
-        title: Yup.string().required('Job title required'),
-        description: Yup.string().required('Description required'),
-        quantity: Yup.string().required('Quantity required'),
-        salary: Yup.string().required('Salary required'),
-        // email: Yup.string().required('Last name required'),
-        // password: Yup.string().required('Password is required'),
-    });
 
-    const defaultValues = {
-        title: '',
-        description: '',
-        email: '',
-        password: '',
-    };
+export default function NewCampaignForm() {
+    let date = Date.now();
 
-    const methods = useForm({
-        resolver: yupResolver(RegisterSchema),
-        defaultValues,
-    });
 
-    const {
-        handleSubmit,
-        formState: { isSubmitting },
-    } = methods;
+    // useEffect(() => {
+    //     console.log(moment(date).format("yyyy-MM-DD"));
+    // }, [])
 
-    const onSubmit = async () => {
-        navigate('/dashboard', { replace: true });
-    };
+
+
+
+    const formik = useFormik({
+        initialValues: {
+            title: "",
+            description: '',
+            start_date: moment(date).format("yyyy-MM-DD"),
+            end_date: moment(date).format("yyyy-MM-DD"),
+            status: 'Processing',
+        },
+        validationSchema: Yup.object().shape({
+            title: Yup.string().required('tên không được bỏ trống'),
+            description: Yup.string().required('miêu tả không được bỏ trống'),
+
+        }),
+        onSubmit: (value) => {
+            console.log(value);
+            axios.post('http://localhost:8000/api/campaign-add', {
+                'title': value.title,
+                'description': value.description,
+                'start_date': value.start_date,
+                'end_date': value.start_date,
+                'status': value.status
+            })
+                .then(res => {
+                    console.log(res);
+                    console.log(res.data);
+                    window.location.reload();
+                })
+                ;
+
+        }
+    })
+
 
     return (
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={3}>
-                <Typography variant="h3"> Campaign name </Typography>
+        <div>
+            <form onSubmit={formik.handleSubmit}>
+                <h1>CREATE CAMPAIGN</h1>
+                <TextField
+                    fullWidth
+                    id="title"
+                    name="title"
+                    label="Title"
+                    value={formik.values.title}
+                    onChange={formik.handleChange}
+                    error={formik.touched.title && Boolean(formik.errors.title)}
+                    helperText={formik.touched.title && formik.errors.title}
+                />
 
-                <RHFTextField name="title" label="Job Title" />
-                <RHFTextField name="description" label="Description" />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        label="Start date"
-                        value={value1}
-                        onChange={(newValue) => {
-                            setValue1(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
-                    <DatePicker
-                        label="End date"
-                        value={value2}
-                        onChange={(newValue) => {
-                            setValue2(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
-                </LocalizationProvider>
+                <TextField
+                    fullWidth
+                    id="description"
+                    name="description"
+                    label="Description"
+                    type="description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    error={formik.touched.description && Boolean(formik.errors.description)}
+                    helperText={formik.touched.description && formik.errors.description}
+                />
+                <InputLabel className="mt-3" id="demo-simple-select-label">Start date</InputLabel>
 
+                <TextField fullWidth title='start date' type="date" name="start_date" onChange={formik.handleChange} defaultValue={moment(date).format("yyyy-MM-DD")} />
+                <InputLabel className="mt-3" id="demo-simple-select-label">End date</InputLabel>
 
-                {/* <RHFTextField name="title" label="Job Title" />
-                <RHFTextField name="description" label="Description" />
+                <TextField fullWidth title='end date' type="date" name="end_date" onChange={formik.handleChange} defaultValue={moment(date).format("yyyy-MM-DD")} />
 
-                <RHFTextField name="quantity" label="Quantity" type="number" />
-                <RHFTextField name="salary" label="Salary per month" type="number" /> */}
-                {/* <RHFTextField name="email" label="Email address" /> */}
+                <InputLabel className="mt-3" id="demo-simple-select-label">Status</InputLabel>
+                <Select
+                    fullWidth
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    onChange={formik.handleChange}
+                    defaultValue="Processing"
+                    name='status'
 
-        {/* <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        /> */}
+                >
+                    <MenuItem value={"Not started"}>Not started</MenuItem>
+                    <MenuItem value={'Processing'}>Processing</MenuItem>
+                    <MenuItem value={"Finished"}>Finished</MenuItem>
+                </Select>
 
-                <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-                    Create
-                </LoadingButton>
-            </Stack>
-        </FormProvider>
-    );
+                <Button className='mt-3' color="primary" variant="contained" fullWidth type="submit">
+                    Submit
+                </Button>
+            </form>
+        </div>
+    )
 }

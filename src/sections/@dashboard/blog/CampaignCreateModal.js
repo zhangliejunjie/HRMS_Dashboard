@@ -32,8 +32,8 @@ export default function CampaignCreateModal() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [value1, setValue1] = React.useState(null);
-    const [value2, setValue2] = React.useState(null);
+
+
 
     return (
         <div>
@@ -51,7 +51,7 @@ export default function CampaignCreateModal() {
                         Create Campaign
                     </Typography> */}
 
-                    <NewCampaignForm></NewCampaignForm>
+                    <NewCampaignForm ></NewCampaignForm>
 
                     {/* <Box
                         component="form"

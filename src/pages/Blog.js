@@ -86,21 +86,15 @@ export default function Blog() {
     }
     fetchCampaign();
   }, [])
-  // const posts = [jobs.map((job, index) => ({
-  //   id: job.id,
-  //   cover: `/static/mock-images/covers/cover_${index + 1}.jpg`,
-  //   name: job.name,
-  //   description: POST_DES[index + 1],
-  //   createdAt: faker.date.past(),
-  //   view: faker.datatype.number(),
-  //   comment: faker.datatype.number(),
-  //   share: faker.datatype.number(),
-  //   favorite: faker.datatype.number(),
-  //   author: {
-  //     name: faker.name.findName(),
-  //     avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
-  //   },
-  // }));
+
+  //goi lại data
+  // async function reRenderCampaign() {
+  //   const data = await axios.get("http://localhost:8000/api/campaign");
+  //   const { campaigns } = data.data;
+  //   console.log(campaigns);
+  //   setCampaigns(campaigns);
+  // }
+
 
   return (
     <Page title="Dashboard: Blog">
@@ -142,7 +136,7 @@ export default function Blog() {
             Campaigns
           </Typography>
 
-          <CampaignCreateModal></CampaignCreateModal>
+          <CampaignCreateModal ></CampaignCreateModal>
         </Stack>
 
         {/* Dat  */}
@@ -155,7 +149,8 @@ export default function Blog() {
               description: campaign.description,
               image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
               // postedAt: faker.date.recent(),
-            }))}
+            }
+            ))}
           />
         </Grid>
 
@@ -165,10 +160,10 @@ export default function Blog() {
           </Typography>
 
           <ProductFilterSidebar
-              isOpenFilter={openFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-            />
+            isOpenFilter={openFilter}
+            onOpenFilter={handleOpenFilter}
+            onCloseFilter={handleCloseFilter}
+          />
 
           <Button variant="contained" component={RouterLink} to="/register" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Job
