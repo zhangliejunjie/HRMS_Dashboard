@@ -105,9 +105,9 @@ export default function CampaignCreateForm() {
     return (
         <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
             <Stack spacing={3}>
-                <Typography variant="h3"> Campaign name </Typography>
+                <Typography variant="h3"> New Campaign </Typography>
 
-                <RHFTextField name="title" label="Job Title" id="title"
+                <RHFTextField name="title" label="Campaign Name" id="title"
                     value={formik.values.title}
                     onChange={formik.handleChange}
                     error={formik.touched.title && Boolean(formik.errors.title)}
