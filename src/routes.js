@@ -10,19 +10,25 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
+import PrivateRoute from './hoc/AuthGuard';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
     {
-      path: '/dashboard',
-      element: <DashboardLayout />,
+      element: <PrivateRoute />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
+        {
+          path: '/dashboard',
+          element: <DashboardLayout />,
+          children: [
+            { path: 'app', element: <DashboardApp /> },
+            { path: 'user', element: <User /> },
+            { path: 'products', element: <Products /> },
+            { path: 'blog', element: <Blog /> },
+          ],
+        },
       ],
     },
     {
