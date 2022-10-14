@@ -70,14 +70,9 @@ export default function CampaignCreateForm() {
       status: 'Processing',
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string().required('Tên không được bỏ trống'),
-      description: Yup.string().required('Miêu tả không được bỏ trống'),
-      // start_date: Yup.date().min(new Date('2019-01-01')).max(new Date('2019-01-01')).required(),
+      title: Yup.string().required('Job title required'),
+      description: Yup.string().required('Description required'),
       start_date: Yup.date().max(new Date(), 'Chi Kieu da ra sao'),
-      // end_date: Yup.date()
-      //   .min(Date().now(), 'No Implementations')
-      //   .max(new Date(), 'Chi Kieu da ra sao')
-      //   .required(),
     }),
 
   
