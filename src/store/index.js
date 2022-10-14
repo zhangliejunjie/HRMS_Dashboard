@@ -2,11 +2,15 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import staffReducer from './slice/staffSlice';
 import notificationReducer from './slice/notificationSlice';
+import memberReducer from './slice/memberSlice';
+import candidateReducer from './slice/candidateSlice';
 import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
   staff: staffReducer,
   notification: notificationReducer,
+  members: memberReducer,
+  candidates: candidateReducer,
 });
 
 const persistConfig = {

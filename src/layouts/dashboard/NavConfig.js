@@ -26,6 +26,11 @@ const navConfig = [
     path: '/dashboard/blog',
     icon: getIcon('eva:file-text-fill'),
   },
+  {
+    title: 'CV Request',
+    path: '/dashboard/request',
+    icon: getIcon('eva:file-text-fill'),
+  },
   // {
   //   title: 'New Job',
   //   path: '/newJob',

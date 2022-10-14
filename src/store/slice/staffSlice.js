@@ -4,6 +4,8 @@ import axios from 'axios';
 import storage from 'redux-persist/lib/storage';
 
 import { getAuthHeader, removeTokenCookie } from '../../utils/tool';
+import { getCandidateByStaff } from './candidateSlice';
+import { getAllMember } from './memberSlice';
 
 import { success, error } from './notificationSlice';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -27,7 +29,10 @@ export const login = createAsyncThunk('staff/login', async (params, thunkAPI) =>
     });
 
   const { staff, token } = result.data;
+  const staffID = staff.id;
   thunkAPI.dispatch(success('Login successfully'));
+  thunkAPI.dispatch(getAllMember());
+  thunkAPI.dispatch(getCandidateByStaff({ staffID }));
   return { staff, token };
 });
 export const logout = createAsyncThunk('staff/logout', async (params, thunkAPI) => {
