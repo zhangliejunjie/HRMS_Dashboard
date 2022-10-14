@@ -28,6 +28,7 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 import { changeCandidateStatus, getCandidateByStaff } from 'src/store/slice/candidateSlice';
+
 // mock
 
 // ----------------------------------------------------------------------
@@ -228,6 +229,7 @@ export default function Request() {
     const staffID = staff.id;
     dispatch(changeCandidateStatus({ status, id }));
     dispatch(getCandidateByStaff({ staffID }));
+    // dispatch(success('thanf'))
     window.location.reload(false);
   };
   const hanldeApproveResume = (id) => {
