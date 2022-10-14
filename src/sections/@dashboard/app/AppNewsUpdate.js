@@ -52,7 +52,7 @@ NewsItem.propTypes = {
 };
 
 function NewsItem({ news }) {
-  const { image, title, description, postedAt } = news;
+  const { image, title, description, status, postedAt } = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -67,10 +67,12 @@ function NewsItem({ news }) {
           {description}
         </Typography>
       </Box>
-      <UserMoreMenu/>
-      {/* <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {fToNow(postedAt)}
-      </Typography> */}
+
+      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+        {/* {fToNow(postedAt)} */}
+        {status}
+      </Typography>
+      <UserMoreMenu />
     </Stack>
   );
 }

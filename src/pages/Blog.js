@@ -146,7 +146,7 @@ export default function Blog() {
         </Stack>
 
         {/* Dat  */}
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={8} mb={5} >
           <AppNewsUpdate
             title="Highlights"
             list={campaigns.map((campaign, index) => ({
@@ -155,10 +155,11 @@ export default function Blog() {
               description: campaign.description,
               image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
               // postedAt: faker.date.recent(),
+              // Kiet add status 
+              status: campaign.status,
             }))}
           />
         </Grid>
-
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Jobs
