@@ -20,106 +20,105 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useFormik } from 'formik';
 import axios from 'axios';
+// import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
 // ----------------------------------------------------------------------
 
 export default function CampaignCreateForm() {
-    const navigate = useNavigate();
-    const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
-    const [value1, setValue1] = React.useState(null);
-    const [value2, setValue2] = React.useState(null);
+  const [value1, setValue1] = React.useState(null);
+  const [value2, setValue2] = React.useState(null);
 
+  const RegisterSchema = Yup.object().shape({
+    title: Yup.string().required('Job title required'),
+    description: Yup.string().required('Description required'),
+    quantity: Yup.string().required('Quantity required'),
+    salary: Yup.string().required('Salary required'),
+  });
 
+  const defaultValues = {
+    title: '',
+    description: '',
+    email: '',
+    password: '',
+  };
 
+  const methods = useForm({
+    resolver: yupResolver(RegisterSchema),
+    defaultValues,
+  });
 
-    const RegisterSchema = Yup.object().shape({
-        title: Yup.string().required('Job title required'),
-        description: Yup.string().required('Description required'),
-        quantity: Yup.string().required('Quantity required'),
-        salary: Yup.string().required('Salary required'),
-    });
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
-    const defaultValues = {
-        title: '',
-        description: '',
-        email: '',
-        password: '',
-    };
+  const onSubmit = async () => {
+    navigate('/dashboard', { replace: true });
+  };
+  // use forkmik
+  let date = Date.now();
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      description: '',
+      start_date: moment(date).format('yyyy-MM-DD'),
+      end_date: moment(date).format('yyyy-MM-DD'),
+      status: 'Processing',
+    },
+    validationSchema: Yup.object().shape({
+      title: Yup.string().required('Job title required'),
+      description: Yup.string().required('Description required'),
+      start_date: Yup.date().max(new Date(), 'Chi Kieu da ra sao'),
+    }),
 
-    const methods = useForm({
-        resolver: yupResolver(RegisterSchema),
-        defaultValues,
-    });
+  
+    onSubmit: (value) => {
+      console.log(value);
+      axios
+        .post('http://localhost:8000/api/campaign-add', {
+          title: value.title,
+          description: value.description,
+          start_date: value.start_date,
+          end_date: value.end_date,
+          status: value.status,
+        })
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+          window.location.reload();
+        });
+    },
+  });
 
-    const {
-        handleSubmit,
-        formState: { isSubmitting },
-    } = methods;
+  return (
+    <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
+      <Stack spacing={3}>
+        <Typography variant="h3"> New Campaign </Typography>
 
-    const onSubmit = async () => {
-        navigate('/dashboard', { replace: true });
-    };
-    // use forkmik
-    let date = Date.now();
-    const formik = useFormik({
-        initialValues: {
-            title: "",
-            description: '',
-            start_date: moment(date).format("yyyy-MM-DD"),
-            end_date: moment(date).format("yyyy-MM-DD"),
-            status: 'Processing',
-        },
-        validationSchema: Yup.object().shape({
-            title: Yup.string().required('Tên không được bỏ trống'),
-            description: Yup.string().required('Miêu tả không được bỏ trống'),
-            // start_date: Yup.date().required('Not null'),
-            // end_date: Yup.string().required('Not null'),
-            // start_date: Yup.date().min(new Date(), "Future date not allowed").typeError("Invalid Started date"),
-            // end_date: Yup.date().default(null)
-            // .when("started",
-            //     (started, yup) => started && yup.min(started, "End time cannot be before start time"))
-
-        }),
-        onSubmit: (value) => {
-            console.log(value);
-            axios.post('http://localhost:8000/api/campaign-add', {
-                'title': value.title,
-                'description': value.description,
-                'start_date': value.start_date,
-                'end_date': value.start_date,
-                'status': value.status
-            })
-                .then(res => {
-                    console.log(res);
-                    console.log(res.data);
-                    window.location.reload();
-                })
-                ;
-
-        }
-    })
-
-
-    return (
-        <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
-            <Stack spacing={3}>
-                <Typography variant="h3"> New Campaign </Typography>
-
-                <RHFTextField name="title" label="Campaign Name" id="title"
-                    value={formik.values.title}
-                    onChange={formik.handleChange}
-                    error={formik.touched.title && Boolean(formik.errors.title)}
-                    helperText={formik.touched.title && formik.errors.title} />
-                <RHFTextField name="description" label="Description"
-                    id="description"
-                    type="description"
-                    value={formik.values.description}
-                    onChange={formik.handleChange}
-                    error={formik.touched.description && Boolean(formik.errors.description)}
-                    helperText={formik.touched.description && formik.errors.description} />
-                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <RHFTextField
+          name="title"
+          label="Campaign Name"
+          id="title"
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          error={formik.touched.title && Boolean(formik.errors.title)}
+          helperText={formik.touched.title && formik.errors.title}
+        />
+        <RHFTextField
+          name="description"
+          label="Description"
+          id="description"
+          type="description"
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          error={formik.touched.description && Boolean(formik.errors.description)}
+          helperText={formik.touched.description && formik.errors.description}
+        />
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                         label="Start date"
                         value={value1}
@@ -143,17 +142,31 @@ export default function CampaignCreateForm() {
                     />
                 </LocalizationProvider> */}
 
-                <TextField fullWidth title='start date' type="date" name="start_date" onChange={formik.handleChange} defaultValue={moment(date).format("yyyy-MM-DD")} />
-                <TextField fullWidth title='end date' type="date" name="end_date" onChange={formik.handleChange} defaultValue={moment(date).format("yyyy-MM-DD")} />
+        <RHFTextField
+          fullWidth
+          title="start date"
+          type="date"
+          name="start_date"
+          onChange={formik.handleChange}
+          defaultValue={moment(date).format('yyyy-MM-DD')}
+        />
+        <TextField
+          fullWidth
+          title="end date"
+          type="date"
+          name="end_date"
+          onChange={formik.handleChange}
+          defaultValue={moment(date).format('yyyy-MM-DD')}
+        />
 
-                {/* <RHFTextField name="title" label="Job Title" />
+        {/* <RHFTextField name="title" label="Job Title" />
                 <RHFTextField name="description" label="Description" />
 
                 <RHFTextField name="quantity" label="Quantity" type="number" />
                 <RHFTextField name="salary" label="Salary per month" type="number" /> */}
-                {/* <RHFTextField name="email" label="Email address" /> */}
+        {/* <RHFTextField name="email" label="Email address" /> */}
 
-                {/* <RHFTextField
+        {/* <RHFTextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
@@ -167,24 +180,23 @@ export default function CampaignCreateForm() {
             ),
           }}
         /> */}
-                <Select
-                    fullWidth
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    onChange={formik.handleChange}
-                    defaultValue="Processing"
-                    name='status'
+        <Select
+          fullWidth
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          onChange={formik.handleChange}
+          defaultValue="Processing"
+          name="status"
+        >
+          <MenuItem value={'Not started'}>Not started</MenuItem>
+          <MenuItem value={'Processing'}>Processing</MenuItem>
+          <MenuItem value={'Finished'}>Finished</MenuItem>
+        </Select>
 
-                >
-                    <MenuItem value={"Not started"}>Not started</MenuItem>
-                    <MenuItem value={'Processing'}>Processing</MenuItem>
-                    <MenuItem value={"Finished"}>Finished</MenuItem>
-                </Select>
-
-                <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-                    Create
-                </LoadingButton>
-            </Stack>
-        </FormProvider>
-    );
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+          Create
+        </LoadingButton>
+      </Stack>
+    </FormProvider>
+  );
 }
