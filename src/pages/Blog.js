@@ -151,6 +151,9 @@ export default function Blog() {
               // postedAt: faker.date.recent(),
               // Kiet add status 
               status: campaign.status,
+              start_date: campaign.start_date,
+              end_date: campaign.end_date,
+              index: index,
             }))}
           />
         </Grid>

@@ -27,7 +27,7 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor() {
+export default function CampaignModalEditor({ news }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -43,9 +43,6 @@ export default function CampaignModalEditor() {
                 <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
             </MenuItem>
 
-            {/* <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
-                New Campaign
-            </Button> */}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -53,7 +50,7 @@ export default function CampaignModalEditor() {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <CampaignUpdateForm />
+                    <CampaignUpdateForm news={news} />
                 </Card>
             </Modal>
         </div>

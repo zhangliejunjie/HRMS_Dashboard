@@ -17,11 +17,10 @@ AppNewsUpdate.propTypes = {
   list: PropTypes.array.isRequired,
 };
 
-export default function AppNewsUpdate({ title, subheader, list, ...other }) {
+export default function AppNewsUpdate({ id, title, subheader, list, index, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
@@ -53,7 +52,7 @@ NewsItem.propTypes = {
 };
 
 function NewsItem({ news }) {
-  const { image, title, description, status, postedAt } = news;
+  const { id, image, title, description, status, start_date, end_date } = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -63,7 +62,8 @@ function NewsItem({ news }) {
         <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
           {title}
         </Link>
-
+        <Typography>{title}</Typography>
+        <Typography>{start_date}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
           {description}
         </Typography>
@@ -74,7 +74,7 @@ function NewsItem({ news }) {
         {status}
       </Typography>
       {/* <UserMoreMenu /> */}
-      <CampaignMoreMenu />
+      <CampaignMoreMenu post={news}/>
     </Stack>
   );
 }

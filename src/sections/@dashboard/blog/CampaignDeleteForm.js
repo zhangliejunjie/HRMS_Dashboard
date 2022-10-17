@@ -26,7 +26,7 @@ import moment from 'moment/moment';
 import { add } from 'lodash';
 // ----------------------------------------------------------------------
 
-export default function CampaignUpdateForm({ news }) {
+export default function CampaignDeleteForm({ news }) {
   const navigate = useNavigate();
 
   const [campaigns, setCampaigns] = useState();
@@ -127,7 +127,7 @@ export default function CampaignUpdateForm({ news }) {
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
-        <Typography variant="h3"> Update Campaign </Typography>
+        <Typography variant="h3"> Delete Campaign </Typography>
 
         <RHFTextField
           name="title"
