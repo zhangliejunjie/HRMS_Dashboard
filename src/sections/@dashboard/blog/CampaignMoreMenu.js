@@ -39,7 +39,7 @@ export default function CampaignMoreMenu({post}) {
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             >
-                <CampaignDeleteAlertDialog news={post} open={open} onClose={() => setOpen(false)}/>
+                <CampaignDeleteAlertDialog news={post}/>
 
                 <CampaignModalEditor news={post} open={open} onClose={() => setOpen(false)} />
 

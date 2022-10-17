@@ -24,12 +24,14 @@ import axios from 'axios';
 // api import
 import moment from 'moment/moment';
 import { add } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { success } from 'src/store/slice/notificationSlice';
 // ----------------------------------------------------------------------
 
 export default function CampaignCreateForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useDispatch();
   const [value1, setValue1] = React.useState(null);
   const [value2, setValue2] = React.useState(null);
   // 
@@ -116,7 +118,10 @@ export default function CampaignCreateForm() {
         .then((res) => {
           console.log(res);
           console.log(res.data);
-          window.location.reload();
+          dispatch(success("Create campaign successfully"));
+          // myTimeout = setTimeout(function, milliseconds);
+          setTimeout(() => window.location.reload(), 3000);
+          // window.location.reload();
         });
     },
   });
