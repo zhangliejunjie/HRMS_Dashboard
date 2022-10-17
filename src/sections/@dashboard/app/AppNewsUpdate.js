@@ -7,6 +7,7 @@ import { fToNow } from '../../../utils/formatTime';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
+import CampaignMoreMenu from '../blog/CampaignMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -72,7 +73,8 @@ function NewsItem({ news }) {
         {/* {fToNow(postedAt)} */}
         {status}
       </Typography>
-      <UserMoreMenu />
+      {/* <UserMoreMenu /> */}
+      <CampaignMoreMenu />
     </Stack>
   );
 }

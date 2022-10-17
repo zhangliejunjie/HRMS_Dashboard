@@ -51,8 +51,6 @@ export default function Blog() {
     setOpenFilter(false);
   };
 
-  // 
-
   const handleOpenEditor = () => {
     setOpenEditor(true);
   };
@@ -61,14 +59,11 @@ export default function Blog() {
     setOpenEditor(false);
   };
 
-
-
   const [campaigns, setCampaigns] = useState([]);
   React.useEffect(() => {
     async function fetchCampaign() {
       const data = await axios.get("http://localhost:8000/api/campaign");
       const { campaigns } = data.data;
-
       console.log(campaigns);
       setCampaigns(campaigns);
     }
@@ -80,7 +75,6 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get("http://localhost:8000/api/job");
       const { jobs } = data.data;
-
       console.log(jobs);
       setJobs(jobs);
     }

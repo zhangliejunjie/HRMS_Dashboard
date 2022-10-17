@@ -6,13 +6,15 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
-// Kiet import Modal
-import CampaignModalEditor from '../blog/CampaignModalEditor';
+// Kiet import Modal 
+import JobModalEditor from '../blog/JobModalEditor';
 import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
+import CampaignModalEditor from './CampaignModalEditor';
+import CampaignCreateModal from './CampaignCreateModal';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function CampaignMoreMenu() {
   const ref = useRef(null);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -39,20 +41,11 @@ export default function UserMoreMenu() {
           <ListItemIcon>
             <Iconify icon="eva:trash-2-outline" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Delete Campaign" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            handleOpen();
-          }}
-          sx={{ color: 'text.secondary' }}
-        >
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit Campaign" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        <CampaignModalEditor open={open} onClose={() => setOpen(false)}/>
+        
       </Menu>
     </>
   );
