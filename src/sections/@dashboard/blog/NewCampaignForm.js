@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
@@ -23,6 +23,7 @@ import axios from 'axios';
 // import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
+import { add } from 'lodash';
 // ----------------------------------------------------------------------
 
 export default function CampaignCreateForm() {
@@ -31,6 +32,8 @@ export default function CampaignCreateForm() {
 
   const [value1, setValue1] = React.useState(null);
   const [value2, setValue2] = React.useState(null);
+  // 
+
 
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
@@ -60,22 +63,46 @@ export default function CampaignCreateForm() {
     navigate('/dashboard', { replace: true });
   };
   // use forkmik
-  let date = Date.now();
+  let today = Date.now();
+  let endDateBoundary = moment().add(7, 'days').toString();
+  let yesterday = moment().subtract(1, 'days').toString();
+  // custome date constraint
+  const validate = values => {
+    const errors = {};
+    console.log(values.start_date);
+    // Start date must be from today and before end_date at least 7 days ago
+    if (!values.start_date) {
+      errors.start_date = 'Start date required';
+    } else if (moment(values.start_date).diff(moment(), 'days') < 0) {
+      errors.start_date = 'Start date must be from today';
+    } else if (moment(values.start_date).diff(moment(values.end_date).subtract(7, 'days'), 'days') > 0) {
+      errors.start_date = 'Start date must be before end date at least 7 days ago\nAvalable end date: '
+        + moment(values.start_date).add(7, 'days').format('yyyy-MM-DD');
+    }
+
+    if (!values.end_date) {
+      errors.end_date = 'End date required';
+    } else if (moment(values.end_date).diff(moment(), 'days') < 0) {
+      errors.end_date = 'End date must be from today';
+    } else if (moment(values.end_date).diff(moment(values.start_date).add(7, 'days'), 'days') < 0) {
+      errors.end_date = 'End date must be after start date 7 at least';
+    }
+
+    return errors;
+  };
+  // console.log(new Date(today));
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
-      start_date: moment(date).format('yyyy-MM-DD'),
-      end_date: moment(date).format('yyyy-MM-DD'),
       status: 'Processing',
     },
+    validate,
     validationSchema: Yup.object().shape({
       title: Yup.string().required('Job title required'),
       description: Yup.string().required('Description required'),
-      start_date: Yup.date().max(new Date(), 'Chi Kieu da ra sao'),
     }),
 
-  
     onSubmit: (value) => {
       console.log(value);
       axios
@@ -93,6 +120,10 @@ export default function CampaignCreateForm() {
         });
     },
   });
+
+  function formatDate(date) {
+    return new Date(date).toLocaleDateString();
+  }
 
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
@@ -113,6 +144,7 @@ export default function CampaignCreateForm() {
           label="Description"
           id="description"
           type="description"
+          multiline
           value={formik.values.description}
           onChange={formik.handleChange}
           error={formik.touched.description && Boolean(formik.errors.description)}
@@ -142,21 +174,29 @@ export default function CampaignCreateForm() {
                     />
                 </LocalizationProvider> */}
 
-        <RHFTextField
+        <TextField
           fullWidth
           title="start date"
           type="date"
+          value={formik.values.start_date}
           name="start_date"
+          validate
           onChange={formik.handleChange}
-          defaultValue={moment(date).format('yyyy-MM-DD')}
+          // defaultValue={moment(today).format('yyyy-MM-DD')}
+          error={formik.touched.start_date && Boolean(formik.errors.start_date)}
+          helperText={formik.touched.start_date && formik.errors.start_date}
         />
         <TextField
           fullWidth
           title="end date"
           type="date"
+          validate
+          value={formik.values.end_date}
           name="end_date"
           onChange={formik.handleChange}
-          defaultValue={moment(date).format('yyyy-MM-DD')}
+          // defaultValue={moment(formik.values.start_date).add(7, 'days').format('yyyy-MM-DD')}
+          error={formik.touched.end_date && Boolean(formik.errors.end_date)}
+          helperText={formik.touched.end_date && formik.errors.end_date}
         />
 
         {/* <RHFTextField name="title" label="Job Title" />
@@ -190,7 +230,8 @@ export default function CampaignCreateForm() {
         >
           <MenuItem value={'Not started'}>Not started</MenuItem>
           <MenuItem value={'Processing'}>Processing</MenuItem>
-          <MenuItem value={'Finished'}>Finished</MenuItem>
+          // The campaign has finish
+          {/* <MenuItem value={'Finished'}>Finished</MenuItem> */}
         </Select>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
