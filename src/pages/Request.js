@@ -70,8 +70,8 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedThis = array?.map((el, index) => [el, index]);
+  stabilizedThis?.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
@@ -79,7 +79,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(array, (_user) => _user.member_name?.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis?.map((el) => el[0]);
 }
 
 export default function Request() {
@@ -88,11 +88,11 @@ export default function Request() {
   const { candidates } = useSelector((state) => state.candidates);
   const { staff } = useSelector((state) => state.staff);
   const candidatePending = candidates
-    .map((candidate) => (candidate.applied_status === 'Pending' ? candidate : undefined))
+    ?.map((candidate) => (candidate.applied_status === 'Pending' ? candidate : undefined))
     .filter((e) => e);
 
   const candidateRejected = candidates
-    .map((candidate) => {
+    ?.map((candidate) => {
       if (candidate.applied_status === 'Reject') {
         return candidate;
       }
@@ -100,7 +100,7 @@ export default function Request() {
     })
     .filter((e) => e);
   const candidateApproved = candidates
-    .map((candidate) => (candidate.applied_status === 'Approve' ? candidate : undefined))
+    ?.map((candidate) => (candidate.applied_status === 'Approve' ? candidate : undefined))
     .filter((e) => e);
   console.log(candidateRejected);
 
@@ -222,7 +222,7 @@ export default function Request() {
   const filteredUsers = applySortFilter(candidatePending, getComparator(order, orderBy), filterName);
   const filteredUsersApproved = applySortFilter(candidateApproved, getComparator(order, orderBy), filterName);
   const filteredUsersRejected = applySortFilter(candidateRejected, getComparator(order, orderBy), filterName);
-  const isUserNotFound = filteredUsers.length === 0;
+  const isUserNotFound = filteredUsers?.length === 0;
 
   const handleRejectResume = (id) => {
     const status = 'Reject';
@@ -266,7 +266,7 @@ export default function Request() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={candidatePending.length}
+                  rowCount={candidatePending?.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -353,7 +353,7 @@ export default function Request() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={candidatePending.length}
+            count={candidatePending?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -378,8 +378,8 @@ export default function Request() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD_STATUS}
-                  rowCount={candidateApproved.length}
-                  numSelected={selectedApproved.length}
+                  rowCount={candidateApproved?.length}
+                  numSelected={selectedApproved?.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClickApproved}
                 />
@@ -453,7 +453,7 @@ export default function Request() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={candidateApproved.length}
+            count={candidateApproved?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -478,7 +478,7 @@ export default function Request() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD_STATUS}
-                  rowCount={candidateRejected.length}
+                  rowCount={candidateRejected?.length}
                   numSelected={selectedRejected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClickRejected}
@@ -553,7 +553,7 @@ export default function Request() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={candidateRejected.length}
+            count={candidateRejected?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
