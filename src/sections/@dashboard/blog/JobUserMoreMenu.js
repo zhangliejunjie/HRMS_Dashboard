@@ -7,12 +7,12 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 // component
 import Iconify from '../../../components/Iconify';
 // Kiet import Modal 
-import CampaignModalEditor from '../blog/CampaignModalEditor';
+import JobModalEditor from '../blog/JobModalEditor';
 import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function JobUserMoreMenu() {
   const ref = useRef(null);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -51,7 +51,7 @@ export default function UserMoreMenu() {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <CampaignModalEditor open={open} onClose={() => setOpen(false)}/>
+        <JobModalEditor open={open} onClose={() => setOpen(false)}/>
         
       </Menu>
     </>

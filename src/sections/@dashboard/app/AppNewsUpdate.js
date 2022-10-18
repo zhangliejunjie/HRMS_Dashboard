@@ -6,6 +6,7 @@ import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
+import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 
 // ----------------------------------------------------------------------
 
@@ -66,10 +67,10 @@ function NewsItem({ news }) {
           {description}
         </Typography>
       </Box>
-
-      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+      <UserMoreMenu/>
+      {/* <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
         {fToNow(postedAt)}
-      </Typography>
+      </Typography> */}
     </Stack>
   );
 }

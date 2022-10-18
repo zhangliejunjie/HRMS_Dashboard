@@ -22,3 +22,16 @@ export function fShortenNumber(number) {
 export function fData(number) {
   return numeral(number).format('0.0 b');
 }
+
+const JOB_DETAIL = [
+  {
+    experience : 'Inter',
+    category: 'Front-end',
+    fulltime: 'Fulltime',
+  },
+
+];
+
+export function getJobDetail() {
+  return JOB_DETAIL;
+}

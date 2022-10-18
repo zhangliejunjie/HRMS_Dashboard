@@ -29,7 +29,15 @@ export const SORT_BY_OPTIONS = [
   { value: 'priceAsc', label: 'Price: Low-High' },
 ];
 export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
-export const FILTER_CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories'];
+export const FILTER_CATEGORY_OPTIONS = ['All', 'Cloud Computing Engineer',
+'Computer Network Specialist',
+'Computer Support Specialist',
+'Database Administrator',
+'Information Technology Analyst',
+'Information Technology Leadership',
+'Information Security Specialist',
+'Software/Application Developer',
+'Web Developer', 'Undefined']; //Tuan Kiet customes
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
   { value: 'below', label: 'Below $25' },
@@ -59,7 +67,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
   return (
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
-        Filters&nbsp;
+        Category&nbsp;
       </Button>
 
       <Drawer
@@ -72,7 +80,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 1, py: 2 }}>
           <Typography variant="subtitle1" sx={{ ml: 1 }}>
-            Filters
+            Categories
           </Typography>
           <IconButton onClick={onCloseFilter}>
             <Iconify icon="eva:close-fill" width={20} height={20} />
@@ -83,7 +91,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
 
         <Scrollbar>
           <Stack spacing={3} sx={{ p: 3 }}>
-            <div>
+            {/* <div>
               <Typography variant="subtitle1" gutterBottom>
                 Gender
               </Typography>
@@ -92,12 +100,12 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
                   <FormControlLabel key={item} control={<Checkbox />} label={item} />
                 ))}
               </FormGroup>
-            </div>
+            </div> */}
 
             <div>
-              <Typography variant="subtitle1" gutterBottom>
+              {/* <Typography variant="subtitle1" gutterBottom>
                 Category
-              </Typography>
+              </Typography> */}
               <RadioGroup>
                 {FILTER_CATEGORY_OPTIONS.map((item) => (
                   <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
@@ -105,7 +113,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
               </RadioGroup>
             </div>
 
-            <div>
+            {/* <div>
               <Typography variant="subtitle1" gutterBottom>
                 Colors
               </Typography>
@@ -115,9 +123,9 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
                 onChecked={(color) => [].includes(color)}
                 sx={{ maxWidth: 38 * 4 }}
               />
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <Typography variant="subtitle1" gutterBottom>
                 Price
               </Typography>
@@ -126,9 +134,9 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
                   <FormControlLabel key={item.value} value={item.value} control={<Radio />} label={item.label} />
                 ))}
               </RadioGroup>
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <Typography variant="subtitle1" gutterBottom>
                 Rating
               </Typography>
@@ -158,7 +166,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
                   />
                 ))}
               </RadioGroup>
-            </div>
+            </div> */}
           </Stack>
         </Scrollbar>
 
