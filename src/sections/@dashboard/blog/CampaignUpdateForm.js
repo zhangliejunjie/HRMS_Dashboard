@@ -24,11 +24,14 @@ import axios from 'axios';
 // api import
 import moment from 'moment/moment';
 import { add } from 'lodash';
+import { success } from 'src/store/slice/notificationSlice';
+import { useDispatch } from 'react-redux';
+
 // ----------------------------------------------------------------------
 
 export default function CampaignUpdateForm({ news }) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [campaigns, setCampaigns] = useState();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -102,10 +105,11 @@ export default function CampaignUpdateForm({ news }) {
       description: Yup.string().required('Description required'),
     }),
 
-    onSubmit: (value) => {
+    onSubmit: async (value) =>  {
       console.log(value);
-      axios
-        .post('http://localhost:8000/api/campaign-add', {
+       await axios
+        .patch('http://localhost:8000/api/campaign/update', {
+          id: news.id,
           title: value.title,
           description: value.description,
           start_date: value.start_date,
@@ -115,7 +119,8 @@ export default function CampaignUpdateForm({ news }) {
         .then((res) => {
           console.log(res);
           console.log(res.data);
-          window.location.reload();
+          dispatch(success("Create update successfully"));
+          setTimeout(() => window.location.reload(), 3000);
         });
     },
   });
@@ -127,7 +132,7 @@ export default function CampaignUpdateForm({ news }) {
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
-        <Typography variant="h3"> Update Campaign </Typography>
+        <Typography variant="h3"> {'Update Campaign' + news.id} </Typography>
 
         <RHFTextField
           name="title"

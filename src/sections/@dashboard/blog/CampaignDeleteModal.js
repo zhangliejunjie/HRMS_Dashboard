@@ -9,11 +9,14 @@ import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import Iconify from 'src/components/Iconify';
 import axios from 'axios';
 import { identity } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { success } from 'src/store/slice/notificationSlice';
 
 export default function CampaignDeleteAlertDialog({ news }) {
 
     const [open, setOpen] = React.useState(false);
     const [openDialog, setDialogOpen] = React.useState(false);
+    const dispatch = useDispatch();
 
     const handleDialogOpen = () => {
         setDialogOpen(true);
@@ -29,14 +32,14 @@ export default function CampaignDeleteAlertDialog({ news }) {
 
     const handleDelete = (id) => {
         const deleteCampaign = async () => {
-            await axios.patch(`http://localhost:8000/api/campaign-update`,
-                {
-                    id: id,
-                    status: "Finished",
-                })
+            console.log('Help me!' + id)
+            await axios.patch(`http://localhost:8000/api/campaign/delete/${id}`)
+            .then(() => {
+                dispatch(success("Create update successfully"));
+            });
         }
+        setOpen(false);
         deleteCampaign();
-        console.log('Meowwwwwwwwww');
     };
 
 
@@ -59,7 +62,7 @@ export default function CampaignDeleteAlertDialog({ news }) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete " + news.title + "?"}
+                    {"Are you sure to delete " + news.id + "?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
@@ -68,11 +71,11 @@ export default function CampaignDeleteAlertDialog({ news }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleDelete(news.id)} autoFocus>
+                    <Button onClick={() => handleDelete(news.id)} autoFocus>
                         Agree
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </div >
     );
 }

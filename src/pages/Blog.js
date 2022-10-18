@@ -72,13 +72,13 @@ export default function Blog() {
 
   const [jobs, setJobs] = useState([]);
   React.useEffect(() => {
-    async function fetchCampaign() {
+    async function fetchJob() {
       const data = await axios.get("http://localhost:8000/api/job");
       const { jobs } = data.data;
       console.log(jobs);
       setJobs(jobs);
     }
-    fetchCampaign();
+    fetchJob();
   }, [])
   // const posts = [jobs.map((job, index) => ({
   //   id: job.id,
@@ -143,6 +143,7 @@ export default function Blog() {
         <Grid item xs={12} md={6} lg={8} mb={5} >
           <AppNewsUpdate
             title="Highlights"
+            subheader="Choose campaign to display jobs below"
             list={campaigns.map((campaign, index) => ({
               id: campaign.id,
               title: campaign.title,
@@ -163,10 +164,10 @@ export default function Blog() {
           </Typography>
 
           <ProductFilterSidebar
-              isOpenFilter={openFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-            />
+            isOpenFilter={openFilter}
+            onOpenFilter={handleOpenFilter}
+            onCloseFilter={handleCloseFilter}
+          />
 
           <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Job

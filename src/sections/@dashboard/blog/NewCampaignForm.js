@@ -23,12 +23,12 @@ import axios from 'axios';
 // import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
-import { add } from 'lodash';
+import { add, set } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 // ----------------------------------------------------------------------
 
-export default function CampaignCreateForm() {
+export default function CampaignCreateForm({open, onClose}) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
@@ -116,12 +116,9 @@ export default function CampaignCreateForm() {
           status: value.status,
         })
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
+          onClose();
           dispatch(success("Create campaign successfully"));
-          // myTimeout = setTimeout(function, milliseconds);
-          setTimeout(() => window.location.reload(), 3000);
-          // window.location.reload();
+
         });
     },
   });
