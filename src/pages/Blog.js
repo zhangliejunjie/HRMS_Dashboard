@@ -64,18 +64,18 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get("http://localhost:8000/api/campaign");
       const { campaigns } = data.data;
-      console.log(campaigns);
+      // console.log(campaigns);
       setCampaigns(campaigns);
     }
     fetchCampaign();
-  }, [])
+  }, [campaigns])
 
   const [jobs, setJobs] = useState([]);
   React.useEffect(() => {
     async function fetchJob() {
       const data = await axios.get("http://localhost:8000/api/job");
       const { jobs } = data.data;
-      console.log(jobs);
+      // console.log(jobs);
       setJobs(jobs);
     }
     fetchJob();

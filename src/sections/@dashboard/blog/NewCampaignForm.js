@@ -92,11 +92,12 @@ export default function CampaignCreateForm({open, onClose}) {
 
     return errors;
   };
-  // console.log(new Date(today));
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
+      start_date: moment().format('yyyy-MM-DD'),
+      end_date: moment().add(7, 'days').format('yyyy-MM-DD'),
       status: 'Processing',
     },
     validate,

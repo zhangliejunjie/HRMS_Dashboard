@@ -16,7 +16,7 @@ import CampaignDeleteAlertDialog from './CampaignDeleteModal';
 
 // ----------------------------------------------------------------------
 
-export default function CampaignMoreMenu({post}) {
+export default function CampaignMoreMenu({ post }) {
     const ref = useRef(null);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -39,9 +39,9 @@ export default function CampaignMoreMenu({post}) {
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             >
-                <CampaignDeleteAlertDialog news={post}/>
+                <CampaignDeleteAlertDialog news={post} />
 
-                <CampaignModalEditor news={post} open={open} onClose={() => setOpen(false)} />
+                <CampaignModalEditor news={post} openMoreMenu={open} onClose={() => setIsOpen(false)} />
 
             </Menu>
         </>

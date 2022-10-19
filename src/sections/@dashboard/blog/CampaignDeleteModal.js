@@ -35,7 +35,7 @@ export default function CampaignDeleteAlertDialog({ news }) {
             console.log('Help me!' + id)
             await axios.patch(`http://localhost:8000/api/campaign/delete/${id}`)
             .then(() => {
-                dispatch(success("Create update successfully"));
+                dispatch(success("Delete successfully"));
             });
         }
         setOpen(false);

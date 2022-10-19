@@ -27,7 +27,7 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor({ news }) {
+export default function CampaignModalEditor({ news, openMoreMenu, onClose }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -35,7 +35,6 @@ export default function CampaignModalEditor({ news }) {
         <div>
             <MenuItem onClick={() => {
                 handleOpen()
-
             }} sx={{ color: 'text.secondary' }}>
                 <ListItemIcon>
                     <Iconify icon="eva:edit-fill" width={24} height={24} />
@@ -50,7 +49,11 @@ export default function CampaignModalEditor({ news }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <CampaignUpdateForm news={news} />
+                    <CampaignUpdateForm news={news} open={open} onClose={() => {
+                        onClose();
+                        handleClose(false);
+                    }
+                    } />
                 </Card>
             </Modal>
         </div>
