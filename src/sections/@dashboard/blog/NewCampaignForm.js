@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -28,7 +28,7 @@ import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 // ----------------------------------------------------------------------
 
-export default function CampaignCreateForm({open, onClose}) {
+export default function CampaignCreateForm({ open, onClose }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
@@ -102,8 +102,15 @@ export default function CampaignCreateForm({open, onClose}) {
     },
     validate,
     validationSchema: Yup.object().shape({
-      title: Yup.string().required('Job title required'),
-      description: Yup.string().required('Description required'),
+      title: Yup
+        .string()
+        .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
+        .max(40, () => 'Max length of campaign name is 40 characters')
+        .required('Campaign name required'),
+      description: Yup
+        .string()
+        .max(512, () => 'Max length of campaign description is 512 characters')
+        .required('Description required'),
     }),
 
     onSubmit: (value) => {
@@ -178,6 +185,7 @@ export default function CampaignCreateForm({open, onClose}) {
                 </LocalizationProvider> */}
 
         <TextField
+          label="Start date"
           fullWidth
           title="start date"
           type="date"
@@ -190,6 +198,7 @@ export default function CampaignCreateForm({open, onClose}) {
           helperText={formik.touched.start_date && formik.errors.start_date}
         />
         <TextField
+          label="End date"
           fullWidth
           title="end date"
           type="date"

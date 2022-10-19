@@ -103,8 +103,15 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
     },
     validate,
     validationSchema: Yup.object().shape({
-      title: Yup.string().required('Job title required'),
-      description: Yup.string().required('Description required'),
+      title: Yup
+        .string()
+        .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
+        .max(40, () => 'Max length of campaign name is 40 characters')
+        .required('Campaign name required'),
+      description: Yup
+        .string()
+        .max(512, () => 'Max length of campaign description is 512 characters')
+        .required('Description required'),
     }),
 
     onSubmit: async (value) =>  {
@@ -153,8 +160,9 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
           helperText={formik.touched.description && formik.errors.description}
         />
 
-        <RHFTextField
+        {/* <RHFTextField
           fullWidth
+          label="Start date"
           title="start date"
           type="date"
           value={formik.values.start_date}
@@ -164,10 +172,11 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
           // defaultValue={}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
-        />
+        /> */}
 
         <RHFTextField
           fullWidth
+          label="End date"
           title="end date"
           type="date"
           validate
