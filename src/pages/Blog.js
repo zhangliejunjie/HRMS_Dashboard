@@ -64,7 +64,7 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get("http://localhost:8000/api/campaign");
       const { campaigns } = data.data;
-      // console.log(campaigns);
+      console.log(campaigns);
       setCampaigns(campaigns);
     }
     fetchCampaign();

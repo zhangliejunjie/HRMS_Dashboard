@@ -116,7 +116,7 @@ export default function CampaignCreateForm({ open, onClose }) {
     onSubmit: (value) => {
       console.log(value);
       axios
-        .post('http://localhost:8000/api/campaign-add', {
+        .post('http://localhost:8000/api/campaign/add', {
           title: value.title,
           description: value.description,
           start_date: value.start_date,

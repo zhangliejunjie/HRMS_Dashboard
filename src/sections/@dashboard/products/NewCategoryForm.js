@@ -27,14 +27,14 @@ export default function NewCategoryForm({ open, onClose }) {
     const dispatch = useDispatch();
 
     const RegisterSchema = Yup.object().shape({
-        title: Yup.string().required('Job title required'),
+        name: Yup.string().required('Job name required'),
         description: Yup.string().required('Description required'),
         quantity: Yup.string().required('Quantity required'),
         salary: Yup.string().required('Salary required'),
     });
 
     const defaultValues = {
-        title: '',
+        name: '',
         description: '',
         email: '',
         password: '',
@@ -56,11 +56,11 @@ export default function NewCategoryForm({ open, onClose }) {
     // use forkmik
     const formik = useFormik({
         initialValues: {
-            title: '',
+            name: '',
             description: '',
         },
         validationSchema: Yup.object().shape({
-            title: Yup
+            name: Yup
                 .string()
                 .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
                 .max(40, () => 'Max length of category name is 40 characters')
@@ -74,8 +74,8 @@ export default function NewCategoryForm({ open, onClose }) {
         onSubmit: (value) => {
             console.log(value);
             axios
-                .post('http://localhost:8000/api/category-add', {
-                    title: value.title,
+                .post('http://localhost:8000/api/category/add', {
+                    name: value.name,
                     description: value.description,
                 })
                 .then((res) => {
@@ -92,13 +92,13 @@ export default function NewCategoryForm({ open, onClose }) {
                 <Typography variant="h3"> New Category </Typography>
 
                 <RHFTextField
-                    name="title"
+                    name="name"
                     label="Category Name"
-                    id="title"
-                    value={formik.values.title}
+                    id="name"
+                    value={formik.values.name}
                     onChange={formik.handleChange}
-                    error={formik.touched.title && Boolean(formik.errors.title)}
-                    helperText={formik.touched.title && formik.errors.title}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
                 />
                 <RHFTextField
                     name="description"

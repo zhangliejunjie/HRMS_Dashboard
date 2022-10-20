@@ -33,7 +33,7 @@ export default function EcommerceShop() {
       setCategories(categories);
     }
     fetchCategory();
-  }, [])
+  }, [categories])
 
   console.log(categories);
 
