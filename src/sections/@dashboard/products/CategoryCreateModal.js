@@ -13,8 +13,7 @@ import { useState } from 'react';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
-import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
-import CampaignUpdateForm from './CampaignUpdateForm';
+import NewCategoryForm from './NewCategoryForm';
 // Kiet uses  forkmik
 
 const style = {
@@ -27,21 +26,15 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor({ news, openMoreMenu, onClose }) {
+export default function CategoryCreateModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (
         <div>
-            <MenuItem onClick={() => {
-                handleOpen()
-            }} sx={{ color: 'text.secondary' }}>
-                <ListItemIcon>
-                    <Iconify icon="eva:edit-fill" width={24} height={24} />
-                </ListItemIcon>
-                <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-            </MenuItem>
-
+            <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
+                New Category
+            </Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -49,11 +42,7 @@ export default function CampaignModalEditor({ news, openMoreMenu, onClose }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <CampaignUpdateForm news={news} open={open} onClose={() => {
-                        onClose();
-                        handleClose(false);
-                    }
-                    } />
+                    <NewCategoryForm open={open} onClose={() => setOpen(false)}/>
                 </Card>
             </Modal>
         </div>

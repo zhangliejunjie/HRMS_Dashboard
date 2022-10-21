@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -23,13 +23,15 @@ import axios from 'axios';
 // import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
-import { add } from 'lodash';
+import { add, set } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { success } from 'src/store/slice/notificationSlice';
 // ----------------------------------------------------------------------
 
-export default function CampaignCreateForm() {
+export default function CampaignCreateForm({ open, onClose }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-
+  const dispatch = useDispatch();
   const [value1, setValue1] = React.useState(null);
   const [value2, setValue2] = React.useState(null);
   // 
@@ -90,23 +92,31 @@ export default function CampaignCreateForm() {
 
     return errors;
   };
-  // console.log(new Date(today));
   const formik = useFormik({
     initialValues: {
       title: '',
       description: '',
+      start_date: moment().format('yyyy-MM-DD'),
+      end_date: moment().add(7, 'days').format('yyyy-MM-DD'),
       status: 'Processing',
     },
     validate,
     validationSchema: Yup.object().shape({
-      title: Yup.string().required('Job title required'),
-      description: Yup.string().required('Description required'),
+      title: Yup
+        .string()
+        .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
+        .max(40, () => 'Max length of campaign name is 40 characters')
+        .required('Campaign name required'),
+      description: Yup
+        .string()
+        .max(512, () => 'Max length of campaign description is 512 characters')
+        .required('Description required'),
     }),
 
     onSubmit: (value) => {
       console.log(value);
       axios
-        .post('http://localhost:8000/api/campaign-add', {
+        .post('http://localhost:8000/api/campaign/add', {
           title: value.title,
           description: value.description,
           start_date: value.start_date,
@@ -114,9 +124,9 @@ export default function CampaignCreateForm() {
           status: value.status,
         })
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
-          window.location.reload();
+          onClose();
+          dispatch(success("Create campaign successfully"));
+
         });
     },
   });
@@ -175,6 +185,7 @@ export default function CampaignCreateForm() {
                 </LocalizationProvider> */}
 
         <TextField
+          label="Start date"
           fullWidth
           title="start date"
           type="date"
@@ -187,6 +198,7 @@ export default function CampaignCreateForm() {
           helperText={formik.touched.start_date && formik.errors.start_date}
         />
         <TextField
+          label="End date"
           fullWidth
           title="end date"
           type="date"

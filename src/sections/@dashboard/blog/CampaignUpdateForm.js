@@ -18,17 +18,20 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useFormik } from 'formik';
+import { Field, Form, Formik, FormikProps, useFormik } from 'formik';
 import axios from 'axios';
 // import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
 import { add } from 'lodash';
+import { success } from 'src/store/slice/notificationSlice';
+import { useDispatch } from 'react-redux';
+
 // ----------------------------------------------------------------------
 
-export default function CampaignUpdateForm({ news }) {
+export default function CampaignUpdateForm({ news , open, onClose}) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [campaigns, setCampaigns] = useState();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -95,17 +98,28 @@ export default function CampaignUpdateForm({ news }) {
       title: news.title,
       description: news.description,
       status: news.status,
+      start_date: news.start_date,
+      end_date: news.end_date,
     },
     validate,
     validationSchema: Yup.object().shape({
-      title: Yup.string().required('Job title required'),
-      description: Yup.string().required('Description required'),
+      title: Yup
+        .string()
+        .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
+        .max(40, () => 'Max length of campaign name is 40 characters')
+        .required('Campaign name required'),
+      description: Yup
+        .string()
+        .max(512, () => 'Max length of campaign description is 512 characters')
+        .required('Description required'),
     }),
 
-    onSubmit: (value) => {
+    onSubmit: async (value) =>  {
+      console.log('Meowwww');
       console.log(value);
-      axios
-        .post('http://localhost:8000/api/campaign-add', {
+       await axios
+        .patch('http://localhost:8000/api/campaign/update', {
+          id: news.id,
           title: value.title,
           description: value.description,
           start_date: value.start_date,
@@ -115,20 +129,16 @@ export default function CampaignUpdateForm({ news }) {
         .then((res) => {
           console.log(res);
           console.log(res.data);
-          window.location.reload();
+          onClose();
+          dispatch(success("Update successfully"));
         });
     },
   });
 
-  function formatDate(date) {
-    return new Date(date).toLocaleDateString();
-  }
-
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
-        <Typography variant="h3"> Update Campaign </Typography>
-
+        <Typography variant="h3"> {'Update Campaign'} </Typography>
         <RHFTextField
           name="title"
           label="Campaign Name"
@@ -149,44 +159,24 @@ export default function CampaignUpdateForm({ news }) {
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
         />
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        label="Start date"
-                        value={value1}
-                        onChange={(newValue) => {
-                            setValue1(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                        type="date"
-                        name="start_date"
-                        {...formik.getFieldProps('start_date')}
-                    />
-                    <DatePicker
-                        label="End date"
-                        value={value2}
 
-                        renderInput={(params) => <TextField {...params} />}
-                        type="date"
-                        name="end_date"
-                        onChange={formik.handleChange}
-
-                    />
-                </LocalizationProvider> */}
-
-        <TextField
+        {/* <RHFTextField
           fullWidth
+          label="Start date"
           title="start date"
           type="date"
           value={formik.values.start_date}
           name="start_date"
           validate
           onChange={formik.handleChange}
-          defaultValue={moment(news.start_date).format('yyyy-MM-DD')}
+          // defaultValue={}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
-        />
-        <TextField
+        /> */}
+
+        <RHFTextField
           fullWidth
+          label="End date"
           title="end date"
           type="date"
           validate
@@ -197,28 +187,7 @@ export default function CampaignUpdateForm({ news }) {
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
-
-        {/* <RHFTextField name="title" label="Job Title" />
-                <RHFTextField name="description" label="Description" />
-
-                <RHFTextField name="quantity" label="Quantity" type="number" />
-                <RHFTextField name="salary" label="Salary per month" type="number" /> */}
-        {/* <RHFTextField name="email" label="Email address" /> */}
-
-        {/* <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        /> */}
+        
         <Select
           fullWidth
           labelId="demo-simple-select-label"
@@ -229,8 +198,6 @@ export default function CampaignUpdateForm({ news }) {
         >
           <MenuItem value={'Not started'}>Not started</MenuItem>
           <MenuItem value={'Processing'}>Processing</MenuItem>
-          // The campaign has finish
-          {/* <MenuItem value={'Finished'}>Finished</MenuItem> */}
         </Select>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>

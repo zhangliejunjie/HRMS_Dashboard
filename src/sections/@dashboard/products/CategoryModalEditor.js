@@ -13,8 +13,7 @@ import { useState } from 'react';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
-import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
-import CampaignUpdateForm from './CampaignUpdateForm';
+import CategoryUpdateForm from './CategoryUpdateForm';
 // Kiet uses  forkmik
 
 const style = {
@@ -27,7 +26,7 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor({ news, openMoreMenu, onClose }) {
+export default function CategoryModalEditor({ news, openMoreMenu, onClose }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -49,7 +48,7 @@ export default function CampaignModalEditor({ news, openMoreMenu, onClose }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <CampaignUpdateForm news={news} open={open} onClose={() => {
+                    <CategoryUpdateForm news={news} open={open} onClose={() => {
                         onClose();
                         handleClose(false);
                     }

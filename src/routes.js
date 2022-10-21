@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import PrivateRoute from './hoc/AuthGuard';
+import Interview from './pages/Interview';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,10 @@ export default function Router() {
             {
               path: 'request',
               element: <Request />,
+            },
+            {
+              path: 'interview',
+              element: <Interview />,
             },
           ],
         },
