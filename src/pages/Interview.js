@@ -138,7 +138,7 @@ export default function Interview() {
     React.useEffect(() => {
       async function fetchCandidate() {
         const data = await axios.get("http://localhost:8000/api/candidate/all");
-        const { candidates } = data.data;
+        const candidates = data.data;
         console.log(candidates);
         setCandidates(candidates);
       }
