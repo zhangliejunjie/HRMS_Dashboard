@@ -8,6 +8,7 @@ import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 import CampaignMoreMenu from '../blog/CampaignMoreMenu';
+import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -59,9 +60,17 @@ function NewsItem({ news }) {
       <Box component="img" alt={title} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
+        <Link
+          color="inherit"
+          variant="subtitle2"
+          underline="hover"
+          noWrap
+          component={RouterLink}
+          to={`/dashboard/blog/${id}`}
+        >
           {title}
         </Link>
+
         <Typography>{title}</Typography>
         <Typography>{start_date}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
@@ -74,7 +83,7 @@ function NewsItem({ news }) {
         {status}
       </Typography>
       {/* <UserMoreMenu /> */}
-      <CampaignMoreMenu post={news}/>
+      <CampaignMoreMenu post={news} />
     </Stack>
   );
 }
