@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import * as React from 'react';
 import axios from 'axios';
+import { faker } from '@faker-js/faker';
+import { sample } from 'lodash';
 // material
 import {
     Card,
@@ -28,8 +30,6 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
-
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -40,6 +40,27 @@ const TABLE_HEAD = [
     { id: 'status', label: 'Status', alignRight: false },
     { id: '' },
 ];
+
+const users = [...Array(24)].map((_, index) => ({
+    id: faker.datatype.uuid(),
+    avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
+    name: faker.name.findName(),
+    company: faker.company.companyName(),
+    isVerified: faker.datatype.boolean(),
+    status: sample(['active', 'banned']),
+    role: sample([
+      'Leader',
+      'Hr Manager',
+      'UI Designer',
+      'UX Designer',
+      'UI/UX Designer',
+      'Project Manager',
+      'Backend Developer',
+      'Full Stack Designer',
+      'Front End Developer',
+      'Full Stack Developer',
+    ]),
+  }));
 
 // ----------------------------------------------------------------------
 
@@ -93,7 +114,7 @@ export default function Interview() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = USERLIST.map((n) => n.name);
+            const newSelecteds = users.map((n) => n.name);
             setSelected(newSelecteds);
             return;
         }
@@ -128,9 +149,9 @@ export default function Interview() {
         setFilterName(event.target.value);
     };
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
-    const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+    const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
     const isUserNotFound = filteredUsers.length === 0;
     // Call API for CV approved Candidate
@@ -167,7 +188,7 @@ export default function Interview() {
                                     order={order}
                                     orderBy={orderBy}
                                     headLabel={TABLE_HEAD}
-                                    rowCount={USERLIST.length}
+                                    rowCount={users.length}
                                     numSelected={selected.length}
                                     onRequestSort={handleRequestSort}
                                     onSelectAllClick={handleSelectAllClick}
@@ -235,7 +256,7 @@ export default function Interview() {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={USERLIST.length}
+                        count={users.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
