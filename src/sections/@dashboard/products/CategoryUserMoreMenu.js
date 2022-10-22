@@ -9,10 +9,13 @@ import Iconify from '../../../components/Iconify';
 // Kiet import Modal 
 import JobModalEditor from '../blog/JobModalEditor';
 import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
+import CategoryDeleteAlertDialog from './CategoryDeleteAlertDialog';
+import CampaignDeleteAlertDialog from '../blog/CampaignDeleteModal';
+import CategoryModalEditor from './CategoryModalEditor';
 
 // ----------------------------------------------------------------------
 
-export default function CategoryUserMoreMenu() {
+export default function CategoryUserMoreMenu({ post }) {
   const ref = useRef(null);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -35,24 +38,9 @@ export default function CategoryUserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        <CategoryDeleteAlertDialog news={post} />
+        <CategoryModalEditor news={post} openMoreMenu={open} onClose={() => setIsOpen(false)} />
 
-        <MenuItem onClick={() => {
-          handleOpen()
-
-        }} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-        <JobModalEditor open={open} onClose={() => setOpen(false)}/>
-        
       </Menu>
     </>
   );

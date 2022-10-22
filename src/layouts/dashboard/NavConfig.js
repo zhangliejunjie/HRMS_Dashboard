@@ -41,6 +41,11 @@ const navConfig = [
   //   path: '/404',
   //   icon: getIcon('eva:alert-triangle-fill'),
   // },
+  {
+    title: 'Interview',
+    path: '/dashboard/interview',
+    icon: getIcon('bxs:message-alt-check'),
+  },
 ];
 
 export default navConfig;

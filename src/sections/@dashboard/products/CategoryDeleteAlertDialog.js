@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 
-export default function CampaignDeleteAlertDialog({ news }) {
+export default function CategoryDeleteAlertDialog({ news }) {
 
     const [open, setOpen] = React.useState(false);
     const [openDialog, setDialogOpen] = React.useState(false);
@@ -30,15 +30,14 @@ export default function CampaignDeleteAlertDialog({ news }) {
     };
 
     const handleDelete = (id) => {
-        const deleteCampaign = async () => {
-            console.log('Help me!' + id)
-            await axios.patch(`http://localhost:8000/api/campaign/delete/${id}`)
-            .then(() => {
-                dispatch(success("Delete successfully"));
-            });
+        const deleteCategory = async () => {
+            await axios.patch(`http://localhost:8000/api/category/delete/${id}`)
+                .then(() => {
+                    dispatch(success("Delete successfully"));
+                });
         }
         setOpen(false);
-        deleteCampaign();
+        deleteCategory();
     };
 
 
@@ -56,20 +55,19 @@ export default function CampaignDeleteAlertDialog({ news }) {
 
             <Dialog
                 open={open}
-                // onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete " + news.id + "?"}
+                    {"Are you sure to delete " + news?.id + "?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        This campaign will be unable to see.
+                        This category will be unable to see.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={() => handleClose()}>Disagree</Button>
                     <Button onClick={() => handleDelete(news.id)} autoFocus>
                         Agree
                     </Button>

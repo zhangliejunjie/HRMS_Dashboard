@@ -1,3 +1,4 @@
+import * as React from 'react';
 // @mui
 import PropTypes from 'prop-types';
 import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
@@ -23,7 +24,7 @@ export default function AppNewsUpdate({ id, title, subheader, list, index, ...ot
       <CardHeader title={title} subheader={subheader} />
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((news) => (
+          {list.filter(news => news.status !== 'Finished').map(news => (
             <NewsItem key={news.id} news={news} />
           ))}
         </Stack>
@@ -53,17 +54,16 @@ NewsItem.propTypes = {
 
 function NewsItem({ news }) {
   const { id, image, title, description, status, start_date, end_date } = news;
-
+  const [open, setOpen] = React.useState(false);
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Box component="img" alt={title} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
+        <Link color="inherit" variant="h5" underline="hover" noWrap>
           {title}
         </Link>
-        <Typography>{title}</Typography>
-        <Typography>{start_date}</Typography>
+        {/* <Typography>{start_date}</Typography> */}
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
           {description}
         </Typography>
@@ -74,7 +74,7 @@ function NewsItem({ news }) {
         {status}
       </Typography>
       {/* <UserMoreMenu /> */}
-      <CampaignMoreMenu post={news}/>
+      <CampaignMoreMenu post={news} />
     </Stack>
   );
 }
