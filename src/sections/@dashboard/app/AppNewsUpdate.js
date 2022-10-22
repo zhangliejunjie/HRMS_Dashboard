@@ -7,6 +7,7 @@ import { fToNow } from '../../../utils/formatTime';
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
+import CampaignMoreMenu from '../blog/CampaignMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -16,11 +17,10 @@ AppNewsUpdate.propTypes = {
   list: PropTypes.array.isRequired,
 };
 
-export default function AppNewsUpdate({ title, subheader, list, ...other }) {
+export default function AppNewsUpdate({ id, title, subheader, list, index, ...other }) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
@@ -52,7 +52,7 @@ NewsItem.propTypes = {
 };
 
 function NewsItem({ news }) {
-  const { image, title, description, postedAt } = news;
+  const { id, image, title, description, status, start_date, end_date } = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -62,15 +62,19 @@ function NewsItem({ news }) {
         <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
           {title}
         </Link>
-
+        <Typography>{title}</Typography>
+        <Typography>{start_date}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
           {description}
         </Typography>
       </Box>
-      <UserMoreMenu/>
-      {/* <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {fToNow(postedAt)}
-      </Typography> */}
+
+      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
+        {/* {fToNow(postedAt)} */}
+        {status}
+      </Typography>
+      {/* <UserMoreMenu /> */}
+      <CampaignMoreMenu post={news}/>
     </Stack>
   );
 }

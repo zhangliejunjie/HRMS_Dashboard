@@ -50,8 +50,6 @@ export default function Blog() {
     setOpenFilter(false);
   };
 
-  // 
-
   const handleOpenEditor = () => {
     setOpenEditor(true);
   };
@@ -60,14 +58,11 @@ export default function Blog() {
     setOpenEditor(false);
   };
 
-
-
   const [campaigns, setCampaigns] = useState([]);
   React.useEffect(() => {
     async function fetchCampaign() {
       const data = await axios.get("http://localhost:8000/api/campaign");
       const { campaigns } = data.data;
-
       console.log(campaigns);
       setCampaigns(campaigns);
     }
@@ -79,7 +74,6 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get("http://localhost:8000/api/job");
       const { jobs } = data.data;
-
       console.log(jobs);
       setJobs(jobs);
     }
@@ -145,7 +139,7 @@ export default function Blog() {
         </Stack>
 
         {/* Dat  */}
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={8} mb={5} >
           <AppNewsUpdate
             title="Highlights"
             list={campaigns.map((campaign, index) => ({
@@ -154,10 +148,14 @@ export default function Blog() {
               description: campaign.description,
               image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
               // postedAt: faker.date.recent(),
+              // Kiet add status 
+              status: campaign.status,
+              start_date: campaign.start_date,
+              end_date: campaign.end_date,
+              index: index,
             }))}
           />
         </Grid>
-
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Jobs
@@ -169,7 +167,7 @@ export default function Blog() {
               onCloseFilter={handleCloseFilter}
             />
 
-          <Button variant="contained" component={RouterLink} to="/register" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Job
           </Button>
 

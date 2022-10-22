@@ -24,7 +24,7 @@ export default function DashboardApp() {
   const theme = useTheme();
 
   return (
-    <Page title="Dashboard">
+    <Page title="Dashboard Kiet">
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back

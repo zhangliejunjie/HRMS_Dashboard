@@ -24,18 +24,17 @@ import axios from 'axios';
 // api import
 import moment from 'moment/moment';
 import { add } from 'lodash';
-import { useDispatch } from 'react-redux';
-import { success } from 'src/store/slice/notificationSlice';
 // ----------------------------------------------------------------------
 
-export default function CampaignCreateForm() {
+export default function CampaignUpdateForm({ news }) {
   const navigate = useNavigate();
+
+  const [campaigns, setCampaigns] = useState();
+
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
+
   const [value1, setValue1] = React.useState(null);
   const [value2, setValue2] = React.useState(null);
-  // 
-
 
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
@@ -65,9 +64,7 @@ export default function CampaignCreateForm() {
     navigate('/dashboard', { replace: true });
   };
   // use forkmik
-  let today = Date.now();
-  let endDateBoundary = moment().add(7, 'days').toString();
-  let yesterday = moment().subtract(1, 'days').toString();
+
   // custome date constraint
   const validate = values => {
     const errors = {};
@@ -95,9 +92,9 @@ export default function CampaignCreateForm() {
   // console.log(new Date(today));
   const formik = useFormik({
     initialValues: {
-      title: '',
-      description: '',
-      status: 'Processing',
+      title: news.title,
+      description: news.description,
+      status: news.status,
     },
     validate,
     validationSchema: Yup.object().shape({
@@ -118,10 +115,7 @@ export default function CampaignCreateForm() {
         .then((res) => {
           console.log(res);
           console.log(res.data);
-          dispatch(success("Create campaign successfully"));
-          // myTimeout = setTimeout(function, milliseconds);
-          setTimeout(() => window.location.reload(), 3000);
-          // window.location.reload();
+          window.location.reload();
         });
     },
   });
@@ -133,7 +127,7 @@ export default function CampaignCreateForm() {
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
-        <Typography variant="h3"> New Campaign </Typography>
+        <Typography variant="h3"> Update Campaign </Typography>
 
         <RHFTextField
           name="title"
@@ -187,7 +181,7 @@ export default function CampaignCreateForm() {
           name="start_date"
           validate
           onChange={formik.handleChange}
-          // defaultValue={moment(today).format('yyyy-MM-DD')}
+          defaultValue={moment(news.start_date).format('yyyy-MM-DD')}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
         />
@@ -199,7 +193,7 @@ export default function CampaignCreateForm() {
           value={formik.values.end_date}
           name="end_date"
           onChange={formik.handleChange}
-          // defaultValue={moment(formik.values.start_date).add(7, 'days').format('yyyy-MM-DD')}
+          defaultValue={moment(news.end_date).format('yyyy-MM-DD')}
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
@@ -240,7 +234,7 @@ export default function CampaignCreateForm() {
         </Select>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Create
+          Update
         </LoadingButton>
       </Stack>
     </FormProvider>

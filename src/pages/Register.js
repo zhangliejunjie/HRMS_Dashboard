@@ -90,7 +90,7 @@ export default function Register() {
             <Typography variant="h4" gutterBottom>
               Add new job
             </Typography>
-
+            
             {/* <Typography sx={{ color: 'text.secondary', mb: 5 }}>Add job and pick campaign.</Typography> */}
 
             {/* <AuthSocial /> */}
