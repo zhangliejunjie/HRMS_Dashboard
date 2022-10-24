@@ -3,7 +3,7 @@ import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
+import notificationReducer, { success } from 'src/store/slice/notificationSlice';
 // material
 import {
   Card,
@@ -85,6 +85,7 @@ function applySortFilter(array, comparator, query) {
 export default function Request() {
   const dispatch = useDispatch();
   const { members } = useSelector((state) => state.members);
+  const { notification } = useSelector((state) => state.notification);
   const { candidates } = useSelector((state) => state.candidates);
   const { staff } = useSelector((state) => state.staff);
   const candidatePending = candidates
@@ -102,7 +103,6 @@ export default function Request() {
   const candidateApproved = candidates
     ?.map((candidate) => (candidate.applied_status === 'Approve' ? candidate : undefined))
     .filter((e) => e);
-  console.log(candidateRejected);
 
   const [page, setPage] = useState(0);
   const [pageApproved, setPageApproved] = useState(0);
@@ -227,23 +227,29 @@ export default function Request() {
   const handleRejectResume = (id) => {
     const status = 'Reject';
     const staffID = staff.id;
-    dispatch(changeCandidateStatus({ status, id }));
-    dispatch(getCandidateByStaff({ staffID }));
-    // dispatch(success('thanf'))
-    window.location.reload(false);
-  };
-  const hanldeApproveResume = (id) => {
-    const staffID = staff.id;
-    const status = 'Approve';
-    dispatch(changeCandidateStatus({ status, id }));
-    dispatch(getCandidateByStaff({ staffID }));
-    window.location.reload(false);
-  };
+    dispatch(changeCandidateStatus({ status, id, staffID }));
 
+    // window.location.reload(false);
+  };
+  const hanldeApproveResume = (id, member_id) => {
+    const staffID = staff.id;
+    // const member_id =
+    const status = 'Approve';
+    dispatch(changeCandidateStatus({ status, id, member_id, staffID }));
+    // dispatch(getCandidateByStaff({ staffID }));
+
+    // window.location.reload(false);
+  };
+  // useEffect(() => {
+  //   const staffID = staff.id;
+
+  //   dispatch(getCandidateByStaff({ staffID }));
+  // }, [dispatch, staff.id]);
   useEffect(() => {
     const staffID = staff.id;
+    console.log('dispatch re-render');
     dispatch(getCandidateByStaff({ staffID }));
-  }, [dispatch]);
+  }, [notification]);
   return (
     <Page title="User">
       <Container>
@@ -273,7 +279,8 @@ export default function Request() {
                 />
                 <TableBody>
                   {filteredUsers?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, member_name, job_name, applied_status, member_avatar, resume_url } = row || {};
+                    const { id, member_name, job_name, applied_status, member_avatar, resume_url, member_id } =
+                      row || {};
                     const isItemSelected = selected.indexOf(member_name) !== -1;
 
                     return (
@@ -318,7 +325,7 @@ export default function Request() {
                               <Button color="error" onClick={() => handleRejectResume(id)}>
                                 Reject
                               </Button>
-                              <Button color="success" onClick={() => hanldeApproveResume(id)}>
+                              <Button color="success" onClick={() => hanldeApproveResume(id, member_id)}>
                                 Approve
                               </Button>
                             </Stack>
