@@ -14,7 +14,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 // Kiet imported 
 import JobUserMoreMenu from './JobUserMoreMenu';
 import { intlFormat } from 'date-fns';
-
+// import cover
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -65,7 +65,7 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { id, name, description, salary, experience, isRemote, category } = post;
+  const { id, name, title, description, salary, experience, isRemote, category } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 0 || index === 0;
 
@@ -93,7 +93,7 @@ export default function BlogPostCard({ post, index }) {
 
        
 
-          <CoverImgStyle alt={title} src={cover} />
+          {/* // <CoverImgStyle alt={title} src={cover} /> */}
         {/* <UserMoreMenu /> */}
         <CardContent
           sx={{
