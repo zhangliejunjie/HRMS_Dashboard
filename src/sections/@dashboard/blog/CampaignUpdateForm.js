@@ -29,7 +29,7 @@ import { useDispatch } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
-export default function CampaignUpdateForm({ news , open, onClose}) {
+export default function CampaignUpdateForm({ news, open, onClose }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [campaigns, setCampaigns] = useState();
@@ -69,7 +69,7 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
   // use forkmik
 
   // custome date constraint
-  const validate = values => {
+  const validate = (values) => {
     const errors = {};
     console.log(values.start_date);
     // Start date must be from today and before end_date at least 7 days ago
@@ -78,8 +78,9 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
     } else if (moment(values.start_date).diff(moment(), 'days') < 0) {
       errors.start_date = 'Start date must be from today';
     } else if (moment(values.start_date).diff(moment(values.end_date).subtract(7, 'days'), 'days') > 0) {
-      errors.start_date = 'Start date must be before end date at least 7 days ago\nAvalable end date: '
-        + moment(values.start_date).add(7, 'days').format('yyyy-MM-DD');
+      errors.start_date =
+        'Start date must be before end date at least 7 days ago\nAvalable end date: ' +
+        moment(values.start_date).add(7, 'days').format('yyyy-MM-DD');
     }
 
     if (!values.end_date) {
@@ -103,21 +104,18 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
     },
     validate,
     validationSchema: Yup.object().shape({
-      title: Yup
-        .string()
+      title: Yup.string()
         .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
         .max(40, () => 'Max length of campaign name is 40 characters')
         .required('Campaign name required'),
-      description: Yup
-        .string()
+      description: Yup.string()
         .max(512, () => 'Max length of campaign description is 512 characters')
         .required('Description required'),
     }),
 
-    onSubmit: async (value) =>  {
-      console.log('Meowwww');
+    onSubmit: async (value) => {
       console.log(value);
-       await axios
+      await axios
         .patch('http://localhost:8000/api/campaign/update', {
           id: news.id,
           title: value.title,
@@ -130,7 +128,7 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
           console.log(res);
           console.log(res.data);
           onClose();
-          dispatch(success("Update successfully"));
+          dispatch(success('Update successfully'));
         });
     },
   });
@@ -187,7 +185,7 @@ export default function CampaignUpdateForm({ news , open, onClose}) {
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
-        
+
         <Select
           fullWidth
           labelId="demo-simple-select-label"

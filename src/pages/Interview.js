@@ -27,6 +27,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
 
 // ----------------------------------------------------------------------
 
@@ -229,6 +230,7 @@ export default function Interview() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
+        <Heatmap />
       </Container>
     </Page>
   );

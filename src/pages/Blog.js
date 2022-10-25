@@ -61,7 +61,6 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get('http://localhost:8000/api/campaign');
       const { campaigns } = data.data;
-      console.log(campaigns);
       setCampaigns(campaigns);
     }
     fetchCampaign();
@@ -72,7 +71,6 @@ export default function Blog() {
     async function fetchJob() {
       const data = await axios.get('http://localhost:8000/api/job');
       const { jobs } = data.data;
-      // console.log(jobs);
       setJobs(jobs);
     }
     fetchJob();

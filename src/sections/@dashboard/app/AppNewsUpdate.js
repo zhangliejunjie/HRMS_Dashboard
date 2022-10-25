@@ -63,7 +63,7 @@ function NewsItem({ news }) {
       <Box component="img" alt={title} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="h5" underline="hover" noWrap>
+        <Link color="inherit" variant="h5" underline="hover" noWrap component={RouterLink} to={`${id}`}>
           {title}
         </Link>
         {/* <Typography>{start_date}</Typography> */}

@@ -15,15 +15,14 @@ export default function BlogDetail() {
   const [campaign, setCampaign] = useState([]);
   React.useEffect(() => {
     async function fetchJobs() {
-      console.log(campaign);
-      const data = await axios.post('http://localhost:8000/api/by-campaign', {
+      const data = await axios.post('http://localhost:8000/api/job/by-campaign', {
         campaignId: campaignId,
       });
-      // try {
-      //   setJobs(data.data);
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      try {
+        setJobs(data.jobs);
+      } catch (error) {
+        console.log(error);
+      }
     }
     fetchJobs();
   }, []);
@@ -32,7 +31,7 @@ export default function BlogDetail() {
     async function fetchCampaign() {
       const data = await axios.get(`http://localhost:8000/api/campaign/${campaignId}`);
 
-      setCampaign(data.data);
+      setCampaign(data.campaign);
     }
     fetchCampaign();
   }, []);
@@ -40,14 +39,14 @@ export default function BlogDetail() {
     <Page title="Campaign Detail">
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <h1>{campaign.title}</h1>
-            <div>{campaign.description}</div>
-          </Grid>
+            <div>{campaign.description}</div> */}
+          {/* </Grid> */}
           <Grid item xs={12} md={6} lg={8}>
-            {jobs.map((post, index) => (
+            {/* {jobs.map((post, index) => (
               <BlogPostCard key={post.id} post={post} index={index} />
-            ))}
+            ))} */}
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Jobs" total={1} icon={'ant-design:android-filled'} />
