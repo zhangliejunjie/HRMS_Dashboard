@@ -61,8 +61,8 @@ export default function RegisterForm() {
       description: '',
       salary: '',
       quantity: '',
-      start_date: moment(date).format("yyyy-MM-DD"),
-      end_date: moment(date).format("yyyy-MM-DD"),
+      start_date: moment(date).format('yyyy-MM-DD'),
+      end_date: moment(date).format('yyyy-MM-DD'),
       category: '',
       campaign: '',
     },
@@ -71,48 +71,47 @@ export default function RegisterForm() {
       description: Yup.string().required('miêu tả không được bỏ trống'),
       salary: Yup.string().required('lương không được bỏ trống'),
       quantity: Yup.number().required('số lượng không được bỏ trống'),
-
     }),
     onSubmit: (value) => {
       console.log(value);
-      axios.post('http://localhost:8000/api/job-add', {
-        'name': value.name,
-        'description': value.description,
-        "salary": value.salary,
-        'quantity': value.quantity,
-        'start_date': value.start_date,
-        'end_date': value.start_date,
-        'category': value.category,
-        'campaign': value.campaign
-      })
-        .then(res => {
+      axios
+        .post('http://localhost:8000/api/job-add', {
+          name: value.name,
+          description: value.description,
+          salary: value.salary,
+          quantity: value.quantity,
+          start_date: value.start_date,
+          end_date: value.start_date,
+          category: value.category,
+          campaign: value.campaign,
+        })
+        .then((res) => {
           console.log(res);
           console.log(res.data);
           window.location.reload();
         })
-        ;
-
-    }
-  })
+        .catch((error) => console.log(error));
+    },
+  });
 
   //gọi api categories để add jobs
   const [categories, setCategories] = useState([]);
   React.useEffect(() => {
     async function fetchCategory() {
-      const data = await axios.get("http://localhost:8000/api/category");
+      const data = await axios.get('http://localhost:8000/api/category');
       const { categories } = data.data;
 
       console.log(categories);
       setCategories(categories);
     }
     fetchCategory();
-  }, [])
+  }, []);
 
   const renderCategory = () => {
     return categories.map((value) => {
-      return <MenuItem value={value.id}>{value.name}</MenuItem>
-    })
-  }
+      return <MenuItem value={value.id}>{value.name}</MenuItem>;
+    });
+  };
 
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
@@ -139,7 +138,8 @@ export default function RegisterForm() {
           value={formik.values.description}
           onChange={formik.handleChange}
           error={formik.touched.description && Boolean(formik.errors.description)}
-          helperText={formik.touched.description && formik.errors.description} />
+          helperText={formik.touched.description && formik.errors.description}
+        />
 
         <RHFTextField
           name="quantity"
@@ -149,11 +149,11 @@ export default function RegisterForm() {
           // name="quantity"
           // label="Quantity"
           type="number"
-
           value={formik.values.quantity}
           onChange={formik.handleChange}
           error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-          helperText={formik.touched.quantity && formik.errors.quantity} />
+          helperText={formik.touched.quantity && formik.errors.quantity}
+        />
         <RHFTextField
           name="salary"
           label="Salary per month"
@@ -162,11 +162,11 @@ export default function RegisterForm() {
           // name="salary"
           // label="Salary"
           type="salary"
-
           value={formik.values.salary}
           onChange={formik.handleChange}
           error={formik.touched.salary && Boolean(formik.errors.salary)}
-          helperText={formik.touched.salary && formik.errors.salary} />
+          helperText={formik.touched.salary && formik.errors.salary}
+        />
         {/* <RHFTextField name="email" label="Email address" />
 
         <RHFTextField

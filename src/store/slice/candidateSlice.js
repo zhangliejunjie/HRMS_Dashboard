@@ -23,9 +23,18 @@ export const changeCandidateStatus = createAsyncThunk('candidate/changeStatus', 
     .patch('http://localhost:8000/api/candidate/changeStatus', {
       status: params.status,
       id: params.id,
+      member_id: params.member_id,
     })
-    .then(() => thunkAPI.dispatch(success('Updated successfully')))
-    .catch(() => thunkAPI.dispatch(error('Error, cant updating Candidate')));
+    .then(() => {
+      thunkAPI.dispatch(success(`${params.status} successfully`));
+      const staffID = params.staffID;
+      console.log(staffID);
+      thunkAPI.dispatch(getCandidateByStaff({ staffID }));
+    })
+    .catch((err) => {
+      console.log(err);
+      thunkAPI.dispatch(error(err.response.data.message));
+    });
   //   thunkAPI.dispatch(getCandidateByStaff())
   //   ret;
   return result.data;
