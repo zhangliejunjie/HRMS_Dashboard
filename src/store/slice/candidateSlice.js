@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { error, success } from './notificationSlice';
-import { Mailer } from 'nodemailer-react';
+
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const mailerConfig = {
   transport: {
