@@ -110,11 +110,11 @@ export default function Interview() {
     const users = [...Array(24)].map((_, index) => ({
         id: faker.datatype.uuid(),
         avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
-        name: candidates[index].id,
-        company: candidates[index].identity_number,
-        isVerified: candidates[index].phone,
+        name: candidates[index]?.id,
+        company: candidates[index]?.identity_number,
+        isVerified: candidates[index]?.phone,
         status: sample(['active', 'banned']),
-        role: candidates[index].Job_id,
+        role: candidates[index]?.Job_id,
     }));
 
 
