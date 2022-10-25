@@ -22,8 +22,6 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    // bgcolor: 'background.paper',
-    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -32,10 +30,6 @@ export default function CampaignCreateModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-    const [value1, setValue1] = React.useState(null);
-    const [value2, setValue2] = React.useState(null);
-
     return (
         <div>
             <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
@@ -48,42 +42,7 @@ export default function CampaignCreateModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    {/* <Typography id="modal-modal-title" variant="h3" component="h2">
-                        Create Campaign
-                    </Typography> */}
-
-                    <NewCampaignForm></NewCampaignForm>
-
-                    {/* <Box
-                        component="form"
-                        sx={{
-                            '& > :not(style)': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <TextField id="standard-basic" label="Title" variant="standard" />
-                        <TextField id="standard-basic" label="Description" variant="standard" />
-                    </Box>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker
-                            label="Start date"
-                            value={value1}
-                            onChange={(newValue) => {
-                                setValue1(newValue);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                        <DatePicker
-                            label="End date"
-                            value={value2}
-                            onChange={(newValue) => {
-                                setValue2(newValue);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider> */}
+                    <NewCampaignForm open={open} onClose={() => setOpen(false)}/>
                 </Card>
             </Modal>
         </div>

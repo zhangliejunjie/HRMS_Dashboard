@@ -27,7 +27,7 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { name, cover, description, colors, status, priceSale } = product;
+  const { id, name, cover, description, colors, status, priceSale } = product;
 
   return (
     <Card>
@@ -55,7 +55,7 @@ export default function ShopProductCard({ product }) {
           <Typography variant="subtitle1" noWrap>
             {name}
           </Typography>
-          <CategoryUserMoreMenu />
+          <CategoryUserMoreMenu post={product} />
         </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           {/* <ColorPreview colors={colors} /> */}

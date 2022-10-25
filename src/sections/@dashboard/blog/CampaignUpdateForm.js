@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -18,24 +18,26 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useFormik } from 'formik';
+import { Field, Form, Formik, FormikProps, useFormik } from 'formik';
 import axios from 'axios';
 // import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
-import { add, set } from 'lodash';
-import { useDispatch } from 'react-redux';
+import { add } from 'lodash';
 import { success } from 'src/store/slice/notificationSlice';
+import { useDispatch } from 'react-redux';
+
 // ----------------------------------------------------------------------
 
-export default function CampaignCreateForm({ open, onClose }) {
+export default function CampaignUpdateForm({ news , open, onClose}) {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const [campaigns, setCampaigns] = useState();
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const [value1, setValue1] = React.useState(null);
   const [value2, setValue2] = React.useState(null);
-  // 
-
 
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
@@ -65,9 +67,7 @@ export default function CampaignCreateForm({ open, onClose }) {
     navigate('/dashboard', { replace: true });
   };
   // use forkmik
-  let today = Date.now();
-  let endDateBoundary = moment().add(7, 'days').toString();
-  let yesterday = moment().subtract(1, 'days').toString();
+
   // custome date constraint
   const validate = values => {
     const errors = {};
@@ -92,13 +92,14 @@ export default function CampaignCreateForm({ open, onClose }) {
 
     return errors;
   };
+  // console.log(new Date(today));
   const formik = useFormik({
     initialValues: {
-      title: '',
-      description: '',
-      start_date: moment().format('yyyy-MM-DD'),
-      end_date: moment().add(7, 'days').format('yyyy-MM-DD'),
-      status: 'Processing',
+      title: news.title,
+      description: news.description,
+      status: news.status,
+      start_date: news.start_date,
+      end_date: news.end_date,
     },
     validate,
     validationSchema: Yup.object().shape({
@@ -113,10 +114,12 @@ export default function CampaignCreateForm({ open, onClose }) {
         .required('Description required'),
     }),
 
-    onSubmit: (value) => {
+    onSubmit: async (value) =>  {
+      console.log('Meowwww');
       console.log(value);
-      axios
-        .post('http://localhost:8000/api/campaign/add', {
+       await axios
+        .patch('http://localhost:8000/api/campaign/update', {
+          id: news.id,
           title: value.title,
           description: value.description,
           start_date: value.start_date,
@@ -124,22 +127,18 @@ export default function CampaignCreateForm({ open, onClose }) {
           status: value.status,
         })
         .then((res) => {
+          console.log(res);
+          console.log(res.data);
           onClose();
-          dispatch(success("Create campaign successfully"));
-
+          dispatch(success("Update successfully"));
         });
     },
   });
 
-  function formatDate(date) {
-    return new Date(date).toLocaleDateString();
-  }
-
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
-        <Typography variant="h3"> New Campaign </Typography>
-
+        <Typography variant="h3"> {'Update Campaign'} </Typography>
         <RHFTextField
           name="title"
           label="Campaign Name"
@@ -160,78 +159,35 @@ export default function CampaignCreateForm({ open, onClose }) {
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
         />
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        label="Start date"
-                        value={value1}
-                        onChange={(newValue) => {
-                            setValue1(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                        type="date"
-                        name="start_date"
-                        {...formik.getFieldProps('start_date')}
-                    />
-                    <DatePicker
-                        label="End date"
-                        value={value2}
 
-                        renderInput={(params) => <TextField {...params} />}
-                        type="date"
-                        name="end_date"
-                        onChange={formik.handleChange}
-
-                    />
-                </LocalizationProvider> */}
-
-        <TextField
-          label="Start date"
+        {/* <RHFTextField
           fullWidth
+          label="Start date"
           title="start date"
           type="date"
           value={formik.values.start_date}
           name="start_date"
           validate
           onChange={formik.handleChange}
-          // defaultValue={moment(today).format('yyyy-MM-DD')}
+          // defaultValue={}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
-        />
-        <TextField
-          label="End date"
+        /> */}
+
+        <RHFTextField
           fullWidth
+          label="End date"
           title="end date"
           type="date"
           validate
           value={formik.values.end_date}
           name="end_date"
           onChange={formik.handleChange}
-          // defaultValue={moment(formik.values.start_date).add(7, 'days').format('yyyy-MM-DD')}
+          defaultValue={moment(news.end_date).format('yyyy-MM-DD')}
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
-
-        {/* <RHFTextField name="title" label="Job Title" />
-                <RHFTextField name="description" label="Description" />
-
-                <RHFTextField name="quantity" label="Quantity" type="number" />
-                <RHFTextField name="salary" label="Salary per month" type="number" /> */}
-        {/* <RHFTextField name="email" label="Email address" /> */}
-
-        {/* <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        /> */}
+        
         <Select
           fullWidth
           labelId="demo-simple-select-label"
@@ -242,12 +198,10 @@ export default function CampaignCreateForm({ open, onClose }) {
         >
           <MenuItem value={'Not started'}>Not started</MenuItem>
           <MenuItem value={'Processing'}>Processing</MenuItem>
-          // The campaign has finish
-          {/* <MenuItem value={'Finished'}>Finished</MenuItem> */}
         </Select>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Create
+          Update
         </LoadingButton>
       </Stack>
     </FormProvider>

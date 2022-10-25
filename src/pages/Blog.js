@@ -48,8 +48,11 @@ export default function Blog() {
     setOpenFilter(false);
   };
 
+<<<<<<< HEAD
   //
 
+=======
+>>>>>>> kiet
   const handleOpenEditor = () => {
     setOpenEditor(true);
   };
@@ -63,24 +66,36 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get('http://localhost:8000/api/campaign');
       const { campaigns } = data.data;
-
       console.log(campaigns);
       setCampaigns(campaigns);
     }
     fetchCampaign();
+<<<<<<< HEAD
   }, []);
 
   const [jobs, setJobs] = useState([]);
   React.useEffect(() => {
     async function fetchCampaign() {
       const data = await axios.get('http://localhost:8000/api/job');
-      const { jobs } = data.data;
+=======
+  }, [campaigns])
 
-      console.log(jobs);
+  const [jobs, setJobs] = useState([]);
+  React.useEffect(() => {
+    async function fetchJob() {
+      const data = await axios.get("http://localhost:8000/api/job");
+>>>>>>> kiet
+      const { jobs } = data.data;
+      // console.log(jobs);
       setJobs(jobs);
     }
+<<<<<<< HEAD
     fetchCampaign();
   }, []);
+=======
+    fetchJob();
+  }, [])
+>>>>>>> kiet
   // const posts = [jobs.map((job, index) => ({
   //   id: job.id,
   //   cover: `/static/mock-images/covers/cover_${index + 1}.jpg`,
@@ -144,6 +159,7 @@ export default function Blog() {
         <Grid item xs={12} md={6} lg={8} mb={5}>
           <AppNewsUpdate
             title="Highlights"
+            subheader="Choose campaign to display jobs below"
             list={campaigns.map((campaign, index) => ({
               id: campaign.id,
               title: campaign.title,
@@ -152,6 +168,9 @@ export default function Blog() {
               // postedAt: faker.date.recent(),
               // Kiet add status
               status: campaign.status,
+              start_date: campaign.start_date,
+              end_date: campaign.end_date,
+              index: index,
             }))}
           />
         </Grid>
