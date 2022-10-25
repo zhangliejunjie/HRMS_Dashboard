@@ -394,7 +394,6 @@ export default function Request() {
                   {filteredUsersApproved?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, member_name, job_name, applied_status, member_avatar, resume_url } = row || {};
                     const isItemSelected = selectedApproved.indexOf(member_name) !== -1;
-
                     return (
                       row && (
                         <TableRow

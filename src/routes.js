@@ -1,9 +1,10 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes, Outlet } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
 import Blog from './pages/Blog';
+import BlogDetail from './pages/BlogDetail';
 import User from './pages/User';
 import Login from './pages/Login';
 import Request from './pages/Request';
@@ -29,6 +30,7 @@ export default function Router() {
             { path: 'user', element: <User /> },
             { path: 'products', element: <Products /> },
             { path: 'blog', element: <Blog /> },
+            { path: 'blog/:id', element: <BlogDetail /> },
             {
               path: 'request',
               element: <Request />,

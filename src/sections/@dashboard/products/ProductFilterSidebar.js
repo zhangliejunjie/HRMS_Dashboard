@@ -46,9 +46,6 @@ export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
 //   'Web Developer', 'Undefined'];
 // Kiet import Route
 
-
-
-
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
   { value: 'below', label: 'Below $25' },
@@ -75,25 +72,19 @@ ShopFilterSidebar.propTypes = {
 };
 
 export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter }) {
-
   // Use api by Kiet and Dat
   const [categories, setCategories] = useState([]);
   React.useEffect(() => {
     async function fetchCategory() {
-      const data = await axios.get("http://localhost:8000/api/category");
+      const data = await axios.get('http://localhost:8000/api/category');
       const { categories } = data.data;
 
-      console.log(categories);
       setCategories(categories);
     }
     fetchCategory();
-  }, [])
-
-  console.log(categories)
+  }, []);
 
   return (
-
-
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
         Category&nbsp;

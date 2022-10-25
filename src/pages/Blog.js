@@ -61,7 +61,6 @@ export default function Blog() {
     async function fetchCampaign() {
       const data = await axios.get('http://localhost:8000/api/campaign');
       const { campaigns } = data.data;
-      console.log(campaigns);
       setCampaigns(campaigns);
     }
     fetchCampaign();
@@ -72,7 +71,6 @@ export default function Blog() {
     async function fetchJob() {
       const data = await axios.get('http://localhost:8000/api/job');
       const { jobs } = data.data;
-      // console.log(jobs);
       setJobs(jobs);
     }
     fetchJob();
@@ -167,7 +165,7 @@ export default function Blog() {
           />
 
           <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Job
+            New Job NAAA
           </Button>
         </Stack>
         {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>

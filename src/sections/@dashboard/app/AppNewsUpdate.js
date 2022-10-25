@@ -9,6 +9,7 @@ import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 import CampaignMoreMenu from '../blog/CampaignMoreMenu';
+import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -24,9 +25,11 @@ export default function AppNewsUpdate({ id, title, subheader, list, index, ...ot
       <CardHeader title={title} subheader={subheader} />
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.filter(news => news.status !== 'Finished').map(news => (
-            <NewsItem key={news.id} news={news} />
-          ))}
+          {list
+            .filter((news) => news.status !== 'Finished')
+            .map((news) => (
+              <NewsItem key={news.id} news={news} />
+            ))}
         </Stack>
       </Scrollbar>
 
@@ -60,7 +63,7 @@ function NewsItem({ news }) {
       <Box component="img" alt={title} src={image} sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }} />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="h5" underline="hover" noWrap>
+        <Link color="inherit" variant="h5" underline="hover" noWrap component={RouterLink} to={`${id}`}>
           {title}
         </Link>
         {/* <Typography>{start_date}</Typography> */}
