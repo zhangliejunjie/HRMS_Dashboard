@@ -48,11 +48,6 @@ export default function Blog() {
     setOpenFilter(false);
   };
 
-<<<<<<< HEAD
-  //
-
-=======
->>>>>>> kiet
   const handleOpenEditor = () => {
     setOpenEditor(true);
   };
@@ -70,32 +65,18 @@ export default function Blog() {
       setCampaigns(campaigns);
     }
     fetchCampaign();
-<<<<<<< HEAD
-  }, []);
-
-  const [jobs, setJobs] = useState([]);
-  React.useEffect(() => {
-    async function fetchCampaign() {
-      const data = await axios.get('http://localhost:8000/api/job');
-=======
-  }, [campaigns])
+  }, [campaigns]);
 
   const [jobs, setJobs] = useState([]);
   React.useEffect(() => {
     async function fetchJob() {
-      const data = await axios.get("http://localhost:8000/api/job");
->>>>>>> kiet
+      const data = await axios.get('http://localhost:8000/api/job');
       const { jobs } = data.data;
       // console.log(jobs);
       setJobs(jobs);
     }
-<<<<<<< HEAD
-    fetchCampaign();
-  }, []);
-=======
     fetchJob();
-  }, [])
->>>>>>> kiet
+  }, []);
   // const posts = [jobs.map((job, index) => ({
   //   id: job.id,
   //   cover: `/static/mock-images/covers/cover_${index + 1}.jpg`,
