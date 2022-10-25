@@ -230,7 +230,7 @@ export default function Interview() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <Heatmap />
+        {/* <Heatmap /> */}
       </Container>
     </Page>
   );
