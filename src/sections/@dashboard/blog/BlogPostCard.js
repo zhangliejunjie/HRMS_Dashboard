@@ -90,9 +90,6 @@ export default function BlogPostCard({ post, index }) {
 
     <Grid item xs={12} sm={6} md={12}>
       <Card sx={{ position: 'relative' }}>
-
-       
-
           {/* // <CoverImgStyle alt={title} src={cover} /> */}
         {/* <UserMoreMenu /> */}
         <CardContent

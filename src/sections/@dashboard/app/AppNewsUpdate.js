@@ -9,7 +9,7 @@ import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 import CampaignMoreMenu from '../blog/CampaignMoreMenu';
-
+import {useState} from 'react'
 // ----------------------------------------------------------------------
 
 AppNewsUpdate.propTypes = {
@@ -19,9 +19,10 @@ AppNewsUpdate.propTypes = {
 };
 
 export default function AppNewsUpdate({ id, title, subheader, list, index, ...other }) {
+  const [id, setId] = useState(1);
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
+      <CardHeader title={title} subheader={subheader}  onClick={() => { setId(id)}}/>
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.filter(news => news.status !== 'Finished').map(news => (
