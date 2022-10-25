@@ -34,33 +34,14 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 
 const TABLE_HEAD = [
     { id: 'name', label: 'Name', alignRight: false },
-    { id: 'company', label: 'Company', alignRight: false },
-    { id: 'role', label: 'Role', alignRight: false },
-    { id: 'isVerified', label: 'Verified', alignRight: false },
-    { id: 'status', label: 'Status', alignRight: false },
+    { id: 'company', label: 'ID Number', alignRight: false },
+    { id: 'role', label: 'Job Title', alignRight: false },
+    { id: 'isVerified', label: 'Resume', alignRight: false },
+    { id: 'status', label: 'Phone Number', alignRight: false },
     { id: '' },
 ];
 
-const users = [...Array(24)].map((_, index) => ({
-    id: faker.datatype.uuid(),
-    avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
-    name: faker.name.findName(),
-    company: faker.company.companyName(),
-    isVerified: faker.datatype.boolean(),
-    status: sample(['active', 'banned']),
-    role: sample([
-      'Leader',
-      'Hr Manager',
-      'UI Designer',
-      'UX Designer',
-      'UI/UX Designer',
-      'Project Manager',
-      'Backend Developer',
-      'Full Stack Designer',
-      'Front End Developer',
-      'Full Stack Developer',
-    ]),
-  }));
+
 
 // ----------------------------------------------------------------------
 
@@ -112,6 +93,28 @@ export default function Interview() {
         setOrderBy(property);
     };
 
+    const [candidates, setCandidates] = useState([]);
+    React.useEffect(() => {
+        async function fetchCandidate() {
+            const data = await axios.get("http://localhost:8000/api/candidate/all");
+            const candidates = data.data;
+            console.log(candidates);
+            setCandidates(candidates);
+        }
+        fetchCandidate();
+    }, [])
+
+    const users = [...Array(24)].map((_, index) => ({
+        id: faker.datatype.uuid(),
+        avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
+        name: candidates[index].id,
+        company: candidates[index].identity_number,
+        isVerified: candidates[index].phone,
+        status: sample(['active', 'banned']),
+        role: candidates[index].Job_id,
+    }));
+
+
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
             const newSelecteds = users.map((n) => n.name);
@@ -154,17 +157,6 @@ export default function Interview() {
     const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
     const isUserNotFound = filteredUsers.length === 0;
-    // Call API for CV approved Candidate
-    const [candidates, setCandidates] = useState([]);
-    React.useEffect(() => {
-      async function fetchCandidate() {
-        const data = await axios.get("http://localhost:8000/api/candidate/all");
-        const candidates = data.data;
-        console.log(candidates);
-        setCandidates(candidates);
-      }
-      fetchCandidate();
-    }, [candidates])
 
     return (
         <Page title="Interview">
