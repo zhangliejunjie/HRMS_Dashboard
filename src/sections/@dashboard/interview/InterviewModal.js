@@ -12,6 +12,17 @@ export default function InterviewModal({ open, handleClose, value }) {
 
     fetchCandidatesNotInterview();
   }, []);
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <div>
       <Modal
@@ -20,22 +31,24 @@ export default function InterviewModal({ open, handleClose, value }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Card sx={{ maxWidth: 345 }}>
-          <CardActionArea>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+        <Card sx={style}>
+          {/* <CardActionArea> */}
+            {/* <CardContent> */}
+              <Typography gutterBottom variant="h3" component="div">
                 {value.room}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {value.time}
-              </Typography>
-              <List>
-                {candidatesNotInterview.map((candidate, index) => (
-                  <ListItem>{candidate.id}</ListItem>
-                ))}
-              </List>
-            </CardContent>
-          </CardActionArea>
+
+                <Typography variant="body2" color="text.secondary">
+                  {value.time}
+                </Typography>
+                
+                <List>
+                  {candidatesNotInterview.map((candidate, index) => (
+                    <ListItem>{candidate.id}</ListItem>
+                  ))}
+                </List>
+            {/* </CardContent> */}
+          {/* </CardActionArea> */}
         </Card>
       </Modal>
     </div>
