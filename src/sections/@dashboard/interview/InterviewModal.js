@@ -2,16 +2,7 @@ import { Box, Card, CardActionArea, CardContent, List, ListItem, Modal, TextFiel
 import axios from 'axios';
 import React, { useState } from 'react';
 
-export default function InterviewModal({ open, handleClose, value }) {
-  const [candidatesNotInterview, setCandidatesNotInterview] = useState([]);
-  React.useEffect(() => {
-    async function fetchCandidatesNotInterview() {
-      const data = await axios.get('http://localhost:8000/api/interview/not-interview');
-      setCandidatesNotInterview(data);
-    }
-
-    fetchCandidatesNotInterview();
-  }, []);
+export default function InterviewModal({ open, handleClose, value, candidates }) {
   return (
     <div>
       <Modal
@@ -30,7 +21,7 @@ export default function InterviewModal({ open, handleClose, value }) {
                 {value.time}
               </Typography>
               <List>
-                {candidatesNotInterview.map((candidate, index) => (
+                {candidates.map((candidate, index) => (
                   <ListItem>{candidate.id}</ListItem>
                 ))}
               </List>
