@@ -166,11 +166,16 @@ export default function Interview() {
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
-                        Round 2: Interview
+                        HeatMap Chart (Single color)
                     </Typography>
-                    <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-                        New User
-                    </Button>
+                </Stack>
+
+                <Heatmap mb={5} />
+
+                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                    <Typography variant="h4" gutterBottom>
+                        Interviewee list
+                    </Typography>
                 </Stack>
 
                 <Card>
@@ -248,18 +253,18 @@ export default function Interview() {
                         </TableContainer>
                     </Scrollbar>
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={USERLIST.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-        <Heatmap />
-      </Container>
-    </Page>
-  );
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={USERLIST.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Card>
+
+            </Container>
+        </Page>
+    );
 }
