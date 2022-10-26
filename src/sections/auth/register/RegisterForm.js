@@ -147,6 +147,7 @@ export default function NewCampaignForm() {
         'quantity': value.quantity,
         'start_date': value.start_date,
         'end_date': value.start_date,
+        'experience': value.experience,
         'category': value.category,
         'campaign': value.campaign
       })
