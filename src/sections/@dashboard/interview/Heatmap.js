@@ -37,63 +37,63 @@ export default function Heatmap() {
   const state = {
     series: [
       {
-        name: 'room1',
+        name: 'Room 1',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room2',
+        name: 'Room 2',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room3',
+        name: 'Room 3',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room4',
+        name: 'Room 4',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room5',
+        name: 'Room 5',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room6',
+        name: 'Room 6',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room7',
+        name: 'Room 7',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room8',
+        name: 'Room 8',
         data: generateData(24, {
           min: 0,
           max: 90,
         }),
       },
       {
-        name: 'room9',
+        name: 'Room 9',
         data: generateData(24, {
           min: 0,
           max: 90,
@@ -109,7 +109,7 @@ export default function Heatmap() {
             console.log(config);
             setIsOpen(true);
             setSlot({
-              room: 'room' + (config.seriesIndex + 1),
+              room: 'Room ' + (config.seriesIndex + 1),
               time: labels[config.dataPointIndex],
             });
           },
@@ -119,9 +119,9 @@ export default function Heatmap() {
         enabled: false,
       },
       colors: ['#008FFB'],
-      title: {
-        text: 'HeatMap Chart (Single color)',
-      },
+      // title: {
+      //   text: 'HeatMap Chart (Single color)',
+      // },
       labels: labels,
     },
   };
