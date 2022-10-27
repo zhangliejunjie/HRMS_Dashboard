@@ -32,6 +32,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 // mock
 import USERLIST from '../_mock/user';
 import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
+import InterviewModal from 'src/sections/@dashboard/interview/InterviewModal';
 
 // ----------------------------------------------------------------------
 
@@ -97,22 +98,21 @@ export default function Interview() {
   const [candidates, setCandidates] = useState([]);
   React.useEffect(() => {
     async function fetchCandidate() {
-      const data = await axios.get('http://localhost:8000/api/candidate/all');
+      const data = await axios.get('http://localhost:8000/api/interview/all-candidates');
       const candidates = data.data;
-      console.log(candidates);
       setCandidates(candidates);
     }
     fetchCandidate();
   }, []);
 
-  const users = [...Array(24)].map((_, index) => ({
+  const users = [...Array(candidates.length)].map((_, index) => ({
     id: faker.datatype.uuid(),
     avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
     name: candidates[index]?.id,
-    company: candidates[index]?.identity_number,
+    company: candidates[index]?.address,
     isVerified: candidates[index]?.phone,
-    status: sample(['active', 'banned']),
-    role: candidates[index]?.Job_id,
+    status: candidates[index]?.booking_status,
+    role: candidates[index]?.resume_url,
   }));
 
   const handleSelectAllClick = (event) => {
@@ -157,6 +157,9 @@ export default function Interview() {
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [id, setId] = useState();
 
   return (
     <Page title="Interview">
@@ -212,11 +215,22 @@ export default function Interview() {
                         </TableCell>
                         <TableCell align="left">{company}</TableCell>
                         <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{isVerified}</TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'banned' && 'error') || 'success'}>
-                            {sentenceCase(status)}
-                          </Label>
+                          {status === 'NO' ? (
+                            <Button
+                              onClick={() => {
+                                setIsOpen(true);
+                                setId(name);
+                              }}
+                            >
+                              No
+                            </Button>
+                          ) : (
+                            <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
+                              {sentenceCase(status)}
+                            </Label>
+                          )}
                         </TableCell>
 
                         <TableCell align="right">
@@ -255,6 +269,13 @@ export default function Interview() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
+        <InterviewModal
+          open={isOpen}
+          handleClose={() => {
+            setIsOpen(false);
+          }}
+          candidateId={id}
+        />
         <Heatmap />
       </Container>
     </Page>
