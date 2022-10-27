@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel, OutlinedInput } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -36,6 +36,7 @@ export default function KietNewInterviewForm({ id, open, onClose }) {
 
     const RegisterSchema = Yup.object().shape({
         title: Yup.string().required('Job title required'),
+        note: Yup.string().required('Note required'),
         note: Yup.string().required('Note required'),
         quantity: Yup.string().required('Quantity required'),
         salary: Yup.string().required('Salary required'),

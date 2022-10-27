@@ -81,9 +81,9 @@ export default function Heatmap() {
         enabled: false,
       },
       colors: ['#008FFB'],
-      title: {
-        text: 'HeatMap Chart (Single color)',
-      },
+      // title: {
+      //   text: 'HeatMap Chart (Single color)',
+      // },
       labels: labels,
     },
   };

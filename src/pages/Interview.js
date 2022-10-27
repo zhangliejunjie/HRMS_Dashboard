@@ -34,16 +34,19 @@ import USERLIST from '../_mock/user';
 import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
 import InterviewModal from 'src/sections/@dashboard/interview/InterviewModal';
 import KietInterviewModal from 'src/sections/@dashboard/interview/KietInterviewModal';
+import IconButton from 'src/theme/overrides/IconButton';
+import InterviewerChip from 'src/sections/@dashboard/interview/InterviewerChip';
+import InterviewerAssignModal from 'src/sections/@dashboard/interview/InterviewerAssignModal';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'ID Number', alignRight: false },
+  // { id: 'company', label: 'ID Number', alignRight: false },
   { id: 'role', label: 'Job Title', alignRight: false },
   { id: 'isVerified', label: 'Resume', alignRight: false },
-  { id: 'status', label: 'Phone Number', alignRight: false },
-  { id: '' },
+  { id: 'status', label: 'Booking Status', alignRight: false },
+  { id: 'interviewers', label: 'Interviewers', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -115,6 +118,11 @@ export default function Interview() {
     isVerified: candidates[index]?.resume_url,
     status: candidates[index]?.booking_status,
     role: candidates[index]?.job,
+    hr_staff: candidates[index]?.hr_staff,
+    address: candidates[index]?.address,
+    dob: candidates[index]?.dob,
+    identity_number: candidates[index]?.identity_number,
+    phone: candidates[index]?.phone,
   }));
 
   const handleSelectAllClick = (event) => {
@@ -170,9 +178,6 @@ export default function Interview() {
           <Typography variant="h4" gutterBottom>
             Round 2: Interview
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button>
         </Stack>
 
         <Card>
@@ -192,7 +197,7 @@ export default function Interview() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name, role, status, company, avatarUrl, isVerified, hr_staff, address, dob, identity_number, phone } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -215,10 +220,14 @@ export default function Interview() {
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
+                        {/* <TableCell align="left">{company}</TableCell> */}
                         <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left">{isVerified}</TableCell>
-                        <TableCell align="left">
+                        <TableCell align="center">
+                          <a href={isVerified !== "#" ? isVerified : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
+                            <Iconify icon={"akar-icons:paper"} width={22} height={22} />
+                          </a>
+                        </TableCell>
+                        <TableCell align="center">
                           {status === 'NO' ? (
                             <KietInterviewModal id={id} />
                           ) : (
@@ -230,8 +239,11 @@ export default function Interview() {
                           )}
                         </TableCell>
 
-                        <TableCell align="right">
+                        {/* <TableCell align="right">
                           <UserMoreMenu />
+                        </TableCell> */}
+                        <TableCell align="center">
+                          <InterviewerAssignModal infor={row} />
                         </TableCell>
                       </TableRow>
                     );
@@ -259,20 +271,19 @@ export default function Interview() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={users.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <KietInterviewModal
-          open={isOpen}
-          handleClose={() => {
-            setIsOpen(false);
-          }}
-          candidateId={id}
-        />
+
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mt={3}>
+          <Typography variant="h4" gutterBottom>
+            Heat Map Chart
+          </Typography>
+        </Stack>
         <Heatmap />
       </Container>
     </Page>
