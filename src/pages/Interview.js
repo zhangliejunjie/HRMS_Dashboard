@@ -113,7 +113,7 @@ export default function Interview() {
     name: candidates[index]?.member,
     company: candidates[index]?.identity_number,
     isVerified: candidates[index]?.resume_url,
-    status: candidates[index]?.phone,
+    status: candidates[index]?.booking_status,
     role: candidates[index]?.job,
   }));
 
