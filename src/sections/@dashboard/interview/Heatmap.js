@@ -1,8 +1,49 @@
+import { Button, ButtonGroup, Stack, Typography } from '@mui/material';
+import axios from 'axios';
+import moment from 'moment';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import InterviewModal from './InterviewModal';
 
 export default function Heatmap() {
+  // get current date of week
+  let curr = new Date(); // get current date
+  let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
+  let firstday = new Date(curr.setDate(first)).toLocaleDateString();
+  let lastday = new Date(curr.setDate(curr.getDate() + 6)).toLocaleDateString();
+
+  // create week state, change when click next or previous
+  const [week, setWeek] = useState(moment(firstday).week());
+
+  // get data for heatmap by room and week
+  const [heatmapData, setHeatmapData] = useState([]);
+  React.useEffect(() => {
+    async function fetchNumCandidatesBYRoomWeek() {
+      const { data } = await axios.post('http://localhost:8000/api/interview/by-room-week', {
+        week: 43,
+      });
+      setHeatmapData(data);
+    }
+
+    fetchNumCandidatesBYRoomWeek();
+  }, []);
+  // const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
+  //   id: candidatesNotInterview[index]?.id,
+  //   job_id: candidatesNotInterview[index]?.job_id,
+  // }));
+
+  // generate data for heatmap
+  const dataSeries = [...Array(4)].map((_, week_num) => ({
+    week_num: week_num + week,
+    value: heatmapData,
+  }));
+
+  // find series base on week num
+  const findSeries = () => {
+    return dataSeries.find((data) => data.week_num === week).value;
+  };
+
+  // state for opening modal when click to heatmap
   const [isOpen, setIsOpen] = useState(false);
   const [slot, setSlot] = useState({
     room: 'room1',
@@ -35,71 +76,7 @@ export default function Heatmap() {
     'Sat slot 4',
   ];
   const state = {
-    series: [
-      {
-        name: 'Room 1',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 2',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 3',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 4',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 5',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 6',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 7',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 8',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: 'Room 9',
-        data: generateData(24, {
-          min: 0,
-          max: 90,
-        }),
-      },
-    ],
+    series: findSeries(),
     options: {
       chart: {
         height: 350,
@@ -109,7 +86,7 @@ export default function Heatmap() {
             console.log(config);
             setIsOpen(true);
             setSlot({
-              room: 'Room ' + (config.seriesIndex + 1),
+              room: 'room' + (config.seriesIndex + 1),
               time: labels[config.dataPointIndex],
             });
           },
@@ -119,9 +96,9 @@ export default function Heatmap() {
         enabled: false,
       },
       colors: ['#008FFB'],
-      // title: {
-      //   text: 'HeatMap Chart (Single color)',
-      // },
+      title: {
+        text: 'HeatMap Chart (Single color)',
+      },
       labels: labels,
     },
   };
@@ -129,6 +106,21 @@ export default function Heatmap() {
   const hanldeClose = () => {
     setIsOpen(false);
   };
+
+  // get candidate that did not book an interview
+  const [candidatesNotInterview, setCandidatesNotInterview] = useState([]);
+  React.useEffect(() => {
+    async function fetchCandidatesNotInterview() {
+      const { data } = await axios.get('http://localhost:8000/api/interview/not-interview');
+      setCandidatesNotInterview(data);
+    }
+
+    fetchCandidatesNotInterview();
+  }, []);
+  const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
+    id: candidatesNotInterview[index]?.id,
+    job_id: candidatesNotInterview[index]?.job_id,
+  }));
 
   return (
     <div id="chart">
@@ -139,7 +131,27 @@ export default function Heatmap() {
           setIsOpen(false);
         }}
         value={slot}
+        candidates={candidates}
       />
+      <Stack direction="row">
+        <Typography>{`Current week: ${firstday} - ${lastday} - ${week}`}</Typography>
+        <ButtonGroup variant="outlined">
+          <Button
+            onClick={() => {
+              setWeek(week - 1);
+            }}
+          >
+            Previous
+          </Button>
+          <Button
+            onClick={() => {
+              setWeek(week + 1);
+            }}
+          >
+            Next
+          </Button>
+        </ButtonGroup>
+      </Stack>
     </div>
   );
 }
