@@ -33,6 +33,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 import USERLIST from '../_mock/user';
 import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
 import InterviewModal from 'src/sections/@dashboard/interview/InterviewModal';
+import KietInterviewModal from 'src/sections/@dashboard/interview/KietInterviewModal';
 
 // ----------------------------------------------------------------------
 
@@ -159,6 +160,7 @@ export default function Interview() {
   const isUserNotFound = filteredUsers.length === 0;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [id, setId] = useState();
 
   return (
     <Page title="Interview">
@@ -217,17 +219,13 @@ export default function Interview() {
                         <TableCell align="left">{isVerified}</TableCell>
                         <TableCell align="left">
                           {status === 'NO' ? (
-                            <Button
-                              onClick={() => {
-                                setIsOpen(true);
-                              }}
-                            >
-                              No
-                            </Button>
+                            <KietInterviewModal id={name} />
                           ) : (
-                            <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
-                              {sentenceCase(status)}
-                            </Label>
+                            <Button>
+                              <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
+                                {sentenceCase(status)}
+                              </Label>
+                            </Button>
                           )}
                         </TableCell>
 
@@ -267,11 +265,12 @@ export default function Interview() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        <InterviewModal
+        <KietInterviewModal
           open={isOpen}
           handleClose={() => {
             setIsOpen(false);
           }}
+          candidateId={id}
         />
         <Heatmap />
       </Container>
