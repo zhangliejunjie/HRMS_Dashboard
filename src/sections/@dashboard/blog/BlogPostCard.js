@@ -80,7 +80,7 @@ export default function BlogPostCard({ post, index }) {
   // ];
   return (
     // Adding a list of Campaigns
-      <Card sx={{ position: 'relative',  marginTop: '20px'}}>
+      <Card sx={{ position: 'relative',  marginTop: '10px'}}>
           {/* // <CoverImgStyle alt={title} src={cover} /> */}
         {/* <UserMoreMenu /> */}
         <CardContent

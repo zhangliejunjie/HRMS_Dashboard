@@ -100,22 +100,36 @@ export default function BlogDetail() {
               </Typography>
             </CardStyle>
           </Grid>
-            
-          
+            <Grid  item xs={12} sx={{margin: 0}}> 
+            <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
+              New Job
+            </Button>
+            </Grid>
+
           <Grid item xs={12} md={8} >
+            
             {jobs.map((post, index) => (
               <BlogPostCard key={post.id} post={post} index={index} />
             ))}
           </Grid>
 
-          <Grid item xs={12} md={2}  >
-          <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Job
-          </Button>
-          <AppWidgetSummary  xs={12} title="Jobs" total={1} icon={'ant-design:android-filled'} />
-          <AppWidgetSummary title="Candidate" total={3} color="info" icon={'ant-design:apple-filled'} />
-          <AppWidgetSummary title="Passed" total={2} color="warning" icon={'ant-design:windows-filled'} />
-          <AppWidgetSummary title="Not passed" total={1} color="error" icon={'ant-design:bug-filled'} />
+          <Grid item xs={12} md={4} >
+            <Grid container>
+              <Grid item xs={12}>
+              </Grid>
+              <Grid item xs={6}>
+                <AppWidgetSummary xs={12} title="Jobs" total={1} icon={'ant-design:android-filled'} />
+              </Grid>
+              <Grid xs={6} >
+                <AppWidgetSummary title="Candidate" total={3} color="info" icon={'ant-design:apple-filled'} />
+              </Grid>
+              <Grid xs={6}>
+                <AppWidgetSummary title="Passed" total={2} color="warning" icon={'ant-design:windows-filled'} />
+              </Grid>
+              <Grid xs={6}>
+                <AppWidgetSummary title="Not passed" total={1} color="error" icon={'ant-design:bug-filled'} />
+              </Grid>
+            </Grid>
           </Grid>
           {/* <Grid item xs={12} sm={6} md={3}>
             
