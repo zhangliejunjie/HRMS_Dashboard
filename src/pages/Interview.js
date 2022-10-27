@@ -220,7 +220,7 @@ export default function Interview() {
                         <TableCell align="left">{isVerified}</TableCell>
                         <TableCell align="left">
                           {status === 'NO' ? (
-                            <KietInterviewModal id={name} />
+                            <KietInterviewModal id={id} />
                           ) : (
                             <Button>
                               <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
@@ -232,7 +232,6 @@ export default function Interview() {
 
                         <TableCell align="right">
                           <UserMoreMenu />
-
                         </TableCell>
                       </TableRow>
                     );
