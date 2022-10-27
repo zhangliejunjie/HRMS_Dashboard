@@ -94,7 +94,6 @@ export default function Register() {
             {/* <Typography sx={{ color: 'text.secondary', mb: 5 }}>Add job and pick campaign.</Typography> */}
 
             {/* <AuthSocial /> */}
-
             <RegisterForm />
 
             {/* <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
