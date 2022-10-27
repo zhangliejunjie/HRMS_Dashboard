@@ -104,7 +104,7 @@ export default function KietNewInterviewForm({ id, open, onClose }) {
                 .post('http://localhost:8000/api/interview', {
                     candidateId: id,
                     room: value.room,
-                    week: moment(value.day).week(),
+                    week: moment(value.day).week() - 1,
                     slot: (moment(value.day).day() - 1) * 4 + value.slot,
                 })
                 .then((res) => {

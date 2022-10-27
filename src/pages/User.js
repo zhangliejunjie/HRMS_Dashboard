@@ -33,7 +33,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashbo
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
   { id: 'company', label: 'Email', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'role', label: 'Phone', alignRight: false },
   // { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'cv', label: 'Resume', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
@@ -140,9 +140,6 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             Member list
           </Typography>
-          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button> */}
         </Stack>
 
         <Card>

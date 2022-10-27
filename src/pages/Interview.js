@@ -99,21 +99,22 @@ export default function Interview() {
   const [candidates, setCandidates] = useState([]);
   React.useEffect(() => {
     async function fetchCandidate() {
-      const data = await axios.get('http://localhost:8000/api/interview/all-candidates');
+      const data = await axios.get('http://localhost:8000/api/candidate/allV2');
       const candidates = data.data;
       setCandidates(candidates);
+      console.log(candidates);
     }
     fetchCandidate();
   }, []);
 
   const users = [...Array(candidates.length)].map((_, index) => ({
-    id: faker.datatype.uuid(),
+    id: candidates[index]?.id,
     avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
-    name: candidates[index]?.id,
-    company: candidates[index]?.address,
-    isVerified: candidates[index]?.phone,
-    status: candidates[index]?.booking_status,
-    role: candidates[index]?.resume_url,
+    name: candidates[index]?.member,
+    company: candidates[index]?.identity_number,
+    isVerified: candidates[index]?.resume_url,
+    status: candidates[index]?.phone,
+    role: candidates[index]?.job,
   }));
 
   const handleSelectAllClick = (event) => {
@@ -231,6 +232,7 @@ export default function Interview() {
 
                         <TableCell align="right">
                           <UserMoreMenu />
+
                         </TableCell>
                       </TableRow>
                     );
