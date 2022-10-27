@@ -11,7 +11,7 @@ import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 
-// Kiet imported 
+// Kiet imported
 import JobUserMoreMenu from './JobUserMoreMenu';
 import { intlFormat } from 'date-fns';
 // import cover
@@ -29,8 +29,6 @@ const TitleStyle = styled(Link)({
   display: '-webkit-box',
   WebkitBoxOrient: 'vertical',
 });
-
-
 
 const AvatarStyle = styled(Avatar)(({ theme }) => ({
   zIndex: 9,
@@ -80,16 +78,9 @@ export default function BlogPostCard({ post, index }) {
   //   { number: view, icon: 'eva:eye-fill' },
   //   { number: share, icon: 'eva:share-fill' },
   // ];
-  console.log(post);
   return (
-    // Adding a list of Campaigns 
-
-    
-
-
-
-    <Grid item xs={12} sm={6} md={12}>
-      <Card sx={{ position: 'relative' }}>
+    // Adding a list of Campaigns
+      <Card sx={{ position: 'relative',  marginTop: '20px'}}>
           {/* // <CoverImgStyle alt={title} src={cover} /> */}
         {/* <UserMoreMenu /> */}
         <CardContent
@@ -110,21 +101,19 @@ export default function BlogPostCard({ post, index }) {
             // to="#"
             color="inherit"
             variant="caption"
-          // underline="hover"
-          // component={RouterLink}
-          // sx={{
-          //   ...(latestPostLarge && { typography: 'h5', height: 60 }),
-          //   ...((latestPostLarge || latestPost) && {
-          //     color: 'common.white',
-          //   }),
-          // }}
+            // underline="hover"
+            // component={RouterLink}
+            // sx={{
+            //   ...(latestPostLarge && { typography: 'h5', height: 60 }),
+            //   ...((latestPostLarge || latestPost) && {
+            //     color: 'common.white',
+            //   }),
+            // }}
           >
             {description}
-
           </Typography>
 
           <InfoStyle>
-
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -137,21 +126,14 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
-
                 <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
 
                 <Typography variant="caption">{info.number}</Typography>
-
               </Box>
             ))}
-
           </InfoStyle>
-
-
-
         </CardContent>
-
       </Card>
-    </Grid>
+  
   );
 }

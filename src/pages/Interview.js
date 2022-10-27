@@ -30,6 +30,9 @@ import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
+import USERLIST from '../_mock/user';
+import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -253,17 +256,18 @@ export default function Interview() {
                         </TableContainer>
                     </Scrollbar>
 
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={users.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Card>
-            </Container>
-        </Page>
-    );
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={USERLIST.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Card>
+        <Heatmap />
+      </Container>
+    </Page>
+  );
 }
