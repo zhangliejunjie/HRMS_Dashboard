@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack } from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -11,8 +11,9 @@ import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 
-// Kiet imported 
+// Kiet imported
 import JobUserMoreMenu from './JobUserMoreMenu';
+import { intlFormat } from 'date-fns';
 
 // ----------------------------------------------------------------------
 
@@ -62,24 +63,25 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { id, name, description, salary, quantity, campaign, category } = post;
+  const { id, name, description, salary, experience, isRemote, category } = post;
   const latestPostLarge = index === 0;
-  const latestPost = index === 1 || index === 2;
+  const latestPost = index === 0 || index === 0;
+
+  const POST_INFO = [
+    { number: salary, icon: 'eva:credit-card-fill' },
+    { number: experience, icon: 'eva:award-fill' },
+    { number: isRemote == 1 ? 'Remote' : 'Office', icon: 'eva:wifi-fill' },
+  ];
 
   // const POST_INFO = [
   //   { number: comment, icon: 'eva:message-circle-fill' },
   //   { number: view, icon: 'eva:eye-fill' },
   //   { number: share, icon: 'eva:share-fill' },
   // ];
-
   return (
-    // Adding a list of Campaigns 
+    // Adding a list of Campaigns
 
-
-
-
-
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 24 : 12}>
+    <Grid item xs={12} sm={6} md={12}>
       <Card sx={{ position: 'relative' }}>
         {/* <CardMediaStyle
           sx={{
@@ -135,38 +137,34 @@ export default function BlogPostCard({ post, index }) {
         <CardContent
           sx={{
             pt: 4,
-            ...((latestPostLarge || latestPost) && {
-              bottom: 0,
-              width: '100%',
-              position: 'absolute',
-            }),
+            bottom: 0,
+            width: '100%',
           }}
         >
-
-          <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
-            {name}
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography gutterBottom variant="h4" sx={{ color: 'text.primary', display: 'block' }}>
+              {name}
+            </Typography>
             <UserMoreMenu sx={{ justifyContent: 'flex-end' }} />
-          </Typography>
+          </Stack>
 
-          <TitleStyle
-            to="#"
+          <Typography
+            // to="#"
             color="inherit"
-            variant="subtitle2"
-            underline="hover"
-            component={RouterLink}
-            sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
-              ...((latestPostLarge || latestPost) && {
-                color: 'common.white',
-              }),
-            }}
+            variant="caption"
+            // underline="hover"
+            // component={RouterLink}
+            // sx={{
+            //   ...(latestPostLarge && { typography: 'h5', height: 60 }),
+            //   ...((latestPostLarge || latestPost) && {
+            //     color: 'common.white',
+            //   }),
+            // }}
           >
             {description}
+          </Typography>
 
-          </TitleStyle>
-
-          {/* <InfoStyle>
-
+          <InfoStyle>
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -179,18 +177,13 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
-
                 <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
 
-                <Typography variant="caption">{2002}</Typography>
-
+                <Typography variant="caption">{info.number}</Typography>
               </Box>
             ))}
-
-          </InfoStyle> */}
-
+          </InfoStyle>
         </CardContent>
-
       </Card>
     </Grid>
   );

@@ -17,7 +17,7 @@ const navConfig = [
     icon: getIcon('eva:people-fill'),
   },
   {
-    title: 'product',
+    title: 'category',
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
   },
@@ -27,19 +27,24 @@ const navConfig = [
     icon: getIcon('eva:file-text-fill'),
   },
   {
-    title: 'login',
-    path: '/login',
-    icon: getIcon('eva:lock-fill'),
+    title: 'CV Request',
+    path: '/dashboard/request',
+    icon: getIcon('eva:file-text-fill'),
   },
+  // {
+  //   title: 'New Job',
+  //   path: '/newJob',
+  //   icon: getIcon('eva:person-add-fill'),
+  // },
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  //   icon: getIcon('eva:alert-triangle-fill'),
+  // },
   {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill'),
+    title: 'Interview',
+    path: '/dashboard/interview',
+    icon: getIcon('bxs:message-alt-check'),
   },
 ];
 

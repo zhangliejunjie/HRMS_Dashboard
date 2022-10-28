@@ -9,9 +9,7 @@ import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashb
 import POSTS from '../_mock/blog';
 
 import { faker } from '@faker-js/faker';
-import {
-  AppNewsUpdate,
-} from '../sections/@dashboard/app';
+import { AppNewsUpdate } from '../sections/@dashboard/app';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 import { useState } from 'react';
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
@@ -35,7 +33,6 @@ const SORT_OPTIONS = [
   { value: 'oldest', label: 'Oldest' },
 ];
 
-
 // ----------------------------------------------------------------------
 
 export default function Blog() {
@@ -51,8 +48,6 @@ export default function Blog() {
     setOpenFilter(false);
   };
 
-  // 
-
   const handleOpenEditor = () => {
     setOpenEditor(true);
   };
@@ -61,40 +56,40 @@ export default function Blog() {
     setOpenEditor(false);
   };
 
-
-
   const [campaigns, setCampaigns] = useState([]);
   React.useEffect(() => {
     async function fetchCampaign() {
-      const data = await axios.get("http://localhost:8000/api/campaign");
+      const data = await axios.get('http://localhost:8000/api/campaign');
       const { campaigns } = data.data;
-
-      console.log(campaigns);
       setCampaigns(campaigns);
     }
     fetchCampaign();
-  }, [])
+  }, [campaigns]);
 
   const [jobs, setJobs] = useState([]);
   React.useEffect(() => {
-    async function fetchCampaign() {
-      const data = await axios.get("http://localhost:8000/api/job");
+    async function fetchJob() {
+      const data = await axios.get('http://localhost:8000/api/job');
       const { jobs } = data.data;
-
-      console.log(jobs);
       setJobs(jobs);
     }
-    fetchCampaign();
-  }, [])
-
-  //goi lại data
-  // async function reRenderCampaign() {
-  //   const data = await axios.get("http://localhost:8000/api/campaign");
-  //   const { campaigns } = data.data;
-  //   console.log(campaigns);
-  //   setCampaigns(campaigns);
-  // }
-
+    fetchJob();
+  }, []);
+  // const posts = [jobs.map((job, index) => ({
+  //   id: job.id,
+  //   cover: `/static/mock-images/covers/cover_${index + 1}.jpg`,
+  //   name: job.name,
+  //   description: POST_DES[index + 1],
+  //   createdAt: faker.date.past(),
+  //   view: faker.datatype.number(),
+  //   comment: faker.datatype.number(),
+  //   share: faker.datatype.number(),
+  //   favorite: faker.datatype.number(),
+  //   author: {
+  //     name: faker.name.findName(),
+  //     avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
+  //   },
+  // }));
 
   return (
     <Page title="Dashboard: Blog">
@@ -140,20 +135,24 @@ export default function Blog() {
         </Stack>
 
         {/* Dat  */}
-        <Grid item xs={12} md={6} lg={8}>
+        <Grid item xs={12} md={6} lg={8} mb={5}>
           <AppNewsUpdate
             title="Highlights"
+            subheader="Choose campaign to display jobs below"
             list={campaigns.map((campaign, index) => ({
               id: campaign.id,
               title: campaign.title,
               description: campaign.description,
               image: `/static/mock-images/covers/cover_${index + 1}.jpg`,
               // postedAt: faker.date.recent(),
-            }
-            ))}
+              // Kiet add status
+              status: campaign.status,
+              start_date: campaign.start_date,
+              end_date: campaign.end_date,
+              index: index,
+            }))}
           />
         </Grid>
-
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Jobs
@@ -165,10 +164,9 @@ export default function Blog() {
             onCloseFilter={handleCloseFilter}
           />
 
-          <Button variant="contained" component={RouterLink} to="/register" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Job
+          <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
+            New Job NAAA
           </Button>
-
         </Stack>
         {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
@@ -200,16 +198,11 @@ export default function Blog() {
            
           </Grid> */}
 
-
-
-
         <Grid container spacing={3}>
           {jobs.map((post, index) => (
             <BlogPostCard key={post.id} post={post} index={index} />
           ))}
-
         </Grid>
-
       </Container>
     </Page>
   );
