@@ -93,6 +93,12 @@ export default function Interview() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [isLoad, setIsLoad] = useState(0);
+
+  const handleLoad = () => {
+    setIsLoad(isLoad + 1);
+  }
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -108,7 +114,7 @@ export default function Interview() {
       console.log(candidates);
     }
     fetchCandidate();
-  }, []);
+  }, [isLoad]);
 
   const users = [...Array(candidates.length)].map((_, index) => ({
     id: candidates[index]?.id,
@@ -229,7 +235,9 @@ export default function Interview() {
                         </TableCell>
                         <TableCell align="center">
                           {status === 'NO' ? (
-                            <KietInterviewModal id={id} />
+                            <KietInterviewModal candidate={row} reloadData={() => {
+                              handleLoad()
+                            }} />
                           ) : (
                             <Button>
                               <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
@@ -238,10 +246,6 @@ export default function Interview() {
                             </Button>
                           )}
                         </TableCell>
-
-                        {/* <TableCell align="right">
-                          <UserMoreMenu />
-                        </TableCell> */}
                         <TableCell align="center">
                           <InterviewerAssignModal infor={row} />
                         </TableCell>
@@ -281,10 +285,10 @@ export default function Interview() {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mt={3}>
           <Typography variant="h4" gutterBottom>
-            Heat Map Chart
+            Interview Schedule
           </Typography>
         </Stack>
-        <Heatmap />
+        <Heatmap isLoad={isLoad} />
       </Container>
     </Page>
   );
