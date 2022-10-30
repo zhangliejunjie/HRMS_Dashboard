@@ -1,12 +1,17 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import axios from 'axios';
 import React from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { success } from 'src/store/slice/notificationSlice';
+
+
 
 export default function DatReportDialog({ id, is_employee, fullname, reloadData }) {
     const [open, setOpen] = React.useState(false);
     const [idDecide, setIdDecide] = React.useState('')
-    const rerender = useNavigate()
+    const dispatch = useDispatch()
+
 
     const handleClose = () => {
         setOpen(false);
@@ -25,9 +30,9 @@ export default function DatReportDialog({ id, is_employee, fullname, reloadData 
                 reportId: id,
                 result: data
             })
-            // rerender("/dashboard/HRManager")
-            // console.log(rerender("/dashboard/HRManager"))
+
         }
+        dispatch(success("Updated successfully"))
         reloadData();
         setOpen(false);
         approved();

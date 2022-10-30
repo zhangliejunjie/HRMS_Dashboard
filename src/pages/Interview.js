@@ -93,6 +93,12 @@ export default function Interview() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [isLoad, setIsLoad] = useState(0);
+
+  const handleLoad = () => {
+    setIsLoad(isLoad + 1);
+  }
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -108,7 +114,7 @@ export default function Interview() {
       console.log(candidates);
     }
     fetchCandidate();
-  }, []);
+  }, [isLoad]);
 
   const users = [...Array(candidates.length)].map((_, index) => ({
     id: candidates[index]?.id,

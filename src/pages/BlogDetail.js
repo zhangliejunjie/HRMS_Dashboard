@@ -100,14 +100,14 @@ export default function BlogDetail() {
               </Typography>
             </CardStyle>
           </Grid>
-            <Grid  item xs={12} sx={{margin: 0}}> 
+          <Grid item xs={12} sx={{ margin: 0 }}>
             <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
               New Job
             </Button>
-            </Grid>
+          </Grid>
 
           <Grid item xs={12} md={8} >
-            
+
             {jobs.map((post, index) => (
               <BlogPostCard key={post.id} post={post} index={index} />
             ))}

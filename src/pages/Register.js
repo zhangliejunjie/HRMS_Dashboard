@@ -10,6 +10,7 @@ import Logo from '../components/Logo';
 // sections
 import { RegisterForm } from '../sections/auth/register';
 import AuthSocial from '../sections/auth/AuthSocial';
+import NewJobForm from 'src/sections/@dashboard/blog/NewJobForm';
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +95,7 @@ export default function Register() {
             {/* <Typography sx={{ color: 'text.secondary', mb: 5 }}>Add job and pick campaign.</Typography> */}
 
             {/* <AuthSocial /> */}
-            <RegisterForm />
+            <NewJobForm />
 
             {/* <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
               By registering, I agree to Minimal&nbsp;

@@ -28,16 +28,21 @@ const style = {
     p: 4,
 };
 
-export default function KietInterviewModal({ id }) {
-    // console.log(id);
+export default function KietInterviewModal({ candidate, reloadData }) {
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => {
+        setOpen(true);
+        reloadData();
+    }
+    const handleClose = () => {
+        setOpen(false)
+
+    };
     return (
         <div>
             <Button onClick={handleOpen}>
                 <Label variant="ghost" color='error' onClick={handleOpen}>
-                    No
+                    CC
                 </Label>
             </Button>
 
@@ -48,7 +53,7 @@ export default function KietInterviewModal({ id }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <KietNewInterviewForm id={id} open={open} onClose={() => setOpen(false)} />
+                    <KietNewInterviewForm reloadData={reloadData} candidate={candidate} open={open} onClose={() => setOpen(false)} />
                 </Card>
             </Modal>
         </div>

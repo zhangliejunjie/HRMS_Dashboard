@@ -146,7 +146,7 @@ export default function KietInterviewChip({ candidateId, open, onClose }) {
     return (
         <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
             <Stack spacing={3}>
-                <Typography variant="h3">Schedule Interview</Typography>
+                <Typography variant="h6">Schedule Interview</Typography>
                 {candidateId.id}
                 <Select
                     labelId="demo-multiple-chip-label"
