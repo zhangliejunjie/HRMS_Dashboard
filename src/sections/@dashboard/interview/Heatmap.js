@@ -40,7 +40,7 @@ export default function Heatmap() {
 
   // find series base on week num
   const findSeries = () => {
-    return dataSeries.find((data) => data.week_num === week).value;
+    return dataSeries?.find((data) => data.week_num === week)?.value;
   };
 
   // state for opening modal when click to heatmap
