@@ -119,6 +119,8 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
       errors.date = 'Date required';
     } else if (moment(values.date).diff(moment(), 'days') < 0) {
       errors.date = 'Date must be from today';
+    } else if (moment(values.date).day() === 0) {
+      errors.date = 'Date can not be Sunday';
     }
     return errors;
   };
