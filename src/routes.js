@@ -14,7 +14,9 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import PrivateRoute from './hoc/AuthGuard';
 import Interview from './pages/Interview';
+import HRManager from './pages/HRManager';
 import Staffs from './pages/Staffs';
+
 
 // ----------------------------------------------------------------------
 
@@ -41,9 +43,13 @@ export default function Router() {
               element: <Interview />,
             },
             {
+              path: 'hrmanager',
+              element: <HRManager />,
+            },
+            {
               path: 'staffs',
               element: <Staffs />,
-            }
+            },
           ],
         },
       ],

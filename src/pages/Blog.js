@@ -129,7 +129,7 @@ export default function Blog() {
             Campaigns
           </Typography>
 
-          <CampaignCreateModal></CampaignCreateModal>
+          <CampaignCreateModal ></CampaignCreateModal>
         </Stack>
 
         {/* Dat  */}

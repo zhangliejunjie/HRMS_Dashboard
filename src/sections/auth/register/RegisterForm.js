@@ -11,16 +11,19 @@ import { LoadingButton } from '@mui/lab';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import * as React from 'react';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 // New form Kiet
 import { useFormik } from 'formik';
 import axios from 'axios';
 import moment from 'moment/moment';
+import { useParams } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+
+  const params = useParams();
+  const meow = params.query;
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -100,7 +103,7 @@ export default function RegisterForm() {
     async function fetchCategory() {
       const data = await axios.get('http://localhost:8000/api/category');
       const { categories } = data.data;
-
+      console.log(params);
       console.log(categories);
       setCategories(categories);
     }
@@ -112,16 +115,18 @@ export default function RegisterForm() {
       return <MenuItem value={value.id}>{value.name}</MenuItem>;
     });
   };
+  
+  
 
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
         <Typography variant="h3"> Campaign name </Typography>
+        {meow}
         <RHFTextField
           name="name"
           label="Job Title"
           id="name"
-          // label="Name"
           type="name"
           value={formik.values.name}
           onChange={formik.handleChange}
@@ -132,8 +137,6 @@ export default function RegisterForm() {
           name="description"
           label="Description"
           id="description"
-          // name="description"
-          // label="Description"
           type="description"
           value={formik.values.description}
           onChange={formik.handleChange}
@@ -144,10 +147,7 @@ export default function RegisterForm() {
         <RHFTextField
           name="quantity"
           label="Quantity"
-          // type="number"
           id="standard-number"
-          // name="quantity"
-          // label="Quantity"
           type="number"
           value={formik.values.quantity}
           onChange={formik.handleChange}
@@ -157,10 +157,7 @@ export default function RegisterForm() {
         <RHFTextField
           name="salary"
           label="Salary per month"
-          // type="number"
           id="standard-number"
-          // name="salary"
-          // label="Salary"
           type="salary"
           value={formik.values.salary}
           onChange={formik.handleChange}

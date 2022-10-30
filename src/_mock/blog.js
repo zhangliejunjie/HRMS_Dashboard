@@ -1,4 +1,6 @@
 import { faker } from '@faker-js/faker';
+import React from 'react';
+
 
 // ----------------------------------------------------------------------
 
@@ -58,7 +60,7 @@ const POST_DES = [
   'Nice to meet you, where you been, I could show you incredible things Magic, madness, heaven, sin',
 ];
 
-const posts = [...Array(23)].map((_, index) => ({
+const posts_test = [...Array(23)].map((_, index) => ({
   id: faker.datatype.uuid(),
   cover: `/static/mock-images/covers/cover_${index + 1}.jpg`,
   title: POST_TITLES[index + 1],
@@ -74,4 +76,4 @@ const posts = [...Array(23)].map((_, index) => ({
   },
 }));
 
-export default posts;
+export default posts_test;

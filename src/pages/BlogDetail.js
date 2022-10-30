@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { lightGreen, red } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
+import NewJobForm from 'src/sections/@dashboard/blog/NewJobForm';
 export default function BlogDetail() {
   const params = useParams();
   const campaignId = params.id;
@@ -100,14 +101,27 @@ export default function BlogDetail() {
               </Typography>
             </CardStyle>
           </Grid>
-            <Grid  item xs={12} sx={{margin: 0}}> 
-            <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Grid item xs={12} sx={{ margin: 0 }}>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              // to="/newJob" 
+              to={{
+                // pathname: "/newJob",
+                // search: "?sort=name",
+                // hash: "#the-hash",
+                state: { meow: "meow" },
+                query: { name: 'test' },
+                main : <NewJobForm choosedCampaign={aCampaign} />,
+              }}
+              startIcon={<Iconify
+                icon="eva:plus-fill" />}>
               New Job
             </Button>
-            </Grid>
+          </Grid>
 
           <Grid item xs={12} md={8} >
-            
+
             {jobs.map((post, index) => (
               <BlogPostCard key={post.id} post={post} index={index} />
             ))}
