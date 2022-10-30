@@ -18,12 +18,16 @@ import axios from 'axios';
 import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
+import { useParams } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
 export default function NewJobForm() {
 
   const navigate = useNavigate();
+
+  const params = useParams();
+  const meow = params.choosedCampaign;
 
   const dispatch = useDispatch();
 
@@ -123,7 +127,7 @@ export default function NewJobForm() {
     async function fetchCategory() {
       const data = await axios.get('http://localhost:8000/api/category');
       const { categories } = data.data;
-
+      console.log(params);
       console.log(categories);
       setCategories(categories);
     }
