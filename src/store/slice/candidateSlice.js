@@ -3,13 +3,13 @@ import axios from 'axios';
 import { error, success } from './notificationSlice';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const mailerConfig = {
-  transport: {
-    host: 'smtp.gmail.com',
-    secure: true,
-    auth: { user: process.env.STAFF_EMAIL, pass: process.env.STAFF_PASSWORD },
-  },
-};
+// const mailerConfig = {
+//   transport: {
+//     host: 'smtp.gmail.com',
+//     secure: true,
+//     auth: { user: process.env.STAFF_EMAIL, pass: process.env.STAFF_PASSWORD },
+//   },
+// };
 
 // const mailer = Mailer(mailerConfig, emailsList)
 const initialState = {

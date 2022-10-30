@@ -14,6 +14,7 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import PrivateRoute from './hoc/AuthGuard';
 import Interview from './pages/Interview';
+import InterviewerTask from './pages/InterviewerTask';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +39,10 @@ export default function Router() {
             {
               path: 'interview',
               element: <Interview />,
+            },
+            {
+              path: 'interview-task',
+              element: <InterviewerTask />,
             },
           ],
         },
