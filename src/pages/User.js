@@ -58,8 +58,8 @@ function getComparator(order, orderBy) {
 }
 
 function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedThis = array?.map((el, index) => [el, index]);
+  stabilizedThis?.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) return order;
     return a[1] - b[1];
@@ -67,7 +67,7 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(array, (_user) => _user.fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis?.map((el) => el[0]);
 }
 
 export default function User() {
@@ -131,7 +131,7 @@ export default function User() {
 
   const filteredUsers = applySortFilter(members, getComparator(order, orderBy), filterName);
 
-  const isUserNotFound = filteredUsers.length === 0;
+  const isUserNotFound = filteredUsers?.length === 0;
 
   return (
     <Page title="User">
@@ -152,13 +152,13 @@ export default function User() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={members.length}
+                  rowCount={members?.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  {filteredUsers?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, fullname, phone, status, email, avatar, current_resume_url } = row;
                     const isItemSelected = selected.indexOf(fullname) !== -1;
 
@@ -227,7 +227,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={members.length}
+            count={members?.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

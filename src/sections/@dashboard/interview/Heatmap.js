@@ -1,11 +1,11 @@
-import { Button, ButtonGroup, Stack, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Card, CardHeader, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import moment from 'moment';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import InterviewModal from './InterviewModal';
 
-export default function Heatmap() {
+export default function Heatmap({ isLoad }) {
   // get current date of week
   let curr = new Date(); // get current date
   let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
@@ -26,7 +26,7 @@ export default function Heatmap() {
     }
 
     fetchNumCandidatesBYRoomWeek();
-  }, []);
+  }, [isLoad]);
   // const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
   //   id: candidatesNotInterview[index]?.id,
   //   job_id: candidatesNotInterview[index]?.job_id,
@@ -97,34 +97,39 @@ export default function Heatmap() {
     }
 
     fetchCandidatesNotInterview();
-  }, []);
+  }, [isLoad]); // on going
   const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
     id: candidatesNotInterview[index]?.id,
     job_id: candidatesNotInterview[index]?.job_id,
   }));
 
   return (
-    <div id="chart">
-      <ReactApexChart options={state.options} series={state.series} type="heatmap" height={350} />
-      <Stack direction="row">
-        <Typography>{`Current week: ${firstday} - ${lastday} - ${week}`}</Typography>
-        <ButtonGroup variant="outlined">
-          <Button
-            onClick={() => {
-              setWeek(week - 1);
-            }}
-          >
-            Previous
-          </Button>
-          <Button
-            onClick={() => {
-              setWeek(week + 1);
-            }}
-          >
-            Next
-          </Button>
-        </ButtonGroup>
-      </Stack>
-    </div>
+    <Card>
+      <CardHeader subheader={"Click to see meeting details"} />
+      <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+        <div id="chart">
+          <ReactApexChart options={state.options} series={state.series} type="heatmap" height={350} />
+          <Stack direction="row">
+            <Typography>{`Current week: ${firstday} - ${lastday} - ${week}`}</Typography>
+            <ButtonGroup variant="outlined">
+              <Button
+                onClick={() => {
+                  setWeek(week - 1);
+                }}
+              >
+                Previous
+              </Button>
+              <Button
+                onClick={() => {
+                  setWeek(week + 1);
+                }}
+              >
+                Next
+              </Button>
+            </ButtonGroup>
+          </Stack>
+        </div>
+      </Box>
+    </Card>
   );
 }
