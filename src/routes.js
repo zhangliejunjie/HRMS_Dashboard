@@ -15,6 +15,8 @@ import DashboardApp from './pages/DashboardApp';
 import PrivateRoute from './hoc/AuthGuard';
 import Interview from './pages/Interview';
 import InterviewerTask from './pages/InterviewerTask';
+import HRManager from './pages/HRManager';
+
 
 
 export default function Router() {
@@ -43,6 +45,10 @@ export default function Router() {
               path: 'interview-task',
               element: <InterviewerTask />,
             },
+            {
+              path: 'hrmanager',
+              element: <HRManager />,
+            }
           ],
         },
       ],

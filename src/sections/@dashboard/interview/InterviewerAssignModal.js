@@ -13,7 +13,9 @@ import { useState } from 'react';
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
-import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
+import InterviewerChip from './InterviewerChip';
+import KietInterviewChip from './KietInterviewChip';
+
 // Kiet uses  forkmik
 
 const style = {
@@ -26,14 +28,13 @@ const style = {
     p: 4,
 };
 
-export default function CampaignCreateModal() {
+export default function InterviewerAssignModal({ infor }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
-                New Campaign
+            <Button variant="text" color="primary" onClick={handleOpen} startIcon={<Iconify style={{ fontSize: '24px' }} icon="clarity:assign-user-solid" />}>
             </Button>
             <Modal
                 open={open}
@@ -42,7 +43,22 @@ export default function CampaignCreateModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <NewCampaignForm open={open} onClose={() => setOpen(false)} />
+                    {/* <NewCategoryForm open={open} onClose={() => setOpen(false)}/> */}
+                    {infor.id} <br />
+                    {infor.id} <br />
+                    {infor.name}<br />
+                    {infor.role}<br />
+                    {infor.status}<br />
+                    {infor.company}<br />
+                    {infor.avatarUrl}<br />
+                    {infor.isVerified}<br />
+                    {infor.hr_staff}<br />
+                    {infor.address}<br />
+                    {infor.identity_number}<br />
+                    {infor.phone}
+
+
+                    <KietInterviewChip candidateId={infor} open={open} onClose={() => setOpen(false)}  />
                 </Card>
             </Modal>
         </div>

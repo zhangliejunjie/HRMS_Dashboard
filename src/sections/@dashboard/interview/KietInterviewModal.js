@@ -14,6 +14,8 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
 import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
+import Label from 'src/components/Label';
+import KietNewInterviewForm from './KietNewInterviewForm';
 // Kiet uses  forkmik
 
 const style = {
@@ -26,15 +28,19 @@ const style = {
     p: 4,
 };
 
-export default function CampaignCreateModal() {
+export default function KietInterviewModal({ id }) {
+    // console.log(id);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (
         <div>
-            <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
-                New Campaign
+            <Button onClick={handleOpen}>
+                <Label variant="ghost" color='error' onClick={handleOpen}>
+                    No
+                </Label>
             </Button>
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -42,7 +48,7 @@ export default function CampaignCreateModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <NewCampaignForm open={open} onClose={() => setOpen(false)} />
+                    <KietNewInterviewForm id={id} open={open} onClose={() => setOpen(false)} />
                 </Card>
             </Modal>
         </div>

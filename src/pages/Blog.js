@@ -1,13 +1,11 @@
-import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
 // components
 import Page from '../components/Page';
-import Iconify from '../components/Iconify';
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/blog';
 // mock
 import POSTS from '../_mock/blog';
-
 import { faker } from '@faker-js/faker';
 import { AppNewsUpdate } from '../sections/@dashboard/app';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
@@ -131,7 +129,7 @@ export default function Blog() {
             Campaigns
           </Typography>
 
-          <CampaignCreateModal></CampaignCreateModal>
+          <CampaignCreateModal ></CampaignCreateModal>
         </Stack>
 
         {/* Dat  */}
@@ -164,9 +162,6 @@ export default function Blog() {
             onCloseFilter={handleCloseFilter}
           />
 
-          <Button variant="contained" component={RouterLink} to="/newJob" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Job NAAA
-          </Button>
         </Stack>
         {/* <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
@@ -198,10 +193,12 @@ export default function Blog() {
            
           </Grid> */}
 
-        <Grid container spacing={3}>
+        <Grid container>
+          <Grid item  xs={12} >
           {jobs.map((post, index) => (
             <BlogPostCard key={post.id} post={post} index={index} />
           ))}
+        </Grid>
         </Grid>
       </Container>
     </Page>
