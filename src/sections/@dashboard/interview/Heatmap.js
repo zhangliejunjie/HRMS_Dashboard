@@ -9,24 +9,24 @@ export default function Heatmap({ isLoad }) {
   // get current date of week
   let curr = new Date(); // get current date
   let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-  let firstday = new Date(curr.setDate(first)).toLocaleDateString();
-  let lastday = new Date(curr.setDate(curr.getDate() + 6)).toLocaleDateString();
 
   // create week state, change when click next or previous
-  const [week, setWeek] = useState(moment(firstday).week());
+  const [firstDay, setFirstDay] = useState(new Date(curr.setDate(first)).toLocaleDateString());
+  const [lastDay, setLastDay] = useState(new Date(curr.setDate(curr.getDate() + 6)).toLocaleDateString());
+  const [week, setWeek] = useState(moment(firstDay).week());
 
   // get data for heatmap by room and week
   const [heatmapData, setHeatmapData] = useState([]);
   React.useEffect(() => {
     async function fetchNumCandidatesBYRoomWeek() {
       const { data } = await axios.post('http://localhost:8000/api/interview/by-room-week', {
-        week: 43,
+        week: week,
       });
       setHeatmapData(data);
     }
 
     fetchNumCandidatesBYRoomWeek();
-  }, [isLoad]);
+  }, [isLoad, week]);
   // const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
   //   id: candidatesNotInterview[index]?.id,
   //   job_id: candidatesNotInterview[index]?.job_id,
@@ -105,16 +105,18 @@ export default function Heatmap({ isLoad }) {
 
   return (
     <Card>
-      <CardHeader subheader={"Click to see meeting details"} />
+      <CardHeader subheader={'Click to see meeting details'} />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <div id="chart">
           <ReactApexChart options={state.options} series={state.series} type="heatmap" height={350} />
-          <Stack direction="row">
-            <Typography>{`Current week: ${firstday} - ${lastday} - ${week}`}</Typography>
+          <Stack direction="row" spacing={2} justifyContent="space-between">
+            <Typography>{`Week: ${firstDay} - ${lastDay}`}</Typography>
             <ButtonGroup variant="outlined">
               <Button
                 onClick={() => {
                   setWeek(week - 1);
+                  setFirstDay(moment(firstDay).subtract(7, 'd').format('MM/DD/YYYY'));
+                  setLastDay(moment(lastDay).subtract(7, 'd').format('MM/DD/YYYY'));
                 }}
               >
                 Previous
@@ -122,6 +124,8 @@ export default function Heatmap({ isLoad }) {
               <Button
                 onClick={() => {
                   setWeek(week + 1);
+                  setFirstDay(moment(firstDay).add(7, 'd').format('MM/DD/YYYY'));
+                  setLastDay(moment(lastDay).add(7, 'd').format('MM/DD/YYYY'));
                 }}
               >
                 Next
