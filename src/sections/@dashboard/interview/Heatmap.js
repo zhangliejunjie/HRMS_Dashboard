@@ -44,11 +44,6 @@ export default function Heatmap() {
   };
 
   // state for opening modal when click to heatmap
-  const [isOpen, setIsOpen] = useState(false);
-  const [slot, setSlot] = useState({
-    room: 'room1',
-    time: 'Mon slot 1',
-  });
   const labels = [
     'Mon slot 1',
     'Mon slot 2',
@@ -81,30 +76,16 @@ export default function Heatmap() {
       chart: {
         height: 350,
         type: 'heatmap',
-        events: {
-          click: (event, chartContext, config) => {
-            console.log(config);
-            setIsOpen(true);
-            setSlot({
-              room: 'room' + (config.seriesIndex + 1),
-              time: labels[config.dataPointIndex],
-            });
-          },
-        },
       },
       dataLabels: {
         enabled: false,
       },
       colors: ['#008FFB'],
-      title: {
-        text: 'HeatMap Chart (Single color)',
-      },
+      // title: {
+      //   text: 'HeatMap Chart (Single color)',
+      // },
       labels: labels,
     },
-  };
-
-  const hanldeClose = () => {
-    setIsOpen(false);
   };
 
   // get candidate that did not book an interview
@@ -125,14 +106,6 @@ export default function Heatmap() {
   return (
     <div id="chart">
       <ReactApexChart options={state.options} series={state.series} type="heatmap" height={350} />
-      <InterviewModal
-        open={isOpen}
-        handleClose={() => {
-          setIsOpen(false);
-        }}
-        value={slot}
-        candidates={candidates}
-      />
       <Stack direction="row">
         <Typography>{`Current week: ${firstday} - ${lastday} - ${week}`}</Typography>
         <ButtonGroup variant="outlined">
@@ -155,7 +128,3 @@ export default function Heatmap() {
     </div>
   );
 }
-
-const generateData = (len, rangeObj) => {
-  return Array.from({ length: len }, () => Math.floor(Math.random() * rangeObj.max));
-};

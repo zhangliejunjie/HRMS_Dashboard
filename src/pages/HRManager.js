@@ -1,11 +1,9 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import * as React from 'react';
 import axios from 'axios';
-import { faker } from '@faker-js/faker';
-import { sample } from 'lodash';
+import DatReportDialog from '../sections/@dashboard/report/DatReportDialog'
 // material
 import {
     Card,
@@ -24,23 +22,15 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    FormControl,
-    InputLabel,
-    Select,
-    OutlinedInput,
-    MenuItem,
     DialogActions,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-import { Box } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
@@ -97,17 +87,24 @@ export default function Interview() {
 
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [open, setOpen] = React.useState(false);
-    const [decide, setDecide] = React.useState('');
-    const [idDecide, setIdDecide] = React.useState('')
+    const [decide, setDecide] = React.useState();
+    const [initial, setInitial] = React.useState(true);
+    const [idDecide, setIdDecide] = React.useState('');
+
+    const [isLoad, setIsLoad] = useState(0);
+
+    const handleLoad = () => {
+        setIsLoad(isLoad + 1);
+    }
 
 
-    const handleChange = (event) => {
-        setDecide(Number(event.target.value) || '');
-    };
+    // const handleChange = (event) => {
+    //     setDecide(Number(event.target.value) || '');
+    // };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    // const handleOpen = () => {
+    //     setOpen(true);
+    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -127,9 +124,9 @@ export default function Interview() {
             setCandidates(candidates);
         }
         fetchCandidate();
-    }, []);
+    }, [isLoad]);
 
-    const users = [...Array(24)].map((_, index) => ({
+    const users = [...Array(candidates.length)].map((_, index) => ({
         id: candidates[index]?.id,
         avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
         fullname: candidates[index]?.fullname,
@@ -137,6 +134,7 @@ export default function Interview() {
         jobName: candidates[index]?.job_name,
         mark: candidates[index]?.avg_mark,
         comment: candidates[index]?.comment,
+        is_employee: candidates[index]?.is_employee
     }));
 
     const handleSelectAllClick = (event) => {
@@ -184,26 +182,52 @@ export default function Interview() {
     const handleOpenDecide = (id) => {
         setOpen(true)
         setIdDecide(id)
-    }
-
-
-    const handleApprove = (id, data) => {
-        console.log(data)
-        const approved = async () => {
-
-        }
-        setOpen(false)
-        approved()
 
     }
-    const handleReject = (id, data) => {
-        console.log(data)
-        const rejected = async () => {
 
-        }
-        setOpen(false)
-        rejected()
-    }
+
+    // const handleApprove = (id, data) => {
+    //     // console.log(data)
+    //     const approved = async () => {
+    //         console.log(id)
+    //         try {
+
+    //             const url = "http://localhost:8000/api/candidate/profile";
+    //             const { decideData } = await axios.patch(url, {
+    //                 reportId: id,
+    //                 result: data
+    //             })
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+
+    //     }
+    //     setOpen(false)
+    //     approved()
+
+    // }
+
+    // const handleReject = (id, data) => {
+    //     console.log(data)
+    //     const rejected = async () => {
+    //         //
+    //         try {
+
+    //             const url = "http://localhost:8000/api/candidate/profile";
+    //             const { decideData } = await axios.patch(url, {
+    //                 candidateId: id,
+    //                 result: data
+    //             })
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+    //     setOpen(false)
+    //     rejected()
+    //     setInitial(false)
+    //     setDecide(false)
+
+    // }
 
     return (
         <Page title="Interview">
@@ -237,7 +261,7 @@ export default function Interview() {
                                 />
                                 <TableBody>
                                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                                        const { id, fullname, jobName, mark, identityNumber, avatarUrl, comment } = row;
+                                        const { id, fullname, jobName, mark, identityNumber, avatarUrl, is_employee } = row;
                                         const isItemSelected = selected.indexOf(fullname) !== -1;
 
                                         return (
@@ -264,9 +288,23 @@ export default function Interview() {
                                                 <TableCell align="left">{jobName}</TableCell>
                                                 <TableCell align="left">{mark}</TableCell>
                                                 <TableCell variant="contained" align="left">
-                                                    <Button variant="contained" onClick={() => handleOpenDecide(id)}>
-                                                        Click to decide
-                                                    </Button>
+
+
+                                                    {/* {is_employee === 'Not yet' ? <><Button variant="contained" onClick={() => handleOpenDecide(id)}>
+                                                        Give result
+                                                    </Button> </> : <>
+                                                        {decide ? (<Button variant="contained" disabled onClick={() => handleApprove(id)}>
+                                                            Approved
+                                                        </Button>) : (<Button variant="contained" disabled onClick={() => handleOpenDecide(id)}>
+                                                            Rejected
+                                                        </Button>)}
+                                                    </>} */}
+
+                                                    <DatReportDialog id={id} is_employee={is_employee} fullname={fullname} reloadData={() => {
+                                                        handleLoad()
+                                                    }
+                                                    } />
+
                                                 </TableCell>
 
                                                 <TableCell align="right">
@@ -298,7 +336,7 @@ export default function Interview() {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={USERLIST.length}
+                        count={candidates.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -306,31 +344,8 @@ export default function Interview() {
                     />
                 </Card>
             </Container>
-            <Dialog disableEscapeKeyDown open={open} onClose={handleClose} sx={{
-                width: '100%',
-                height: '100%',
-            }}>
-                <DialogTitle>DECISION</DialogTitle>
-                <DialogContent>
-                    Do you want to approve {idDecide}
-                </DialogContent>
-                <DialogActions>
-                    <Button sx={{
-                        backgroundColor: "red", color: "white",
-                        "&:hover": {
-                            color: 'red',
-                        },
-                    }} onClick={() => handleReject(idDecide, "Reject")}>Reject</Button>
 
 
-                    <Button sx={{
-                        backgroundColor: "green", color: "white",
-                        "&:hover": {
-                            color: 'green',
-                        },
-                    }} onClick={() => handleApprove(idDecide, "Approve")} >Approve</Button>
-                </DialogActions>
-            </Dialog>
 
         </Page >
     );

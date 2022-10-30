@@ -44,7 +44,7 @@ export default function Router() {
             {
               path: 'hrmanager',
               element: <HRManager />,
-            },
+            }
           ],
         },
       ],

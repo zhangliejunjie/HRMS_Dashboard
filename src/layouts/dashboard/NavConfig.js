@@ -7,12 +7,12 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'charts',
     path: '/dashboard/app',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
-    title: 'staffs',
+    title: 'members',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill'),
   },
@@ -45,6 +45,11 @@ const navConfig = [
     title: 'Interview',
     path: '/dashboard/interview',
     icon: getIcon('bxs:message-alt-check'),
+  },
+  {
+    title: 'Staffs',
+    path: '/dashboard/staffs',
+    icon: getIcon('eva:people-fill'),
   },
 ];
 

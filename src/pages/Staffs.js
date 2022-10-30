@@ -1,52 +1,55 @@
+// import { Helmet } from 'react-helmet-async';
+
+// Get all
+// http://localhost:8000/api/staff/all
+// Create a new staff
+// http://localhost:8000/api/staff-auth/register
+// Update a staff
+// http://localhost:8000/api/staff/profile
+
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import * as React from 'react';
 import axios from 'axios';
-import { faker } from '@faker-js/faker';
-import { sample } from 'lodash';
-// material
+import * as React from 'react';
+// @mui
 import {
   Card,
   Table,
   Stack,
+  Paper,
   Avatar,
   Button,
+  Popover,
   Checkbox,
   TableRow,
+  MenuItem,
   TableBody,
   TableCell,
   Container,
   Typography,
+  IconButton,
   TableContainer,
   TablePagination,
 } from '@mui/material';
 // components
-import Page from '../components/Page';
-import Label from '../components/Label';
-import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
-import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+// sections
+import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
-import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
-import InterviewModal from 'src/sections/@dashboard/interview/InterviewModal';
-import KietInterviewModal from 'src/sections/@dashboard/interview/KietInterviewModal';
-import IconButton from 'src/theme/overrides/IconButton';
-import InterviewerChip from 'src/sections/@dashboard/interview/InterviewerChip';
-import InterviewerAssignModal from 'src/sections/@dashboard/interview/InterviewerAssignModal';
+// import USERLIST from '../_mock/user';
+import Iconify from 'src/components/Iconify';
+import Scrollbar from 'src/components/Scrollbar';
+import Label from 'src/components/Label';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  // { id: 'company', label: 'ID Number', alignRight: false },
-  { id: 'role', label: 'Job Title', alignRight: false },
-  { id: 'isVerified', label: 'Resume', alignRight: false },
-  { id: 'status', label: 'Booking Status', alignRight: false },
-  { id: 'interviewers', label: 'Interviewers', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+  { id: 'role', label: 'Role', alignRight: false },
+  // { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -80,7 +83,9 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function Interview() {
+export default function Staffs() {
+  const [open, setOpen] = useState(null);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -93,37 +98,19 @@ export default function Interview() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const handleOpenMenu = (event) => {
+    setOpen(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setOpen(null);
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
-  const [candidates, setCandidates] = useState([]);
-  React.useEffect(() => {
-    async function fetchCandidate() {
-      const data = await axios.get('http://localhost:8000/api/candidate/allV2');
-      const candidates = data.data;
-      setCandidates(candidates);
-      console.log(candidates);
-    }
-    fetchCandidate();
-  }, []);
-
-  const users = [...Array(candidates.length)].map((_, index) => ({
-    id: candidates[index]?.id,
-    avatarUrl: `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
-    name: candidates[index]?.member,
-    company: candidates[index]?.identity_number,
-    isVerified: candidates[index]?.resume_url,
-    status: candidates[index]?.booking_status,
-    role: candidates[index]?.job,
-    hr_staff: candidates[index]?.hr_staff,
-    address: candidates[index]?.address,
-    dob: candidates[index]?.dob,
-    identity_number: candidates[index]?.identity_number,
-    phone: candidates[index]?.phone,
-  }));
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -149,16 +136,38 @@ export default function Interview() {
     setSelected(newSelected);
   };
 
+  const [staffs, setStaffs] = useState([]);
+  React.useEffect(() => {
+    async function fetchCandidate() {
+      const data = await axios.get("http://localhost:8000/api/staff/all");
+      const staffs = data.data;
+      console.log(staffs);
+      setStaffs(staffs);
+    }
+    fetchCandidate();
+  }, [])
+
+  const users = [...Array(staffs.length)].map((_, index) => ({
+    id: staffs[index]?.id,
+    avatarUrl: staffs[index].avatar !== "#" ? staffs[index].avatar : `/static/mock-images/avatars/avatar_${index + 1}.jpg`,
+    name: staffs[index]?.fullname,
+    email: staffs[index]?.email,
+    // isVerified: staffs[index]?.phone,
+    status: staffs[index]?.status,
+    role: staffs[index]?.role,
+}));
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const handleFilterByName = (event) => {
+    setPage(0);
     setFilterName(event.target.value);
   };
 
@@ -166,18 +175,22 @@ export default function Interview() {
 
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
-  const isUserNotFound = filteredUsers.length === 0;
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [id, setId] = useState();
+  const isNotFound = !filteredUsers.length && !!filterName;
 
   return (
-    <Page title="Interview">
+    <>
+      {/* <Helmet>
+        <title> User | Minimal UI </title>
+      </Helmet> */}
+
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Round 2: Interview
+            Staffs
           </Typography>
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+            New Staff
+          </Button>
         </Stack>
 
         <Card>
@@ -197,21 +210,15 @@ export default function Interview() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified, hr_staff, address, dob, identity_number, phone } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const { id, name, role, status, email, avatarUrl, isVerified } = row;
+                    const selectedUser = selected.indexOf(name) !== -1;
 
                     return (
-                      <TableRow
-                        hover
-                        key={id}
-                        tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
-                      >
+                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
                         </TableCell>
+
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
                             <Avatar alt={name} src={avatarUrl} />
@@ -220,30 +227,21 @@ export default function Interview() {
                             </Typography>
                           </Stack>
                         </TableCell>
-                        {/* <TableCell align="left">{company}</TableCell> */}
+
+                        <TableCell align="left">{email}</TableCell>
+
                         <TableCell align="left">{role}</TableCell>
-                        <TableCell align="center">
-                          <a href={isVerified !== "#" ? isVerified : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
-                            <Iconify icon={"akar-icons:paper"} width={22} height={22} />
-                          </a>
-                        </TableCell>
-                        <TableCell align="center">
-                          {status === 'NO' ? (
-                            <KietInterviewModal id={id} />
-                          ) : (
-                            <Button>
-                              <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
-                                {sentenceCase(status)}
-                              </Label>
-                            </Button>
-                          )}
+
+                        {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
+
+                        <TableCell align="left">
+                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
                         </TableCell>
 
-                        {/* <TableCell align="right">
-                          <UserMoreMenu />
-                        </TableCell> */}
-                        <TableCell align="center">
-                          <InterviewerAssignModal infor={row} />
+                        <TableCell align="right">
+                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                            <Iconify icon={'eva:more-vertical-fill'} />
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     );
@@ -255,11 +253,25 @@ export default function Interview() {
                   )}
                 </TableBody>
 
-                {isUserNotFound && (
+                {isNotFound && (
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
+                        <Paper
+                          sx={{
+                            textAlign: 'center',
+                          }}
+                        >
+                          <Typography variant="h6" paragraph>
+                            Not found
+                          </Typography>
+
+                          <Typography variant="body2">
+                            No results found for &nbsp;
+                            <strong>&quot;{filterName}&quot;</strong>.
+                            <br /> Try checking for typos or using complete words.
+                          </Typography>
+                        </Paper>
                       </TableCell>
                     </TableRow>
                   </TableBody>
@@ -278,14 +290,36 @@ export default function Interview() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mt={3}>
-          <Typography variant="h4" gutterBottom>
-            Heat Map Chart
-          </Typography>
-        </Stack>
-        <Heatmap />
       </Container>
-    </Page>
+
+      <Popover
+        open={Boolean(open)}
+        anchorEl={open}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 1,
+            width: 140,
+            '& .MuiMenuItem-root': {
+              px: 1,
+              typography: 'body2',
+              borderRadius: 0.75,
+            },
+          },
+        }}
+      >
+        <MenuItem>
+          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          Edit
+        </MenuItem>
+
+        <MenuItem sx={{ color: 'error.main' }}>
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          Delete
+        </MenuItem>
+      </Popover>
+    </>
   );
 }

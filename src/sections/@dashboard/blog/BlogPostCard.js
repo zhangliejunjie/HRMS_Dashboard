@@ -14,7 +14,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 // Kiet imported
 import JobUserMoreMenu from './JobUserMoreMenu';
 import { intlFormat } from 'date-fns';
-
+// import cover
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -63,7 +63,7 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { id, name, description, salary, experience, isRemote, category } = post;
+  const { id, name, title, description, salary, experience, isRemote, category } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 0 || index === 0;
 
@@ -80,59 +80,8 @@ export default function BlogPostCard({ post, index }) {
   // ];
   return (
     // Adding a list of Campaigns
-
-    <Grid item xs={12} sm={6} md={12}>
-      <Card sx={{ position: 'relative' }}>
-        {/* <CardMediaStyle
-          sx={{
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
-              },
-            }),
-          }}
-        >
-          <SvgIconStyle
-            color="paper"
-            src="/static/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              color: 'background.paper',
-              ...((latestPostLarge || latestPost) && { display: 'none' }),
-            }}
-          />
-          <AvatarStyle
-            alt={author.name}
-            src={author.avatarUrl}
-            sx={{
-              ...((latestPostLarge || latestPost) && {
-                zIndex: 9,
-                top: 24,
-                left: 24,
-                width: 40,
-                height: 40,
-              }),
-            }}
-          />
-
-          <CoverImgStyle alt={title} src={cover} />
-        </CardMediaStyle> */}
+      <Card sx={{ position: 'relative',  marginTop: '10px'}}>
+          {/* // <CoverImgStyle alt={title} src={cover} /> */}
         {/* <UserMoreMenu /> */}
         <CardContent
           sx={{
@@ -185,6 +134,6 @@ export default function BlogPostCard({ post, index }) {
           </InfoStyle>
         </CardContent>
       </Card>
-    </Grid>
+  
   );
 }
