@@ -126,7 +126,6 @@ export default function CampaignCreateForm({ open, onClose }) {
         .then((res) => {
           onClose();
           dispatch(success("Create campaign successfully"));
-
         });
     },
   });

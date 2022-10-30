@@ -16,11 +16,16 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import moment from 'moment/moment';
+import { useDispatch } from 'react-redux';
+import { success } from 'src/store/slice/notificationSlice';
 
 // ----------------------------------------------------------------------
 
 export default function NewJobForm() {
+
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
@@ -55,38 +60,58 @@ export default function NewJobForm() {
   let date = Date.now();
   const formik = useFormik({
     initialValues: {
-      name: '',
-      description: '',
-      salary: '',
-      quantity: '',
-      start_date: moment(date).format('yyyy-MM-DD'),
-      end_date: moment(date).format('yyyy-MM-DD'),
-      category: '',
-      campaign: '',
+      // name: '',
+      // description: '',
+      // salary: '',
+      // quantity: '',
+      // start_date: moment(date).format('yyyy-MM-DD'),
+      // end_date: moment(date).format('yyyy-MM-DD'),
+      "name": "ReactJS Intern",
+      "description": "dont have any idea what is going on",
+      "salary": "900",
+      "quantity": "3",
+      "start_date": "2022-12-28",
+      "end_date": "2022-12-29",
+      "status": "Hiring",
+      "experience": "Intern",
+      "categoryId": "CA-001",
+      "campaignId": "CP-001"
     },
+
     validationSchema: Yup.object().shape({
-      name: Yup.string().required('tên không được bỏ trống'),
-      description: Yup.string().required('miêu tả không được bỏ trống'),
-      salary: Yup.string().required('lương không được bỏ trống'),
-      quantity: Yup.number().required('số lượng không được bỏ trống'),
+      name: Yup.string().required('Job name required'),
+      description: Yup.string().required('Description required'),
+      salary: Yup.string().required('Salary required'),
+      quantity: Yup.number().required('Quantity required'),
     }),
     onSubmit: (value) => {
+      console.log("Ngũ cung")
       console.log(value);
       axios
-        .post('http://localhost:8000/api/job-add', {
-          name: value.name,
-          description: value.description,
-          salary: value.salary,
-          quantity: value.quantity,
-          start_date: value.start_date,
-          end_date: value.end_date,
-          category: value.category,
-          campaign: value.campaign,
+        .post('http://localhost:8000/api/job/add', {
+          // name: "value.name",
+          // description: "value.description",
+          // salary: "value.salary",
+          // quantity: "value.quantity",
+          // start_date: "2022-12-28",
+          // end_date: "2022-12-29",
+          // status: "Hiring",
+          // experience: "Intern",
+          // categoryId: "CA-001",
+          // campaignId: "CP-001"
+          "name": "ReactJS Intern",
+          "description": "dont have any idea what is going on",
+          "salary": "900",
+          "quantity": "3",
+          "start_date": "2022-12-28",
+          "end_date": "2022-12-29",
+          "status": "Hiring",
+          "experience": "Intern",
+          "categoryId": "CA-001",
+          "campaignId": "CP-001"
         })
         .then((res) => {
-          console.log(res);
-          console.log(res.data);
-          window.location.reload();
+          dispatch(success("Create job successfully"));
         })
         .catch((error) => console.log(error));
     },
@@ -119,7 +144,7 @@ export default function NewJobForm() {
           name="name"
           label="Job Title"
           id="name"
-        //   id, name, description, salary, quantity, start_date, end_date, status, experience, isRemote, Category_id, Campaign_id
+          //   id, name, description, salary, quantity, start_date, end_date, status, experience, isRemote, Category_id, Campaign_id
           // label="Name"
           type="name"
           value={formik.values.name}
@@ -131,8 +156,6 @@ export default function NewJobForm() {
           name="description"
           label="Description"
           id="description"
-          // name="description"
-          // label="Description"
           type="description"
           value={formik.values.description}
           onChange={formik.handleChange}
@@ -141,31 +164,27 @@ export default function NewJobForm() {
         />
 
         <RHFTextField
-          name="quantity"
-          label="Quantity"
-          // type="number"
-          id="standard-number"
-          // name="quantity"
-          // label="Quantity"
-          type="number"
-          value={formik.values.quantity}
-          onChange={formik.handleChange}
-          error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-          helperText={formik.touched.quantity && formik.errors.quantity}
-        />
-        <RHFTextField
           name="salary"
           label="Salary per month"
-          // type="number"
-          id="standard-number"
-          // name="salary"
-          // label="Salary"
+          id="salary"
           type="salary"
           value={formik.values.salary}
           onChange={formik.handleChange}
           error={formik.touched.salary && Boolean(formik.errors.salary)}
           helperText={formik.touched.salary && formik.errors.salary}
         />
+
+        <RHFTextField
+          name="quantity"
+          label="Quantity"
+          id="standard-number"
+          // type="number"
+          value={formik.values.quantity}
+          onChange={formik.handleChange}
+          error={formik.touched.quantity && Boolean(formik.errors.quantity)}
+          helperText={formik.touched.quantity && formik.errors.quantity}
+        />
+
         {/* <RHFTextField name="email" label="Email address" />
 
         <RHFTextField

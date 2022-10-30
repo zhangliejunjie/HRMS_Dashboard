@@ -227,7 +227,7 @@ export default function Interview() {
                           </Stack>
                         </TableCell>
                         {/* <TableCell align="left">{company}</TableCell> */}
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="center">{role}</TableCell>
                         <TableCell align="center">
                           <a href={isVerified !== "#" ? isVerified : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
                             <Iconify icon={"akar-icons:paper"} width={22} height={22} />

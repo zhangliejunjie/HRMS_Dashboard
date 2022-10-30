@@ -42,7 +42,7 @@ export default function KietInterviewModal({ candidate, reloadData }) {
         <div>
             <Button onClick={handleOpen}>
                 <Label variant="ghost" color='error' onClick={handleOpen}>
-                    No
+                    CC
                 </Label>
             </Button>
 

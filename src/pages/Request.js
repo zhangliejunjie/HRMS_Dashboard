@@ -307,13 +307,13 @@ export default function Request() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{job_name}</TableCell>
+                          <TableCell align="center">{job_name}</TableCell>
                           <TableCell align="center">
                             <a href={resume_url !== "#" ? resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
                               <Iconify icon={"akar-icons:paper"} width={22} height={22} />
                             </a>
                           </TableCell>
-                          <TableCell align="left">{applied_status}</TableCell>
+                          <TableCell align="center">{applied_status}</TableCell>
                           {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
                           {/* <TableCell align="left">
                           <Label variant="ghost" color={(status === 'Inactive' && 'error') || 'success'}>
@@ -321,7 +321,7 @@ export default function Request() {
                           </Label>
                         </TableCell> */}
                           <TableCell>
-                            <Stack direction="row">
+                            <Stack direction="row" justifyContent="center">
                               <Button color="error" onClick={() => handleRejectResume(id)}>
                                 Reject
                               </Button>
@@ -368,7 +368,7 @@ export default function Request() {
           />
         </Card>
         <br />
-        <Typography variant="h4" gutterBottom sx={{ color: 'green' }}>
+        <Typography variant="h4" mb={5} gutterBottom sx={{ color: 'green' }}>
           Approved
         </Typography>
         <Card>
@@ -412,22 +412,22 @@ export default function Request() {
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={member_avatar} src={member_avatar !== "#" ? member_avatar : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`} /> 
+                              <Avatar alt={member_avatar} src={member_avatar !== "#" ? member_avatar : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`} />
                               <Typography variant="subtitle2" noWrap>
                                 {member_name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{job_name}</TableCell>
+                          <TableCell align="center">{job_name}</TableCell>
 
-                          <TableCell align="left">
+                          <TableCell align="center">
                             <Button>
-                              <a href={resume_url} target="_blank" rel="noreferrer">
-                                current CV
+                              <a href={resume_url !== "#" ? resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
+                                <Iconify icon={"akar-icons:paper"} width={22} height={22} />
                               </a>
                             </Button>
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell align="center">
                             <Label variant="ghost" color={(applied_status === 'Approve' && 'success') || 'error'}>
                               {applied_status}
                             </Label>
@@ -467,7 +467,7 @@ export default function Request() {
           />
         </Card>
         <br />
-        <Typography variant="h4" gutterBottom color="danger" sx={{ color: 'red' }}>
+        <Typography variant="h4" mb={5} gutterBottom color="danger" sx={{ color: 'red' }}>
           Rejected
         </Typography>
         <Card>
@@ -518,16 +518,16 @@ export default function Request() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{job_name}</TableCell>
+                          <TableCell align="center">{job_name}</TableCell>
 
-                          <TableCell align="left">
+                          <TableCell align="center">
                             <Button>
-                              <a href={resume_url} target="_blank" rel="noreferrer">
-                                current CV
+                              <a href={resume_url !== "#" ? resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
+                                <Iconify icon={"akar-icons:paper"} width={22} height={22} />
                               </a>
                             </Button>
                           </TableCell>
-                          <TableCell align="left">
+                          <TableCell align="center">
                             <Label variant="ghost" color={(applied_status === 'Reject' && 'error') || 'success'}>
                               {applied_status}
                             </Label>
