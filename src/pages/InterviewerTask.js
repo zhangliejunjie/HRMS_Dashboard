@@ -11,12 +11,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-// import { useFormik } from 'formik';
-import * as Yup from 'yup'
+import { submitReport } from 'src/store/slice/reportSlice';
 
 // import { errorHelper } from 'src/utils/tool';
-
-import { useForm, useFieldArray } from 'react-hook-form'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -43,33 +40,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // }
 
 const InterviewerTask = () => {
-    const { register, control, handleSubmit, reset, watch } = useForm({
-        defaultValues: {
-            reportField: [{ mark: 0, comment: "" }]
-        }
-    });
-    const { fields } = useFieldArray({
-        control,
-        name: 'reportField'
-    })
-    const { reports_pending, reports_done } = useSelector(state => state.report)
-    // const formik = useFormik({
-    //     initialValues: {
-    //         mark: 0,
-    //         comment: ''
-    //     },
-    //     validationSchema: Yup.object().shape({
-    //         mark: Yup.number().min(0, 'Minium mark is 0').max(10, 'Maximum mark is 10'),
-    //         comment: Yup.string().max(500, 'Maximum character is 500')
-    //     }),
-    //     onSubmit: (values) => {
-    //         console.log(values);
-    //         alert(formInterviewId)
-    //     }
 
-    // })
+    const { reports_pending, reports_done } = useSelector(state => state.report)
+    const notification = useSelector(state => state.notification)
+    const res = reports_pending?.map(report => {
+        return {
+            id: report.id,
+            interview_id: report.interview_id,
+            mark: report.mark,
+            comment: report.comment,
+            status: report.status
+        }
+    })
+
     const { staff } = useSelector(state => state.staff)
-    const [formInterviewId, setFormInterviewId] = useState('')
+    const [reportSubmitState, setReportSubmitState] = useState(res)
+
     const dispatch = useDispatch()
     function groupBy(arr, property) {
         return arr.reduce((acc, cur) => {
@@ -78,158 +64,116 @@ const InterviewerTask = () => {
         }, {});
     }
     const reportsGroupByWeek = Object.entries(groupBy(reports_pending, 'week'))
-    let reportsGroupByWeek1 = groupBy(reports_pending, 'week')
-    console.log(reportsGroupByWeek1);
-    // console.log(reportsGroupByWeek);
+
 
     useEffect(() => {
         dispatch(getReportByInterviewer(staff.id))
-    }, [])
-    const onSubmit = (data) => console.log("data", data);
+        console.log('re-render');
+    }, [notification])
+
+
+    const handleSetReportById = (type, values, id) => {
+        if (type === 'mark') {
+            let result = [...reportSubmitState]; //<- copy roomRent into result
+            result.forEach((x) => { //<- use map on result to find element to update using id
+                if (x.id === id) x.mark = Number(values);
+            });
+            // console.log(another);
+
+            setReportSubmitState(result)
+
+        } else {
+            let result = [...reportSubmitState]; //<- copy roomRent into result
+            result.forEach((x) => { //<- use map on result to find element to update using id
+                if (x.id === id) {
+                    x.comment = values
+                }
+
+            });
+
+            setReportSubmitState(result)
+
+        }
+    }
+    const handleSubmit = (id) => {
+        const resRep = reportSubmitState.find(rp => rp.id === id)
+
+        const interviewId = resRep.interview_id
+        const interviewerId = staff.id
+        const mark = resRep.mark
+        const comment = resRep.comment
+
+        dispatch(submitReport({ interviewId, interviewerId, mark, comment }))
+
+    }
     return (
         <Box>
             <Box>
                 <Typography component='h1' variant='h2'>Pending task</Typography>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Box>
-                        <Stack>
-                            {reportsGroupByWeek.map((report, id) => {
-                                return (
-                                    <Box key={id}>
-                                        <Accordion defaultExpanded={true} key={id}>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon />}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                            >
-                                                <Typography variant='h3' bgcolor='blueviolet'>WEEK: {report[0]}</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
+                <Box>
+                    <Stack>
+                        {reportsGroupByWeek.map((report, id) => {
+                            return (
+                                <Box key={id}>
+                                    <Accordion defaultExpanded={true} key={id}>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography variant='h3' bgcolor='blueviolet'>WEEK: {report[0]}</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
 
-                                                {/* ===real */}
-                                                {/* <form > */}
-                                                {/* {
-                                                        report[1]?.map((rp, index) => (
-                                                            <Accordion defaultExpanded={true} key={rp.id}>
-                                                                <AccordionSummary
-                                                                    expandIcon={<ExpandMoreIcon />}
-                                                                    aria-controls="panel1a-content"
-                                                                    id="panel1a-header"
-                                                                >
-                                                                    <Typography fontWeight='bold'>SLOT: {rp.slot}</Typography>
-                                                                </AccordionSummary>
-                                                                <AccordionDetails>
-                                                                    <Stack direction='row' justifyContent='space-around'>
-                                                                        <div>{rp.id}</div>
-                                                                        <Typography>
-                                                                            NAME: {rp.fullname}
-                                                                        </Typography>
-                                                                        <Divider orientation='verticial' variant='middle' />
-                                                                        <Typography>
-                                                                            ROOM: {rp.room}
-                                                                        </Typography>
-                                                                        <Divider orientation='verticial' variant='middle' />
-                                                                     
-                                                                        <TextField placeholder='mark' name='mark' type='number' value={rp.mark}
-                                                                            key={rp.id}
+                                            {/* ===real */}
+                                            {/* <form > */}
+                                            {
+                                                report[1]?.map((rp) => (
+                                                    <Accordion defaultExpanded={true} key={rp.id}>
+                                                        <AccordionSummary
+                                                            expandIcon={<ExpandMoreIcon />}
+                                                            aria-controls="panel1a-content"
+                                                            id="panel1a-header"
+                                                        >
+                                                            <Typography fontWeight='bold'>SLOT: {rp.slot}</Typography>
+                                                        </AccordionSummary>
+                                                        <AccordionDetails>
+                                                            <Stack direction='row' justifyContent='space-around'>
+                                                                <div>{rp.id}</div>
+                                                                <Typography>
+                                                                    NAME: {rp.fullname}
+                                                                </Typography>
+                                                                <Divider orientation='verticial' variant='middle' />
+                                                                <Typography>
+                                                                    ROOM: {rp.room}
+                                                                </Typography>
+                                                                <Divider orientation='verticial' variant='middle' />
 
-                                                                        />
-                                                                        <TextField placeholder='comment' name='comment' multiline value={rp.comment} rows={4} sx={{ width: '400px' }} />
-                                                                        <Button onClick={() => setFormInterviewId(rp.interviewId)} type='submit'>Submit</Button>
-                                                                        
-                                                                    </Stack>
+                                                                <TextField placeholder={rp.mark} name='mark' type='number'
+                                                                    key={rp.id}
+                                                                    onChange={(e) => handleSetReportById('mark', e.target.value, rp.id)}
+                                                                />
+                                                                <TextField placeholder={rp.comment} name='comment' multiline rows={4} sx={{ width: '400px' }}
+                                                                    onChange={(e) => handleSetReportById('comment', e.target.value, rp.id)}
+                                                                />
+                                                                <Button type='submit' onClick={() => handleSubmit(rp.id)}>Submit</Button>
 
-                                                                </AccordionDetails>
-                                                            </Accordion>
-                                                        ))
-                                                    } */}
-                                                {/* </form> */}
-                                                {/* ==== test */}
-                                                <form >
-                                                    {
-                                                        report[1]?.map((rp, index) => (
-                                                            <Accordion defaultExpanded={true} key={rp.id}>
-                                                                <AccordionSummary
-                                                                    expandIcon={<ExpandMoreIcon />}
-                                                                    aria-controls="panel1a-content"
-                                                                    id="panel1a-header"
-                                                                >
-                                                                    <Typography fontWeight='bold'>SLOT: {rp.slot}</Typography>
-                                                                </AccordionSummary>
-                                                                <AccordionDetails>
-                                                                    <Stack direction='row' justifyContent='space-around'>
-                                                                        <div>{rp.id}</div>
-                                                                        <Typography>
-                                                                            NAME: {rp.fullname}
-                                                                        </Typography>
-                                                                        <Divider orientation='verticial' variant='middle' />
-                                                                        <Typography>
-                                                                            ROOM: {rp.room}
-                                                                        </Typography>
-                                                                        <Divider orientation='verticial' variant='middle' />
-                                                                        {/* <form  key={rp.id}> */}
-                                                                        <TextField placeholder='mark' name='mark' type='number' value={rp.mark}
-                                                                            key={rp.id}
+                                                            </Stack>
 
-                                                                        />
-                                                                        <TextField placeholder='comment' name='comment' multiline value={rp.comment} rows={4} sx={{ width: '400px' }} />
-                                                                        <Button onClick={() => setFormInterviewId(rp.interviewId)} type='submit'>Submit</Button>
-                                                                        {/* </form> */}
-                                                                    </Stack>
+                                                        </AccordionDetails>
+                                                    </Accordion>
+                                                ))
+                                            }
 
-                                                                </AccordionDetails>
-                                                            </Accordion>
-                                                        ))
-                                                    }
-                                                </form>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </Box>
-                                )
-                            })}
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </Box>
+                            )
+                        })}
 
-                            {/* {reports_pending.map(rp => (
-                            <Box>
-                                <Accordion defaultExpanded={true} key={rp.id}>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
-                                    >
-                                        <Typography fontWeight='bold'>SLOT: {rp.slot} - WEEK: {rp.week}</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Stack direction='row' justifyContent='space-around'>
-                                            <div>{rp.id}</div>
-                                            <Typography>
-                                                NAME: {rp.fullname}
-                                            </Typography>
-                                            <Divider orientation='verticial' variant='middle' />
-                                            <Typography>
-                                                ROOM: {rp.room}
-                                            </Typography>
-                                            <Divider orientation='verticial' variant='middle' />
-                                            <form onSubmit={formik.handleSubmit} key={rp.id}>
-                                                <TextField placeholder='mark' name='mark' type='number' value={rp.mark}
-                                                    onChange={(e) => console.log(e.target.value)}
-                                                />
-                                                <TextField placeholder='comment' name='comment' multiline value={rp.comment} rows={4} sx={{ width: '400px' }}
-                                                    onChange={(e) => console.log(e.target.value)}
-                                                />
-                                                <Button onClick={() => setFormInterviewId(rp.interviewId)} type='submit'>Submit</Button>
-                                            </form>
-                                        </Stack>
+                    </Stack>
+                </Box>
 
-                                    </AccordionDetails>
-                                </Accordion>
-                            </Box>
-                        ))} */}
-
-
-
-                        </Stack>
-                    </Box>
-                </form>
             </Box >
             <Divider />
             <Box mt={3}>

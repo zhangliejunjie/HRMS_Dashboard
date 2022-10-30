@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { error, success } from './notificationSlice';
+
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const initialState = {
   reports_pending: [],
@@ -14,28 +15,32 @@ export const getReportByInterviewer = createAsyncThunk('report/getReportByInterv
     const { data } = await axios.post('http://localhost:8000/api/report/by-interviewer', {
       interviewerId: params,
     });
-    console.log(data);
     return data;
   } catch (error) {
     throw error;
   }
 });
 
-export const submitReport = createAsyncThunk('report/submitReport', async (params, thunkAPI) => {
-  await axios
-    .patch('http://localhost:8000/api/report/mark', {
-      interviewId: params.interviewId,
-      interviewerId: params.interviewerId,
-      mark: params.mark,
-      comment: params.comment,
-    })
-    .then((res) => {
-      thunkAPI.dispatch(success('Submit successfully'));
-    })
-    .catch((err) => {
-      thunkAPI.dispatch(error(err.response.data.message));
-    });
-});
+export const submitReport = createAsyncThunk(
+  'report/submitReport',
+  async ({ mark, comment, interviewId, interviewerId }, thunkAPI) => {
+    console.log({ mark, comment, interviewId, interviewerId });
+    await axios
+      .patch('http://localhost:8000/api/report/mark', {
+        mark,
+        comment,
+        interviewId,
+        interviewerId,
+      })
+      .then((res) => {
+        thunkAPI.dispatch(success(`Submit successfully`));
+        thunkAPI.dispatch(getReportByInterviewer(interviewerId));
+      })
+      .catch((err) => {
+        thunkAPI.dispatch(error(err.response.data.message));
+      });
+  }
+);
 
 export const reportSlice = createSlice({
   name: 'report',

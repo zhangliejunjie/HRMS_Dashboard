@@ -16,7 +16,6 @@ import PrivateRoute from './hoc/AuthGuard';
 import Interview from './pages/Interview';
 import InterviewerTask from './pages/InterviewerTask';
 
-// ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
