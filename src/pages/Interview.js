@@ -21,6 +21,9 @@ import {
   Typography,
   TableContainer,
   TablePagination,
+  Popover,
+  IconButton,
+  MenuItem,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -34,9 +37,9 @@ import USERLIST from '../_mock/user';
 import Heatmap from 'src/sections/@dashboard/interview/Heatmap';
 import InterviewModal from 'src/sections/@dashboard/interview/InterviewModal';
 import KietInterviewModal from 'src/sections/@dashboard/interview/KietInterviewModal';
-import IconButton from 'src/theme/overrides/IconButton';
 import InterviewerChip from 'src/sections/@dashboard/interview/InterviewerChip';
 import InterviewerAssignModal from 'src/sections/@dashboard/interview/InterviewerAssignModal';
+import InterviewModalEditor from 'src/sections/@dashboard/interview/InterviewModalEditor';
 
 // ----------------------------------------------------------------------
 
@@ -95,9 +98,20 @@ export default function Interview() {
 
   const [isLoad, setIsLoad] = useState(0);
 
+  const [open, setOpen] = useState(null);
+
+  const [id, setId] = useState('');
+
   const handleLoad = () => {
     setIsLoad(isLoad + 1);
-  }
+  };
+  const handleOpenMenu = (event, candidateId) => {
+    setOpen(event.currentTarget);
+    setId(candidateId);
+  };
+  const handleCloseMenu = () => {
+    setOpen(null);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -168,14 +182,16 @@ export default function Interview() {
     setFilterName(event.target.value);
   };
 
+  const handleEditInterview = (event) => {};
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [id, setId] = useState();
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [id, setId] = useState();
 
   return (
     <Page title="Interview">
@@ -203,7 +219,20 @@ export default function Interview() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified, hr_staff, address, dob, identity_number, phone } = row;
+                    const {
+                      id,
+                      name,
+                      role,
+                      status,
+                      company,
+                      avatarUrl,
+                      isVerified,
+                      hr_staff,
+                      address,
+                      dob,
+                      identity_number,
+                      phone,
+                    } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -229,15 +258,26 @@ export default function Interview() {
                         {/* <TableCell align="left">{company}</TableCell> */}
                         <TableCell align="center">{role}</TableCell>
                         <TableCell align="center">
-                          <a href={isVerified !== "#" ? isVerified : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
-                            <Iconify icon={"akar-icons:paper"} width={22} height={22} />
+                          <a
+                            href={
+                              isVerified !== '#'
+                                ? isVerified
+                                : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <Iconify icon={'akar-icons:paper'} width={22} height={22} />
                           </a>
                         </TableCell>
                         <TableCell align="center">
                           {status === 'NO' ? (
-                            <KietInterviewModal candidate={row} reloadData={() => {
-                              handleLoad()
-                            }} />
+                            <KietInterviewModal
+                              candidate={row}
+                              reloadData={() => {
+                                handleLoad();
+                              }}
+                            />
                           ) : (
                             <Button>
                               <Label variant="ghost" color={(status === 'no' && 'error') || 'success'}>
@@ -249,6 +289,15 @@ export default function Interview() {
                         <TableCell align="center">
                           <InterviewerAssignModal infor={row} />
                         </TableCell>
+                        {status !== 'NO' ? (
+                          <TableCell align="right">
+                            <IconButton size="large" color="inherit" onClick={(e) => handleOpenMenu(e, id)}>
+                              <Iconify icon={'eva:more-vertical-fill'} />
+                            </IconButton>
+                          </TableCell>
+                        ) : (
+                          <></>
+                        )}
                       </TableRow>
                     );
                   })}
@@ -290,6 +339,35 @@ export default function Interview() {
         </Stack>
         <Heatmap isLoad={isLoad} />
       </Container>
+      <Popover
+        open={Boolean(open)}
+        anchorEl={open}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        PaperProps={{
+          sx: {
+            p: 1,
+            width: 140,
+            '& .MuiMenuItem-root': {
+              px: 1,
+              typography: 'body2',
+              borderRadius: 0.75,
+            },
+          },
+        }}
+      >
+        {/* <MenuItem onClick={handleEditInterview}>
+          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          Edit
+        </MenuItem> */}
+        <InterviewModalEditor candidateId={id} />
+
+        <MenuItem sx={{ color: 'error.main' }}>
+          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          Delete
+        </MenuItem>
+      </Popover>
     </Page>
   );
 }

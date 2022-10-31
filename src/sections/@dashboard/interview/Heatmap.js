@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import HeatmapModal from './HeatmapModal';
 import InterviewModal from './InterviewModal';
 
 export default function Heatmap({ isLoad }) {
@@ -14,18 +15,30 @@ export default function Heatmap({ isLoad }) {
   const [firstDay, setFirstDay] = useState(new Date(curr.setDate(first)).toLocaleDateString());
   const [lastDay, setLastDay] = useState(new Date(curr.setDate(curr.getDate() + 6)).toLocaleDateString());
   const [week, setWeek] = useState(moment(firstDay).week());
+  const [room, setRoom] = useState(0);
+  const [slot, setSlot] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleClickHeatmap = (room, slot) => {
+    setRoom(room);
+    setSlot(slot);
+    setIsOpen(true);
+  };
   // get data for heatmap by room and week
   const [heatmapData, setHeatmapData] = useState([]);
   React.useEffect(() => {
-    async function fetchNumCandidatesBYRoomWeek() {
+    async function fetchNumCandidatesByRoomWeek() {
       const { data } = await axios.post('http://localhost:8000/api/interview/by-room-week', {
         week: week,
       });
       setHeatmapData(data);
     }
 
-    fetchNumCandidatesBYRoomWeek();
+    fetchNumCandidatesByRoomWeek();
   }, [isLoad, week]);
   // const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
   //   id: candidatesNotInterview[index]?.id,
@@ -76,6 +89,11 @@ export default function Heatmap({ isLoad }) {
       chart: {
         height: 350,
         type: 'heatmap',
+        events: {
+          click: function (event, charContext, config) {
+            handleClickHeatmap(config.seriesIndex + 1, config.dataPointIndex + 1);
+          },
+        },
       },
       dataLabels: {
         enabled: false,
@@ -132,6 +150,7 @@ export default function Heatmap({ isLoad }) {
               </Button>
             </ButtonGroup>
           </Stack>
+          <HeatmapModal isOpen={isOpen} handleClose={handleClose} week={week} room={room} slot={slot} />
         </div>
       </Box>
     </Card>
