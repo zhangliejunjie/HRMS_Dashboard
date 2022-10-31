@@ -4,6 +4,7 @@ import staffReducer from './slice/staffSlice';
 import notificationReducer from './slice/notificationSlice';
 import memberReducer from './slice/memberSlice';
 import candidateReducer from './slice/candidateSlice';
+import reportReducer from './slice/reportSlice';
 import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   members: memberReducer,
   candidates: candidateReducer,
+  report: reportReducer,
 });
 
 const persistConfig = {

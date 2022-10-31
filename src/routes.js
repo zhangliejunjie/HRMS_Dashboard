@@ -14,13 +14,17 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import PrivateRoute from './hoc/AuthGuard';
 import Interview from './pages/Interview';
+import InterviewerTask from './pages/InterviewerTask';
 import HRManager from './pages/HRManager';
 import Staffs from './pages/Staffs';
 
 
 // ----------------------------------------------------------------------
 
+import InterviewHOC from './pages/InterviewHOC';
+import { useSelector } from 'react-redux';
 export default function Router() {
+  const { staff } = useSelector((state) => state.staff);
   return useRoutes([
     {
       element: <PrivateRoute />,
@@ -45,7 +49,11 @@ export default function Router() {
             },
             {
               path: 'interview',
-              element: <Interview />,
+              element: <InterviewHOC />,
+            },
+            {
+              path: 'interview-task',
+              element: <InterviewerTask />,
             },
             {
               path: 'hrmanager',

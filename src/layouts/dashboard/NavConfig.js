@@ -51,6 +51,11 @@ const navConfig = [
     path: '/dashboard/staffs',
     icon: getIcon('eva:people-fill'),
   },
+  {
+    title: 'Final Result',
+    path: '/dashboard/hrmanager',
+    icon: getIcon('bxs:message-alt-check'),
+  },
 ];
 
 export default navConfig;
