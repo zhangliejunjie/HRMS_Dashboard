@@ -282,8 +282,9 @@ export default function Interview() {
                         <TableCell align="left">{identityNumber}</TableCell>
                         <TableCell align="left">{jobName}</TableCell>
                         <TableCell align="left">{mark}</TableCell>
-                        <TableCell variant="contained" align="left">
-                          {/* {is_employee === 'Not yet' ? <><Button variant="contained" onClick={() => handleOpenDecide(id)}>
+                        {staff.role === 'HR Manager' && (
+                          <TableCell variant="contained" align="left">
+                            {/* {is_employee === 'Not yet' ? <><Button variant="contained" onClick={() => handleOpenDecide(id)}>
                                                         Give result
                                                     </Button> </> : <>
                                                         {decide ? (<Button variant="contained" disabled onClick={() => handleApprove(id)}>
@@ -293,7 +294,6 @@ export default function Interview() {
                                                         </Button>)}
                                                     </>} */}
 
-                          {staff.role === 'HR Manager' && (
                             <DatReportDialog
                               id={id}
                               is_employee={is_employee}
@@ -302,8 +302,8 @@ export default function Interview() {
                                 handleLoad();
                               }}
                             />
-                          )}
-                        </TableCell>
+                          </TableCell>
+                        )}
 
                         <TableCell align="right">
                           <UserMoreMenu />
