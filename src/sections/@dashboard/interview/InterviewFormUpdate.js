@@ -32,6 +32,20 @@ export default function InterviewFormUpdate({ handleClose, candidateId }) {
 
   const roomArr = [...Array(9).keys()];
   const slotArr = [...Array(4).keys()];
+
+  const validate = (values) => {
+    const errors = {};
+    console.log(values.date);
+    // Date must be from today and before end_date at least 7 days ago
+    if (!values.date) {
+      errors.date = 'Date required';
+    } else if (moment(values.date).diff(moment(), 'days') < 0) {
+      errors.date = 'Date must be from today';
+    } else if (moment(values.date).day() === 0) {
+      errors.date = 'Date can not be Sunday';
+    }
+    return errors;
+  };
   return (
     <Formik
       initialValues={{
@@ -39,6 +53,17 @@ export default function InterviewFormUpdate({ handleClose, candidateId }) {
         room: 1,
         slot: 1,
         candidateId: candidateId,
+      }}
+      validate={(value) => {
+        const errors = {};
+        if (!value.day) {
+          errors.day = 'Date required';
+        } else if (moment(value.day).diff(moment(), 'days') < 0) {
+          errors.day = 'Date must be from today';
+        } else if (moment(value.day).day() === 0) {
+          errors.day = 'Date can not be Sunday';
+        }
+        return errors;
       }}
       onSubmit={(value) => {
         console.log(value);
@@ -51,7 +76,7 @@ export default function InterviewFormUpdate({ handleClose, candidateId }) {
           })
           .then((res) => {
             handleClose();
-            dispatch(success('Editing interview successfully'));
+            dispatch(success('Edited interview successfully'));
           });
       }}
     >

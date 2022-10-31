@@ -256,7 +256,7 @@ export default function Interview() {
                           </Stack>
                         </TableCell>
                         {/* <TableCell align="left">{company}</TableCell> */}
-                        <TableCell align="center">{role}</TableCell>
+                        <TableCell align="left">{role}</TableCell>
                         <TableCell align="center">
                           <a
                             href={
@@ -286,6 +286,10 @@ export default function Interview() {
                             </Button>
                           )}
                         </TableCell>
+
+                        {/* <TableCell align="right">
+                          <UserMoreMenu />
+                        </TableCell> */}
                         <TableCell align="center">
                           <InterviewerAssignModal infor={row} />
                         </TableCell>
@@ -334,10 +338,10 @@ export default function Interview() {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mt={3}>
           <Typography variant="h4" gutterBottom>
-            Interview Schedule
+            Heat Map Chart
           </Typography>
         </Stack>
-        <Heatmap isLoad={isLoad} />
+        <Heatmap />
       </Container>
       <Popover
         open={Boolean(open)}
