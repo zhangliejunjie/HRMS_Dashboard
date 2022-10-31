@@ -23,9 +23,14 @@ const notificationSlice = createSlice({
       state.error = true;
       state.success = false;
     },
+    clear: (state) => {
+      state.message = null;
+      state.error = null;
+      state.success = null;
+    },
   },
 });
 export const { reducer: notificationReducer } = notificationSlice;
-export const { success, error } = notificationSlice.actions;
+export const { success, error, clear } = notificationSlice.actions;
 
 export default notificationReducer;

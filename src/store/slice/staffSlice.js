@@ -8,6 +8,7 @@ import { getCandidateByStaff } from './candidateSlice';
 import { getAllMember } from './memberSlice';
 
 import { success, error } from './notificationSlice';
+import { getReportByInterviewer } from './reportSlice';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const initialState = {
@@ -33,6 +34,7 @@ export const login = createAsyncThunk('staff/login', async (params, thunkAPI) =>
   thunkAPI.dispatch(success('Login successfully'));
   thunkAPI.dispatch(getAllMember());
   thunkAPI.dispatch(getCandidateByStaff({ staffID }));
+  thunkAPI.dispatch(getReportByInterviewer(staffID));
   return { staff, token };
 });
 export const logout = createAsyncThunk('staff/logout', async (params, thunkAPI) => {
