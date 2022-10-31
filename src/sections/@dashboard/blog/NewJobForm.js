@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, MenuItem } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, MenuItem, formControlClasses, TextField, InputLabel, Select, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -19,15 +19,16 @@ import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 import { useParams } from 'react-router-dom';
+import SelectInput from '@mui/material/Select/SelectInput';
 
 // ----------------------------------------------------------------------
 
-export default function NewJobForm() {
+export default function NewJobForm({ choosedCampaign }) {
 
   const navigate = useNavigate();
 
   const params = useParams();
-  const meow = params.choosedCampaign;
+  const choosedCampaignId = params.id;
 
   const dispatch = useDispatch();
 
@@ -61,7 +62,33 @@ export default function NewJobForm() {
     navigate('/blog', { replace: true });
   };
   // New form Kiet
-  let date = Date.now();
+
+  console.log(choosedCampaignId);
+
+  const validate = values => {
+    const errors = {};
+    console.log(values.start_date);
+    // Start date must be from today and before end_date at least 7 days ago
+    if (!values.start_date) {
+      errors.start_date = 'Start date required';
+    } else if (moment(values.start_date).diff(moment(), 'days') < 0) {
+      errors.start_date = 'Start date must be from today';
+    } else if (moment(values.start_date).diff(moment(values.end_date).subtract(7, 'days'), 'days') > 0) {
+      errors.start_date = 'Start date must be before end date at least 7 days ago\nAvalable end date: '
+        + moment(values.start_date).add(7, 'days').format('yyyy-MM-DD');
+    }
+
+    if (!values.end_date) {
+      errors.end_date = 'End date required';
+    } else if (moment(values.end_date).diff(moment(), 'days') < 0) {
+      errors.end_date = 'End date must be from today';
+    } else if (moment(values.end_date).diff(moment(values.start_date).add(7, 'days'), 'days') < 0) {
+      errors.end_date = 'End date must be after start date 7 at least';
+    }
+
+    return errors;
+  };
+
   const formik = useFormik({
     initialValues: {
       // name: '',
@@ -70,24 +97,24 @@ export default function NewJobForm() {
       // quantity: '',
       // start_date: moment(date).format('yyyy-MM-DD'),
       // end_date: moment(date).format('yyyy-MM-DD'),
-      "name": "ReactJS Intern",
-      "description": "dont have any idea what is going on",
-      "salary": "900",
-      "quantity": "3",
-      "start_date": "2022-12-28",
-      "end_date": "2022-12-29",
+      "name": '',
+      "description": '',
+      "salary": '',
+      "quantity": '',
+      start_date: moment().format('yyyy-MM-DD'),
+      end_date: moment().add(7, 'days').format('yyyy-MM-DD'),
       "status": "Hiring",
       "experience": "Intern",
-      "categoryId": "CA-001",
-      "campaignId": "CP-001"
+      "categoryId": '',
     },
 
     validationSchema: Yup.object().shape({
-      name: Yup.string().required('Job name required'),
+      name: Yup.string().required('Job title required'),
       description: Yup.string().required('Description required'),
       salary: Yup.string().required('Salary required'),
       quantity: Yup.number().required('Quantity required'),
     }),
+    validate,
     onSubmit: (value) => {
       console.log("Ngũ cung")
       console.log(value);
@@ -103,18 +130,19 @@ export default function NewJobForm() {
           // experience: "Intern",
           // categoryId: "CA-001",
           // campaignId: "CP-001"
-          "name": "ReactJS Intern",
-          "description": "dont have any idea what is going on",
-          "salary": "900",
-          "quantity": "3",
-          "start_date": "2022-12-28",
-          "end_date": "2022-12-29",
+          "name": value.name,
+          "description": value.description,
+          "salary": value.salary,
+          "quantity": value.quantity,
+          "start_date": value.start_date,
+          "end_date": value.end_date,
           "status": "Hiring",
-          "experience": "Intern",
-          "categoryId": "CA-001",
-          "campaignId": "CP-001"
+          "experience": value.experience,
+          "categoryId": value.categoryId,
+          "campaignId": choosedCampaignTitle[0]?.id
         })
         .then((res) => {
+          window.location.href = `http://localhost:3000/dashboard/blog/${choosedCampaignTitle[0]?.id}`;
           dispatch(success("Create job successfully"));
         })
         .catch((error) => console.log(error));
@@ -127,9 +155,18 @@ export default function NewJobForm() {
     async function fetchCategory() {
       const data = await axios.get('http://localhost:8000/api/category');
       const { categories } = data.data;
-      console.log(params);
-      console.log(categories);
       setCategories(categories);
+    }
+    fetchCategory();
+  }, []);
+
+  const [campaigns, setCampaigns] = useState([]);
+  React.useEffect(() => {
+    async function fetchCategory() {
+      const data = await axios.get('http://localhost:8000/api/campaign');
+      const { campaigns } = data.data;
+      console.log(campaigns);
+      setCampaigns(campaigns);
     }
     fetchCategory();
   }, []);
@@ -140,10 +177,21 @@ export default function NewJobForm() {
     });
   };
 
+  const choosedCampaignTitle = campaigns.filter(
+    camp => {
+      return camp.id === choosedCampaignId
+    }
+  );
+
+  console.log(choosedCampaignTitle);
+
   return (
+
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
-        <Typography variant="h3"> Campaign name </Typography>
+
+        <Typography variant="h3"> {choosedCampaignTitle[0]?.title} </Typography>
+
         <RHFTextField
           name="name"
           label="Job Title"
@@ -188,6 +236,69 @@ export default function NewJobForm() {
           error={formik.touched.quantity && Boolean(formik.errors.quantity)}
           helperText={formik.touched.quantity && formik.errors.quantity}
         />
+
+        <TextField
+          label="Start date"
+          fullWidth
+          title="start date"
+          type="date"
+          value={formik.values.start_date}
+          name="start_date"
+          validate
+          onChange={formik.handleChange}
+          // defaultValue={moment(today).format('yyyy-MM-DD')}
+          error={formik.touched.start_date && Boolean(formik.errors.start_date)}
+          helperText={formik.touched.start_date && formik.errors.start_date}
+        />
+
+        <TextField
+          label="End date"
+          fullWidth
+          title="end date"
+          type="date"
+          validate
+          value={formik.values.end_date}
+          name="end_date"
+          onChange={formik.handleChange}
+          // defaultValue={moment(formik.values.start_date).add(7, 'days').format('yyyy-MM-DD')}
+          error={formik.touched.end_date && Boolean(formik.errors.end_date)}
+          helperText={formik.touched.end_date && formik.errors.end_date}
+        />
+        <FormControl>
+          <InputLabel
+            id="categoryId">Category</InputLabel>
+          <Select
+            labelId="categoryId"
+            id="categoryId"
+            name='categoryId'
+            value={formik.values.categoryId}
+            label="Category"
+            onChange={formik.handleChange}
+            error={formik.touched.categoryId && Boolean(formik.errors.categoryId)}
+            helperText={formik.touched.categoryId && formik.errors.categoryId}
+          >
+            {renderCategory()}
+          </Select>
+        </FormControl>
+
+        <FormControl>
+          <InputLabel
+            id="experience">Experience</InputLabel>
+          <Select
+            labelId="experience"
+            id="experience"
+            name='experience'
+            value={formik.values.experience}
+            label="Experience"
+            onChange={formik.handleChange}
+            error={formik.touched.experience && Boolean(formik.errors.experience)}
+            helperText={formik.touched.experience && formik.errors.experience}
+          >
+            <MenuItem value={"Experienced"}>Experienced</MenuItem>
+            <MenuItem value={"Intern"}>Intern</MenuItem>
+            <MenuItem value={"Fresher"}>Fresher</MenuItem>
+          </Select>
+        </FormControl>
 
         {/* <RHFTextField name="email" label="Email address" />
 

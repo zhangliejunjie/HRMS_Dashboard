@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -231,19 +231,23 @@ export default function CampaignCreateForm({ open, onClose }) {
             ),
           }}
         /> */}
-        <Select
-          fullWidth
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          onChange={formik.handleChange}
-          defaultValue="Processing"
-          name="status"
-        >
-          <MenuItem value={'Not started'}>Not started</MenuItem>
-          <MenuItem value={'Processing'}>Processing</MenuItem>
+        <FormControl>
+          <InputLabel
+            id="demo-simple-select-label">Status</InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            onChange={formik.handleChange}
+            defaultValue="Processing"
+            name="status"
+          >
+            <MenuItem value={'Not started'}>Not started</MenuItem>
+            <MenuItem value={'Processing'}>Processing</MenuItem>
           // The campaign has finish
-          {/* <MenuItem value={'Finished'}>Finished</MenuItem> */}
-        </Select>
+            {/* <MenuItem value={'Finished'}>Finished</MenuItem> */}
+          </Select>
+        </FormControl>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Create

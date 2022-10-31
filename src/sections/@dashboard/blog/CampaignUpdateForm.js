@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -185,18 +185,21 @@ export default function CampaignUpdateForm({ news, open, onClose }) {
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
-
-        <Select
-          fullWidth
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          onChange={formik.handleChange}
-          defaultValue="Processing"
-          name="status"
-        >
-          <MenuItem value={'Not started'}>Not started</MenuItem>
-          <MenuItem value={'Processing'}>Processing</MenuItem>
-        </Select>
+        <FormControl>
+          <InputLabel
+            id="demo-simple-select-label">Status</InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            onChange={formik.handleChange}
+            defaultValue="Processing"
+            name="status"
+          >
+            <MenuItem value={'Not started'}>Not started</MenuItem>
+            <MenuItem value={'Processing'}>Processing</MenuItem>
+          </Select>
+        </FormControl>
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Update

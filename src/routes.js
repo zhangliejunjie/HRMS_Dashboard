@@ -9,7 +9,7 @@ import User from './pages/User';
 import Login from './pages/Login';
 import Request from './pages/Request';
 import NotFound from './pages/Page404';
-import Register from './pages/Register';
+import NewJob from './pages/NewJob';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import PrivateRoute from './hoc/AuthGuard';
@@ -35,6 +35,11 @@ export default function Router() {
             { path: 'blog', element: <Blog /> },
             { path: 'blog/:id', element: <BlogDetail /> },
             {
+              path: 'newJob/:id',
+              element: <NewJob />,
+            },
+
+            {
               path: 'request',
               element: <Request />,
             },
@@ -58,10 +63,7 @@ export default function Router() {
       path: 'login',
       element: <Login />,
     },
-    {
-      path: 'newJob',
-      element: <Register />,
-    },
+
     {
       path: '/',
       element: <LogoOnlyLayout />,

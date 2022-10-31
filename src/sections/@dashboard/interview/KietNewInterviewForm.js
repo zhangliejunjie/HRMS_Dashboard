@@ -15,6 +15,7 @@ import {
   InputLabel,
   OutlinedInput,
   Chip,
+  FormControl,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
@@ -157,7 +158,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
 
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
-      <Stack spacing={1}>
+      <Stack spacing={3}>
         <Typography variant="h6">Schedule Interview</Typography>
         <Stack spacing={1}>
           <Chip
@@ -194,37 +195,40 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
           error={formik.touched.date && Boolean(formik.errors.date)}
           helperText={formik.touched.date && formik.errors.date}
         />
-        <InputLabel id="demo-simple-select-label">Slot</InputLabel>
-        <Select
-          fullWidth
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={formik.values.slot}
-          onChange={formik.handleChange}
-          name="slot"
-          error={formik.touched.slot && Boolean(formik.errors.slot)}
-          helperText={formik.touched.slot && formik.errors.slot}
-        >
-          {slotArr.map((value) => (
-            <MenuItem value={value + 1}>{value + 1}</MenuItem>
-          ))}
-        </Select>
-
-        <InputLabel id="demo-simple-select-label">Room</InputLabel>
-        <Select
-          fullWidth
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={formik.values.room}
-          onChange={formik.handleChange}
-          name="room"
-          error={formik.touched.room && Boolean(formik.errors.room)}
-          helperText={formik.touched.room && formik.errors.room}
-        >
-          {roomArr.map((value) => (
-            <MenuItem value={value + 1}>{value + 1}</MenuItem>
-          ))}
-        </Select>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Slot</InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formik.values.slot}
+            onChange={formik.handleChange}
+            name="slot"
+            error={formik.touched.slot && Boolean(formik.errors.slot)}
+            helperText={formik.touched.slot && formik.errors.slot}
+          >
+            {slotArr.map((value) => (
+              <MenuItem value={value + 1}>{value + 1}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Room</InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={formik.values.room}
+            onChange={formik.handleChange}
+            name="room"
+            error={formik.touched.room && Boolean(formik.errors.room)}
+            helperText={formik.touched.room && formik.errors.room}
+          >
+            {roomArr.map((value) => (
+              <MenuItem value={value + 1}>{value + 1}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <RHFTextField
           name="note"
