@@ -6,7 +6,9 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 // components
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
-import account from '../../_mock/account';
+// import account from '../../_mock/account';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from 'src/store/slice/staffSlice';
 
 // ----------------------------------------------------------------------
 
@@ -21,16 +23,19 @@ const MENU_OPTIONS = [
     icon: 'eva:person-fill',
     linkTo: '#',
   },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#',
-  },
+  // {
+  //   label: 'Settings',
+  //   icon: 'eva:settings-2-fill',
+  //   linkTo: '#',
+  // },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const { staff } = useSelector((state) => state.staff);
+  const dispatch = useDispatch();
+  // console.log(staff);
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState(null);
@@ -41,6 +46,11 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleLogout = () => {
+    setOpen(null);
+    dispatch(logout());
   };
 
   return (
@@ -63,7 +73,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={staff.avatar} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -82,10 +92,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {staff.fullname}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {staff.email}
           </Typography>
         </Box>
 
@@ -101,7 +111,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem sx={{ m: 1 }} onClick={handleLogout}>
           Logout
         </MenuItem>
       </MenuPopover>

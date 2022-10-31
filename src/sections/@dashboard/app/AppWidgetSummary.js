@@ -34,7 +34,9 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
   return (
     <Card
       sx={{
-        py: 5,
+        py: 3,
+        px: 2,
+        m: 1,
         boxShadow: 0,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,

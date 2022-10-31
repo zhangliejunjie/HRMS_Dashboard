@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack } from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
@@ -11,9 +11,10 @@ import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 
-// Kiet imported 
+// Kiet imported
 import JobUserMoreMenu from './JobUserMoreMenu';
-
+import { intlFormat } from 'date-fns';
+// import cover
 // ----------------------------------------------------------------------
 
 const CardMediaStyle = styled('div')({
@@ -62,111 +63,57 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { cover, title, description, view, comment, share, author, createdAt } = post;
+  const { id, name, title, description, salary, experience, isRemote, category } = post;
   const latestPostLarge = index === 0;
-  const latestPost = index === 1 || index === 2;
+  const latestPost = index === 0 || index === 0;
 
   const POST_INFO = [
-    { number: comment, icon: 'eva:message-circle-fill' },
-    { number: view, icon: 'eva:eye-fill' },
-    { number: share, icon: 'eva:share-fill' },
+    { number: salary, icon: 'eva:credit-card-fill' },
+    { number: experience, icon: 'eva:award-fill' },
+    { number: isRemote == 1 ? 'Remote' : 'Office', icon: 'eva:wifi-fill' },
   ];
 
+  // const POST_INFO = [
+  //   { number: comment, icon: 'eva:message-circle-fill' },
+  //   { number: view, icon: 'eva:eye-fill' },
+  //   { number: share, icon: 'eva:share-fill' },
+  // ];
   return (
-    // Adding a list of Campaigns 
-  
-
-
-
-
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 24 : 12}>
-      <Card sx={{ position: 'relative' }}>
-        {/* <CardMediaStyle
-          sx={{
-            ...((latestPostLarge || latestPost) && {
-              pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
-            }),
-            ...(latestPostLarge && {
-              pt: {
-                xs: 'calc(100% * 4 / 3)',
-                sm: 'calc(100% * 3 / 4.66)',
-              },
-            }),
-          }}
-        >
-          <SvgIconStyle
-            color="paper"
-            src="/static/icons/shape-avatar.svg"
-            sx={{
-              width: 80,
-              height: 36,
-              zIndex: 9,
-              bottom: -15,
-              position: 'absolute',
-              color: 'background.paper',
-              ...((latestPostLarge || latestPost) && { display: 'none' }),
-            }}
-          />
-          <AvatarStyle
-            alt={author.name}
-            src={author.avatarUrl}
-            sx={{
-              ...((latestPostLarge || latestPost) && {
-                zIndex: 9,
-                top: 24,
-                left: 24,
-                width: 40,
-                height: 40,
-              }),
-            }}
-          />
-
-          <CoverImgStyle alt={title} src={cover} />
-        </CardMediaStyle> */}
-           {/* <UserMoreMenu /> */}
+    // Adding a list of Campaigns
+      <Card sx={{ position: 'relative',  marginTop: '10px'}}>
+          {/* // <CoverImgStyle alt={title} src={cover} /> */}
+        {/* <UserMoreMenu /> */}
         <CardContent
           sx={{
             pt: 4,
-            ...((latestPostLarge || latestPost) && {
-              bottom: 0,
-              width: '100%',
-              position: 'absolute',
-            }),
+            bottom: 0,
+            width: '100%',
           }}
         >
-          
-          <Typography gutterBottom variant="h3" sx={{ color: 'text.primary', display: 'block' }}>
-            {title} 
-            <JobUserMoreMenu sx={{ justifyContent: 'flex-end' }}/>
-          </Typography>
-          
-          <TitleStyle
-            to="#"
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Typography gutterBottom variant="h4" sx={{ color: 'text.primary', display: 'block' }}>
+              {name}
+            </Typography>
+            <UserMoreMenu sx={{ justifyContent: 'flex-end' }} />
+          </Stack>
+
+          <Typography
+            // to="#"
             color="inherit"
-            variant="subtitle2"
-            underline="hover"
-            component={RouterLink}
-            sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
-              ...((latestPostLarge || latestPost) && {
-                color: 'common.white',
-              }),
-            }}
+            variant="caption"
+            // underline="hover"
+            // component={RouterLink}
+            // sx={{
+            //   ...(latestPostLarge && { typography: 'h5', height: 60 }),
+            //   ...((latestPostLarge || latestPost) && {
+            //     color: 'common.white',
+            //   }),
+            // }}
           >
             {description}
-            
-          </TitleStyle>
-          
+          </Typography>
+
           <InfoStyle>
-          
             {POST_INFO.map((info, index) => (
               <Box
                 key={index}
@@ -179,19 +126,14 @@ export default function BlogPostCard({ post, index }) {
                   }),
                 }}
               >
-                
-                {/* <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} /> */}
-                
-                <Typography variant="caption">{2002}</Typography>
-                
+                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
+
+                <Typography variant="caption">{info.number}</Typography>
               </Box>
             ))}
-            
           </InfoStyle>
-          
         </CardContent>
-        
       </Card>
-    </Grid>
+  
   );
 }

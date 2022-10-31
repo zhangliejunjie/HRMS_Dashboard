@@ -8,6 +8,7 @@ import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/Label';
 import { ColorPreview } from '../../../components/color-utils';
+import CategoryUserMoreMenu from './CategoryUserMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -26,11 +27,11 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { name, cover, price, colors, status, priceSale } = product;
+  const { id, name, cover, description, colors, status, priceSale } = product;
 
   return (
     <Card>
-      <Box sx={{ pt: '100%', position: 'relative' }}>
+      {/* <Box sx={{ pt: '100%', position: 'relative' }}>
         {status && (
           <Label
             variant="filled"
@@ -47,19 +48,19 @@ export default function ShopProductCard({ product }) {
           </Label>
         )}
         <ProductImgStyle alt={name} src={cover} />
-      </Box>
+      </Box> */}
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link to="#" color="inherit" underline="hover" component={RouterLink}>
-          <Typography variant="subtitle2" noWrap>
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography variant="subtitle1" noWrap>
             {name}
           </Typography>
-        </Link>
-
+          <CategoryUserMoreMenu post={product} />
+        </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={colors} />
-          <Typography variant="subtitle1">
-            <Typography
+          {/* <ColorPreview colors={colors} /> */}
+          <Typography variant="caption">
+            {/* <Typography
               component="span"
               variant="body1"
               sx={{
@@ -68,9 +69,8 @@ export default function ShopProductCard({ product }) {
               }}
             >
               {priceSale && fCurrency(priceSale)}
-            </Typography>
-            &nbsp;
-            {fCurrency(price)}
+            </Typography> */}
+            {description}
           </Typography>
         </Stack>
       </Stack>

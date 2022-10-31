@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // material
 import {
@@ -19,6 +20,10 @@ import {
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { ColorManyPicker } from '../../../components/color-utils';
+// Kiet code api
+import axios from 'axios';
+import { useState } from 'react';
+import * as React from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -29,15 +34,18 @@ export const SORT_BY_OPTIONS = [
   { value: 'priceAsc', label: 'Price: Low-High' },
 ];
 export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
-export const FILTER_CATEGORY_OPTIONS = ['All', 'Cloud Computing Engineer',
-'Computer Network Specialist',
-'Computer Support Specialist',
-'Database Administrator',
-'Information Technology Analyst',
-'Information Technology Leadership',
-'Information Security Specialist',
-'Software/Application Developer',
-'Web Developer', 'Undefined']; //Tuan Kiet customes
+//Tuan Kiet customes
+// export const FILTER_CATEGORY_OPTIONS = ['All', 'Cloud Computing Engineer',
+//   'Computer Network Specialist',
+//   'Computer Support Specialist',
+//   'Database Administrator',
+//   'Information Technology Analyst',
+//   'Information Technology Leadership',
+//   'Information Security Specialist',
+//   'Software/Application Developer',
+//   'Web Developer', 'Undefined'];
+// Kiet import Route
+
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
   { value: 'below', label: 'Below $25' },
@@ -64,6 +72,18 @@ ShopFilterSidebar.propTypes = {
 };
 
 export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter }) {
+  // Use api by Kiet and Dat
+  const [categories, setCategories] = useState([]);
+  React.useEffect(() => {
+    async function fetchCategory() {
+      const data = await axios.get('http://localhost:8000/api/category');
+      const { categories } = data.data;
+
+      setCategories(categories);
+    }
+    fetchCategory();
+  }, []);
+
   return (
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
@@ -107,8 +127,8 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
                 Category
               </Typography> */}
               <RadioGroup>
-                {FILTER_CATEGORY_OPTIONS.map((item) => (
-                  <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
+                {categories.map((item) => (
+                  <FormControlLabel key={item.name} value={item.name} control={<Radio />} label={item.name} />
                 ))}
               </RadioGroup>
             </div>
@@ -170,7 +190,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
           </Stack>
         </Scrollbar>
 
-        <Box sx={{ p: 3 }}>
+        <Box component={RouterLink} to="/dashboard/products" sx={{ p: 3 }}>
           <Button
             fullWidth
             size="large"
@@ -179,7 +199,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
             variant="outlined"
             startIcon={<Iconify icon="ic:round-clear-all" />}
           >
-            Clear All
+            Modify
           </Button>
         </Box>
       </Drawer>
