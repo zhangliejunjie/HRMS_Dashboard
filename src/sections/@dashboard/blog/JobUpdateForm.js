@@ -23,15 +23,32 @@ import SelectInput from '@mui/material/Select/SelectInput';
 
 // ----------------------------------------------------------------------
 
-export default function NewJobForm({ choosedCampaign }) {
+export default function JobUpdateForm({ news, onClose }) {
 
   const navigate = useNavigate();
 
   const params = useParams();
-  const choosedCampaignId = params.id;
 
   const dispatch = useDispatch();
 
+  const [categories, setCategories] = useState([]);
+  React.useEffect(() => {
+    async function fetchCategory() {
+      const data = await axios.get('http://localhost:8000/api/category');
+      const { categories } = data.data;
+      setCategories(categories);
+    }
+    fetchCategory();
+  }, []);
+
+  const getCategoryId = categories?.filter(
+    job => {
+      return job.name === news.category
+    }
+  );
+
+  const [cateId, setCateId] = useState(getCategoryId[0]?.id);
+console.log(cateId)
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
     description: Yup.string().required('Description required'),
@@ -63,8 +80,6 @@ export default function NewJobForm({ choosedCampaign }) {
   };
   // New form Kiet
 
-  console.log(choosedCampaignId);
-
   const validate = values => {
     const errors = {};
     console.log(values.start_date);
@@ -91,22 +106,16 @@ export default function NewJobForm({ choosedCampaign }) {
 
   const formik = useFormik({
     initialValues: {
-      // name: '',
-      // description: '',
-      // salary: '',
-      // quantity: '',
-      // start_date: moment(date).format('yyyy-MM-DD'),
-      // end_date: moment(date).format('yyyy-MM-DD'),
-      "name": '',
-      "description": '',
-      "salary": '',
-      "quantity": '',
-      start_date: moment().format('yyyy-MM-DD'),
-      end_date: moment().add(7, 'days').format('yyyy-MM-DD'),
-      "status": "Hiring",
-      "experience": "Intern",
-      "categoryId": '',
-      "isRemote": "true",
+      "name": news.name,
+      "description": news.description,
+      "salary": news.salary,
+      "quantity": news.quantity,
+      start_date: news.start_date,
+      end_date: news.end_date,
+      "status": news.status,
+      "experience": news.experience,
+      "categoryId": cateId,
+      "isRemote": news.isRemote,
     },
 
     validationSchema: Yup.object().shape({
@@ -117,20 +126,9 @@ export default function NewJobForm({ choosedCampaign }) {
     }),
     validate,
     onSubmit: (value) => {
-      console.log("Ngũ cung")
-      console.log(value);
       axios
-        .post('http://localhost:8000/api/job/add', {
-          // name: "value.name",
-          // description: "value.description",
-          // salary: "value.salary",
-          // quantity: "value.quantity",
-          // start_date: "2022-12-28",
-          // end_date: "2022-12-29",
-          // status: "Hiring",
-          // experience: "Intern",
-          // categoryId: "CA-001",
-          // campaignId: "CP-001"
+        .patch('http://localhost:8000/api/job/update', {
+          "id": news.id,
           "name": value.name,
           "description": value.description,
           "salary": value.salary,
@@ -140,14 +138,13 @@ export default function NewJobForm({ choosedCampaign }) {
           "status": "Hiring",
           "experience": value.experience,
           "categoryId": value.categoryId,
-          "campaignId": choosedCampaignTitle[0]?.id,
           "isRemote": value.isRemote,
         })
         .then((res) => {
-          
-          dispatch(success("Create job successfully"));
+          onClose();
+          dispatch(success("Update job successfully"));
           setTimeout(() => {
-            window.location.href = `http://localhost:3000/dashboard/blog/${choosedCampaignTitle[0]?.id}`;
+            window.location.href = `http://localhost:3000/dashboard/blog`;
           }, 5000);
         })
         .catch((error) => console.log(error));
@@ -155,15 +152,6 @@ export default function NewJobForm({ choosedCampaign }) {
   });
 
   //gọi api categories để add jobs
-  const [categories, setCategories] = useState([]);
-  React.useEffect(() => {
-    async function fetchCategory() {
-      const data = await axios.get('http://localhost:8000/api/category');
-      const { categories } = data.data;
-      setCategories(categories);
-    }
-    fetchCategory();
-  }, []);
 
   const [campaigns, setCampaigns] = useState([]);
   React.useEffect(() => {
@@ -176,33 +164,29 @@ export default function NewJobForm({ choosedCampaign }) {
     fetchCategory();
   }, []);
 
+
+
+
+
   const renderCategory = () => {
     return categories.map((value) => {
       return <MenuItem value={value.id}>{value.name}</MenuItem>;
     });
   };
 
-  const choosedCampaignTitle = campaigns.filter(
-    camp => {
-      return camp.id === choosedCampaignId
-    }
-  );
 
-  console.log(choosedCampaignTitle);
 
   return (
 
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
 
-        <Typography variant="h3"> {choosedCampaignTitle[0]?.title} </Typography>
+        <Typography variant="h3"> {'Job Campaign'} </Typography>
 
         <RHFTextField
           name="name"
           label="Job Title"
           id="name"
-          //   id, name, description, salary, quantity, start_date, end_date, status, experience, isRemote, Category_id, Campaign_id
-          // label="Name"
           type="name"
           value={formik.values.name}
           onChange={formik.handleChange}
@@ -235,7 +219,6 @@ export default function NewJobForm({ choosedCampaign }) {
           name="quantity"
           label="Quantity"
           id="standard-number"
-          // type="number"
           value={formik.values.quantity}
           onChange={formik.handleChange}
           error={formik.touched.quantity && Boolean(formik.errors.quantity)}
@@ -251,7 +234,6 @@ export default function NewJobForm({ choosedCampaign }) {
           name="start_date"
           validate
           onChange={formik.handleChange}
-          // defaultValue={moment(today).format('yyyy-MM-DD')}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
         />
@@ -265,7 +247,6 @@ export default function NewJobForm({ choosedCampaign }) {
           value={formik.values.end_date}
           name="end_date"
           onChange={formik.handleChange}
-          // defaultValue={moment(formik.values.start_date).add(7, 'days').format('yyyy-MM-DD')}
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
@@ -323,25 +304,8 @@ export default function NewJobForm({ choosedCampaign }) {
           </Select>
         </FormControl>
 
-        {/* <RHFTextField name="email" label="Email address" />
-
-        <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        /> */}
-
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Create
+          Update
         </LoadingButton>
       </Stack>
     </FormProvider>
