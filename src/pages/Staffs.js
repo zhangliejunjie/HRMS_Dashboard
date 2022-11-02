@@ -40,6 +40,8 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import Iconify from 'src/components/Iconify';
 import Scrollbar from 'src/components/Scrollbar';
 import Label from 'src/components/Label';
+import StaffCreateModal from 'src/sections/@dashboard/staff/StaffCreateModal';
+import StaffMoreMenu from 'src/sections/@dashboard/staff/StaffMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -98,6 +100,12 @@ export default function Staffs() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [isLoad, setIsLoad] = useState(0);
+
+  const handleLoad = () => {
+    setIsLoad(isLoad + 1);
+  };
+
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -145,7 +153,7 @@ export default function Staffs() {
       setStaffs(staffs);
     }
     fetchCandidate();
-  }, [])
+  }, [isLoad])
 
   const users = [...Array(staffs.length)].map((_, index) => ({
     id: staffs[index]?.id,
@@ -155,7 +163,7 @@ export default function Staffs() {
     // isVerified: staffs[index]?.phone,
     status: staffs[index]?.status,
     role: staffs[index]?.role,
-}));
+  }));
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -179,18 +187,14 @@ export default function Staffs() {
 
   return (
     <>
-      {/* <Helmet>
-        <title> User | Minimal UI </title>
-      </Helmet> */}
-
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Staffs
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Staff
-          </Button>
+          <StaffCreateModal reloadData={() => {
+            handleLoad();
+          }} />
         </Stack>
 
         <Card>
@@ -230,18 +234,21 @@ export default function Staffs() {
 
                         <TableCell align="left">{email}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="center">{role}</TableCell>
 
-                        {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
+                        {/* <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell> */}
 
-                        <TableCell align="left">
+                        <TableCell align="center">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
                         </TableCell>
 
                         <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                          {/* <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
                             <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
+                          </IconButton> */}
+                          <StaffMoreMenu post={row} reloadData={() => {
+                            handleLoad();
+                          }} />
                         </TableCell>
                       </TableRow>
                     );
@@ -292,7 +299,7 @@ export default function Staffs() {
         </Card>
       </Container>
 
-      <Popover
+      {/* <Popover
         open={Boolean(open)}
         anchorEl={open}
         onClose={handleCloseMenu}
@@ -319,7 +326,7 @@ export default function Staffs() {
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
-      </Popover>
+      </Popover> */}
     </>
   );
 }
