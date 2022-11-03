@@ -72,7 +72,14 @@ export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) 
                 </Label>
                 <Stack direction="row" justifyContent="space-between">
                   <Typography variant="subtitle2" noWrap>
-                    Room: {room === 9 ? <a href={candidate?.start_url}>Online</a> : room}
+                    Room:{' '}
+                    {room === 9 ? (
+                      <a href={candidate?.start_url} target="_blank">
+                        Online
+                      </a>
+                    ) : (
+                      room
+                    )}
                   </Typography>
                   <Typography
                     component="span"
