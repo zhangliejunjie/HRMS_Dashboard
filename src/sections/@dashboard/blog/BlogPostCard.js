@@ -14,6 +14,7 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 // Kiet imported
 import JobUserMoreMenu from './JobUserMoreMenu';
 import { intlFormat } from 'date-fns';
+import JobMoreMenu from './JobMoreMenu';
 // import cover
 // ----------------------------------------------------------------------
 
@@ -63,7 +64,7 @@ BlogPostCard.propTypes = {
 };
 
 export default function BlogPostCard({ post, index }) {
-  const { id, name, title, description, salary, experience, isRemote, category } = post;
+  const { id, name, categoryId, description, salary, experience, isRemote, category } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 0 || index === 0;
 
@@ -80,60 +81,61 @@ export default function BlogPostCard({ post, index }) {
   // ];
   return (
     // Adding a list of Campaigns
-      <Card sx={{ position: 'relative',  marginTop: '10px'}}>
-          {/* // <CoverImgStyle alt={title} src={cover} /> */}
-        {/* <UserMoreMenu /> */}
-        <CardContent
-          sx={{
-            pt: 4,
-            bottom: 0,
-            width: '100%',
-          }}
-        >
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography gutterBottom variant="h4" sx={{ color: 'text.primary', display: 'block' }}>
-              {name}
-            </Typography>
-            <UserMoreMenu sx={{ justifyContent: 'flex-end' }} />
-          </Stack>
-
-          <Typography
-            // to="#"
-            color="inherit"
-            variant="caption"
-            // underline="hover"
-            // component={RouterLink}
-            // sx={{
-            //   ...(latestPostLarge && { typography: 'h5', height: 60 }),
-            //   ...((latestPostLarge || latestPost) && {
-            //     color: 'common.white',
-            //   }),
-            // }}
-          >
-            {description}
+    <Card sx={{ position: 'relative', marginTop: '10px' }}>
+      {/* // <CoverImgStyle alt={title} src={cover} /> */}
+      {/* <UserMoreMenu /> */}
+      <CardContent
+        sx={{
+          pt: 4,
+          bottom: 0,
+          width: '100%',
+        }}
+      >
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Typography gutterBottom variant="h4" sx={{ color: 'text.primary', display: 'block' }}>
+            {name}
           </Typography>
+          <JobMoreMenu sx={{ justifyContent: 'flex-end' }} post={post} />
+        </Stack>
 
-          <InfoStyle>
-            {POST_INFO.map((info, index) => (
-              <Box
-                key={index}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  ml: index === 0 ? 0 : 1.5,
-                  ...((latestPostLarge || latestPost) && {
-                    color: 'grey.500',
-                  }),
-                }}
-              >
-                <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
+        <Typography
+          // to="#"
+          color="inherit"
+          variant="caption"
+        // underline="hover"
+        // component={RouterLink}
+        // sx={{
+        //   ...(latestPostLarge && { typography: 'h5', height: 60 }),
+        //   ...((latestPostLarge || latestPost) && {
+        //     color: 'common.white',
+        //   }),
+        // }}
+        >
+          {description}
+        </Typography>
 
-                <Typography variant="caption">{info.number}</Typography>
-              </Box>
-            ))}
-          </InfoStyle>
-        </CardContent>
-      </Card>
-  
+        <InfoStyle>
+          {POST_INFO.map((info, index) => (
+            <Box
+              key={index}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                ml: index === 0 ? 0 : 1.5,
+                ...((latestPostLarge || latestPost) && {
+                  color: 'grey.500',
+                }),
+              }}
+            >
+              <Iconify icon={info.icon} sx={{ width: 16, height: 16, mr: 0.5 }} />
+
+
+              <Typography variant="caption">{info.number}</Typography>
+            </Box>
+          ))}
+        </InfoStyle>
+      </CardContent>
+    </Card>
+
   );
 }

@@ -9,7 +9,7 @@ import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../user';
 import CampaignMoreMenu from '../blog/CampaignMoreMenu';
-import {useState} from 'react'
+import { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
@@ -21,10 +21,10 @@ AppNewsUpdate.propTypes = {
 };
 
 export default function AppNewsUpdate({ id, title, subheader, list, index, ...other }) {
- 
+
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader}  />
+      <CardHeader title={title} subheader={subheader} />
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list

@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Card, Button, Modal } from '@mui/material';
+import { Card, Link, Container, Typography, Button, Modal } from '@mui/material';
 // Mr.Ted import library of date time and form
 import Iconify from '../../../components/Iconify';
-import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
-// Kiet uses  forkmik
+import NewStaffForm from './NewStaffForm';
 
 const style = {
     position: 'absolute',
@@ -15,14 +14,14 @@ const style = {
     p: 4,
 };
 
-export default function CampaignCreateModal() {
+export default function StaffCreateModal({ reloadData }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     return (
         <div>
             <Button variant="contained" onClick={handleOpen} startIcon={<Iconify icon="eva:plus-fill" />}>
-                New Campaign
+                New Staff
             </Button>
             <Modal
                 open={open}
@@ -31,7 +30,7 @@ export default function CampaignCreateModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <NewCampaignForm open={open} onClose={() => setOpen(false)} />
+                    <NewStaffForm open={open} onClose={() => setOpen(false)} reloadData={reloadData} />
                 </Card>
             </Modal>
         </div>
