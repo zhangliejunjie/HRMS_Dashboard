@@ -9,19 +9,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, Typography, Select, MenuItem, InputLabel, Chip, Button, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
-
-// import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
 import * as React from 'react';
-// import TextareaAutosize from '@mui/material/TextareaAutosize';
-// import DoneIcon from '@mui/icons-material/Done';
-// import DeleteIcon from '@mui/icons-material/Delete';
 
 // Kiet imported
 import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import axios from 'axios';
-// import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
 import { add, set } from 'lodash';
@@ -34,49 +28,12 @@ import { errorHelper } from 'src/utils/tool';
 
 export default function KietNewInterviewForm({ candidate, open, onClose, reloadData }) {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const [value1, setValue1] = useState(null);
-  const [value2, setValue2] = useState(null);
   const [alignment, setAlignment] = useState('Offline');
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
-  const styles = (muiBaseTheme) => ({
-    card: {
-      maxWidth: 300,
-      margin: 'auto',
-      transition: '0.3s',
-      boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
-      '&:hover': {
-        boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
-      },
-    },
-    media: {
-      paddingTop: '56.25%',
-    },
-    content: {
-      textAlign: 'left',
-      padding: muiBaseTheme.spacing.unit * 3,
-    },
-    divider: {
-      margin: `${muiBaseTheme.spacing.unit * 3}px 0`,
-    },
-    heading: {
-      fontWeight: 'bold',
-    },
-    subheading: {
-      lineHeight: 1.8,
-    },
-    avatar: {
-      display: 'inline-block',
-      border: '2px solid white',
-      '&:not(:first-of-type)': {
-        marginLeft: -muiBaseTheme.spacing.unit,
-      },
-    },
-  });
 
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
@@ -86,10 +43,6 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
   });
 
   const defaultValues = {
-    title: '',
-    note: '',
-    email: '',
-    password: '',
   };
 
   const methods = useForm({
@@ -195,7 +148,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
   });
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Stack spacing={1}>
+      <Stack spacing={3}>
         <Typography variant="h6">Schedule Interview</Typography>
         <Stack spacing={1}>
           <Chip
@@ -245,6 +198,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={formik.values.slot}
+              label="Slot"
               onChange={formik.handleChange}
               name="slot"
               error={formik.touched.slot && Boolean(formik.errors.slot)}
@@ -263,6 +217,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
                 <Select
                   fullWidth
                   labelId="demo-simple-select-label"
+                  label="Room"
                   id="demo-simple-select"
                   value={formik.values.room}
                   onChange={formik.handleChange}
@@ -277,7 +232,6 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
               </FormControl>
             </>
           )}
-          <InputLabel id="note">Note</InputLabel>
           <TextField
             name="note"
             label="Note"

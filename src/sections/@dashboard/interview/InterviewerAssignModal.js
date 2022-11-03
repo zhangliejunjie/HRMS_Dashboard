@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Card, Link, Container, Typography } from '@mui/material';
+import { Card, Link, Container, Typography, Stack, Chip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -43,22 +43,45 @@ export default function InterviewerAssignModal({ infor }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    {/* <NewCategoryForm open={open} onClose={() => setOpen(false)}/> */}
-                    {infor.id} <br />
-                    {infor.id} <br />
-                    {infor.name}<br />
-                    {infor.role}<br />
-                    {infor.status}<br />
-                    {infor.company}<br />
+                    <Typography mb={2} variant="h3">Schedule Interview</Typography>
+                    {/* {infor.company}<br />
                     {infor.avatarUrl}<br />
-                    {infor.isVerified}<br />
-                    {infor.hr_staff}<br />
-                    {infor.address}<br />
+                    {infor.isVerified}<br /> */}
+                    {/* {infor.hr_staff}<br /> */}
+                    {/* {infor.address}<br />
                     {infor.identity_number}<br />
-                    {infor.phone}
-
-
-                    <KietInterviewChip candidateId={infor} open={open} onClose={() => setOpen(false)}  />
+                    // {infor.phone} */}
+                    <Stack mb={2} spacing={1}>
+                        <Chip
+                            sx={{
+                                fontWeight: 'bold',
+                            }}
+                            color="primary"
+                            variant="outlined"
+                            label={infor.name}
+                        />
+                        <Chip
+                            sx={{
+                                fontWeight: 'bold',
+                            }}
+                            color="primary"
+                            label={infor.role}
+                            variant="outlined"
+                        />
+                        <Typography variant="subtitle2" noWrap>
+                            Assigned HR: {infor.hr_staff}
+                        </Typography>
+                        <Typography
+                            component="span"
+                            variant="body1"
+                            sx={{
+                                color: 'text.disabled',
+                            }}
+                        >
+                            Phone number: {infor.phone}
+                        </Typography>
+                    </Stack>
+                    <KietInterviewChip candidateId={infor} open={open} onClose={() => setOpen(false)} />
                 </Card>
             </Modal>
         </div>
