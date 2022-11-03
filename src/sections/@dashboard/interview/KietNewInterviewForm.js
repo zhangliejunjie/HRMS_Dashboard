@@ -256,7 +256,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
             </Select>
           </FormControl>
 
-          {(alignment === 'Offline') && (
+          {alignment === 'Offline' && (
             <>
               <FormControl>
                 <InputLabel id="demo-simple-select-label">Room</InputLabel>
@@ -306,6 +306,6 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
           Submit
         </LoadingButton>
       </Stack>
-    </FormProvider>
+    </form>
   );
 }
