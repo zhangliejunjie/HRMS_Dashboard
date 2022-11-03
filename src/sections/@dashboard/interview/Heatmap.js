@@ -116,7 +116,7 @@ export default function Heatmap({ isLoad }) {
 
     fetchCandidatesNotInterview();
   }, [isLoad]); // on going
-  const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
+  const candidates = [...Array(candidatesNotInterview?.length)].map((_, index) => ({
     id: candidatesNotInterview[index]?.id,
     job_id: candidatesNotInterview[index]?.job_id,
   }));

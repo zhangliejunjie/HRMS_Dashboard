@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Stack, Accordion, AccordionSummary, AccordionDetails, Divider, TextField, Button } from '@mui/material';
+import { Box, Typography, Stack, Accordion, AccordionSummary, AccordionDetails, Divider, TextField, Button, Badge, Avatar, Chip } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector, useDispatch } from 'react-redux';
 import { getReportByInterviewer } from 'src/store/slice/reportSlice';
@@ -14,6 +14,34 @@ import Paper from '@mui/material/Paper';
 import { submitReport } from 'src/store/slice/reportSlice';
 
 // import { errorHelper } from 'src/utils/tool';
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(3)',
+            opacity: 0,
+        },
+    },
+}));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -121,7 +149,7 @@ const InterviewerTask = () => {
                                             aria-controls="panel1a-content"
                                             id="panel1a-header"
                                         >
-                                            <Typography variant='h3' bgcolor='blueviolet'>WEEK: {report[0]}</Typography>
+                                            <Typography variant='h3'>WEEK: {report[0]}</Typography>
                                         </AccordionSummary>
                                         <AccordionDetails>
 
@@ -139,24 +167,63 @@ const InterviewerTask = () => {
                                                         </AccordionSummary>
                                                         <AccordionDetails>
                                                             <Stack direction='row' justifyContent='space-around'>
-                                                                <div>{rp.id}</div>
-                                                                <Typography>
-                                                                    NAME: {rp.fullname}
-                                                                </Typography>
+                                                                <Box>
+                                                                    {
+                                                                        rp.interview_type === 'Online' ? (
+                                                                            <StyledBadge overlap="circular"
+                                                                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                                                                variant="dot"
+                                                                            >
+                                                                                <Avatar sx={{ width: 70, height: 70 }} variant='rounded' >
+                                                                                    {rp.interview_type}
+                                                                                </Avatar>
+                                                                            </StyledBadge>
+                                                                        ) : <Avatar sx={{ width: 70, height: 70 }} variant='rounded' >
+                                                                            {rp.interview_type}
+                                                                        </Avatar>
+                                                                    }
+                                                                </Box>
+
+                                                                <Box height={100}>
+                                                                    <Stack direction='row' spacing={1} height={100}>
+                                                                        <Avatar alt={rp.fullname} src={rp.avatar} sx={{ width: 60, height: 60 }} />
+                                                                        <Stack >
+                                                                            <Typography fontWeight='bold'>{rp.fullname}</Typography>
+                                                                            <Typography>{rp.email}</Typography>
+                                                                        </Stack>
+                                                                    </Stack>
+                                                                </Box>
                                                                 <Divider orientation='verticial' variant='middle' />
-                                                                <Typography>
-                                                                    ROOM: {rp.room}
-                                                                </Typography>
+                                                                <Box>
+                                                                    {
+                                                                        rp.interview_type === 'Online' ? (
+                                                                            <StyledBadge overlap="circular"
+                                                                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+
+                                                                                variant="dot"
+                                                                            >
+                                                                                <Chip label="Meeting url"
+                                                                                    component="a"
+                                                                                    target="_blank"
+                                                                                    href={rp.join_url}
+                                                                                    clickable p={1} color="success" variant="outlined" />
+                                                                            </StyledBadge>
+                                                                        ) : <Typography>
+                                                                            ROOM: {rp.room}
+                                                                        </Typography>
+                                                                    }
+                                                                </Box>
+
                                                                 <Divider orientation='verticial' variant='middle' />
 
-                                                                <TextField placeholder={rp.mark} name='mark' type='number'
+                                                                <TextField placeholder='mark' name='mark' type='number'
                                                                     key={rp.id}
                                                                     onChange={(e) => handleSetReportById('mark', e.target.value, rp.id)}
                                                                 />
-                                                                <TextField placeholder={rp.comment} name='comment' multiline rows={4} sx={{ width: '400px' }}
+                                                                <TextField placeholder='comment' name='comment' multiline rows={4} sx={{ width: '400px' }}
                                                                     onChange={(e) => handleSetReportById('comment', e.target.value, rp.id)}
                                                                 />
-                                                                <Button type='submit' onClick={() => handleSubmit(rp.id)}>Submit</Button>
+                                                                <Button type='submit' size='medium' onClick={() => handleSubmit(rp.id)}>Submit</Button>
 
                                                             </Stack>
 
