@@ -12,7 +12,7 @@ export default function Heatmap({ isLoad }) {
   let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
 
   // create week state, change when click next or previous
-  const [firstDay, setFirstDay] = useState(new Date(curr.setDate(first)).toLocaleDateString());
+  const [firstDay, setFirstDay] = useState(new Date(curr.setDate(first)).toLocaleDateString('en-US'));
   const [lastDay, setLastDay] = useState(new Date(curr.setDate(curr.getDate() + 6)).toLocaleDateString());
   const [week, setWeek] = useState(moment(firstDay).week());
   const [room, setRoom] = useState(0);
@@ -55,7 +55,6 @@ export default function Heatmap({ isLoad }) {
   const findSeries = () => {
     return dataSeries?.find((data) => data.week_num === week)?.value;
   };
-
   // state for opening modal when click to heatmap
   const labels = [
     'Mon slot 1',
@@ -126,7 +125,7 @@ export default function Heatmap({ isLoad }) {
       <CardHeader subheader={'Click to see meeting details'} />
       <Box sx={{ p: 3, pb: 1 }} dir="ltr">
         <div id="chart">
-          <ReactApexChart options={state.options} series={state.series} type="heatmap" height={350} />
+          <ReactApexChart options={state?.options} series={state?.series} type="heatmap" height={350} />
           <Stack direction="row" spacing={2} justifyContent="space-between">
             <Typography>{`Week: ${firstDay} - ${lastDay}`}</Typography>
             <ButtonGroup variant="outlined">

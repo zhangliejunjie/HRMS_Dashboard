@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { submitReport } from 'src/store/slice/reportSlice';
-
+import { getDateOfISOWeek } from '../utils/tool';
 // import { errorHelper } from 'src/utils/tool';
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -80,7 +80,7 @@ const InterviewerTask = () => {
             status: report.status
         }
     })
-
+    // console.log(reports_pending);
     const { staff } = useSelector(state => state.staff)
     const [reportSubmitState, setReportSubmitState] = useState(res)
 
@@ -134,6 +134,7 @@ const InterviewerTask = () => {
         dispatch(submitReport({ interviewId, interviewerId, mark, comment }))
 
     }
+    console.log();
     return (
         <Box>
             <Box>
@@ -149,7 +150,8 @@ const InterviewerTask = () => {
                                             aria-controls="panel1a-content"
                                             id="panel1a-header"
                                         >
-                                            <Typography variant='h3'>WEEK: {report[0]}</Typography>
+                                            <Typography variant='h3'>WEEK: {report[0]} - {getDateOfISOWeek(report[0], '1').toLocaleDateString()}</Typography>
+
                                         </AccordionSummary>
                                         <AccordionDetails>
 
