@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Label from 'src/components/Label';
 
 export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) {
-
   const [candidateList, setCandidateList] = useState([]);
 
   const style = {
@@ -37,7 +36,7 @@ export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) 
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Card sx={style} >
+        <Card sx={style}>
           <Stack spacing={3}>
             <Typography variant="h3"> Interview Details </Typography>
             {candidateList?.map((candidate, index) => (
@@ -60,7 +59,7 @@ export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) 
                 />
                 <Label
                   variant="filled"
-                  color='info'
+                  color="info"
                   sx={{
                     zIndex: 9,
                     top: 16,
@@ -69,28 +68,26 @@ export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) 
                     textTransform: 'uppercase',
                   }}
                 >
-                  {"On going"}
+                  {'On going'}
                 </Label>
-                <Typography variant="subtitle2" noWrap>
-                  Room: {room}
-                </Typography>
-                <Typography
-                  component="span"
-                  variant="body1"
-                  sx={{
-                    color: 'text.disabled',
-                  }}
-                >
-                  Slot: {slot}
-                </Typography>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="subtitle2" noWrap>
+                    Room: {room === 9 ? <a href={candidate?.start_url}>Online</a> : room}
+                  </Typography>
+                  <Typography
+                    component="span"
+                    variant="body1"
+                    sx={{
+                      color: 'text.disabled',
+                    }}
+                  >
+                    Slot: {slot}
+                  </Typography>
+                </Stack>
               </Stack>
-
-
-
             ))}
           </Stack>
         </Card>
-
       </Modal>
     </div>
   );

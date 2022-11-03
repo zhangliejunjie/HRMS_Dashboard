@@ -292,9 +292,6 @@ export default function Interview() {
                         {/* <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell> */}
-                        {/* <TableCell align="center">
-                          <InterviewerAssignModal infor={row} />
-                        </TableCell> */}
                         {status !== 'NO' ? (
                           <>
                             <TableCell align="center">

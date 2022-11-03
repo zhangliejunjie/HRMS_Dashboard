@@ -96,15 +96,14 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
     }),
     onSubmit: async (value) => {
       try {
-        const { data } = await axios
-          .post('http://localhost:8000/api/interview', {
-            candidateId: candidate?.id,
-            type: alignment,
-            room: Boolean(alignment === 'Online') ? 9 : value.room,
-            week: moment(value.date).week() - 1,
-            slot: (moment(value.date).day() - 1) * 4 + value.slot,
-          })
-        const { id: interview_id } = data
+        const { data } = await axios.post('http://localhost:8000/api/interview', {
+          candidateId: candidate?.id,
+          type: alignment,
+          room: Boolean(alignment === 'Online') ? 9 : value.room,
+          week: moment(value.date).week() - 1,
+          slot: (moment(value.date).day() - 1) * 4 + value.slot,
+        });
+        const { id: interview_id } = data;
 
         if (alignment === 'Online') {
           const { data } = await axios.get('http://localhost:8000/api/meeting/createMeeting', {
@@ -135,20 +134,18 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
             topic,
             join_url,
             start_url,
-            pwd
-          })
+            pwd,
+          });
         }
         reloadData();
         onClose();
         dispatch(success('Booking interview successfully!'));
-
       } catch (e) {
         console.log(e);
       }
       // console.log(value);
-
-    }
-  })
+    },
+  });
   return (
     <form onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
@@ -213,7 +210,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
             </Select>
           </FormControl>
 
-          {(alignment === 'Offline') && (
+          {alignment === 'Offline' && (
             <>
               <FormControl>
                 <InputLabel id="demo-simple-select-label">Room</InputLabel>
@@ -262,7 +259,6 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Submit
         </LoadingButton>
-
       </Stack>
     </form>
   );
