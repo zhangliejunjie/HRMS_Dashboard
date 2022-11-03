@@ -125,7 +125,7 @@ export default function Interview() {
       const data = await axios.get('http://localhost:8000/api/candidate/allV2');
       const candidates = data.data;
       setCandidates(candidates);
-      console.log(candidates);
+      // console.log(candidates);
     }
     fetchCandidate();
   }, [isLoad]);
@@ -233,6 +233,7 @@ export default function Interview() {
                       identity_number,
                       phone,
                     } = row;
+                    // console.log(row);
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -341,7 +342,7 @@ export default function Interview() {
             Heat Map Chart
           </Typography>
         </Stack>
-        <Heatmap />
+        <Heatmap isLoad={isLoad} />
       </Container>
       <Popover
         open={Boolean(open)}

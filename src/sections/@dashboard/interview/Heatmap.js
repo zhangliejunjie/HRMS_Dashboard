@@ -53,7 +53,7 @@ export default function Heatmap({ isLoad }) {
 
   // find series base on week num
   const findSeries = () => {
-    return dataSeries.find((data) => data.week_num === week).value;
+    return dataSeries?.find((data) => data.week_num === week)?.value;
   };
 
   // state for opening modal when click to heatmap
@@ -116,7 +116,7 @@ export default function Heatmap({ isLoad }) {
 
     fetchCandidatesNotInterview();
   }, [isLoad]); // on going
-  const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
+  const candidates = [...Array(candidatesNotInterview?.length)].map((_, index) => ({
     id: candidatesNotInterview[index]?.id,
     job_id: candidatesNotInterview[index]?.job_id,
   }));

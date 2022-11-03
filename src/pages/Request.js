@@ -301,16 +301,32 @@ export default function Request() {
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar
                                 alt={member_avatar}
-                                src={member_avatar !== "#" ? member_avatar : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`} />
+                                src={
+                                  member_avatar !== '#'
+                                    ? member_avatar
+                                    : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`
+                                }
+                              />
                               <Typography variant="subtitle2" noWrap>
                                 {member_name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="center">{job_name}</TableCell>
                           <TableCell align="center">
-                            <a href={resume_url !== "#" ? resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
-                              <Iconify icon={"akar-icons:paper"} width={22} height={22} />
+                            {' '}
+                            <Typography fontWeight="500">{job_name}</Typography>{' '}
+                          </TableCell>
+                          <TableCell align="center">
+                            <a
+                              href={
+                                resume_url !== '#'
+                                  ? resume_url
+                                  : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`
+                              }
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <Iconify icon={'akar-icons:paper'} width={22} height={22} />
                             </a>
                           </TableCell>
                           <TableCell align="center">{applied_status}</TableCell>
@@ -412,7 +428,14 @@ export default function Request() {
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={member_avatar} src={member_avatar !== "#" ? member_avatar : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`} />
+                              <Avatar
+                                alt={member_avatar}
+                                src={
+                                  member_avatar !== '#'
+                                    ? member_avatar
+                                    : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`
+                                }
+                              />
                               <Typography variant="subtitle2" noWrap>
                                 {member_name}
                               </Typography>
@@ -422,8 +445,16 @@ export default function Request() {
 
                           <TableCell align="center">
                             <Button>
-                              <a href={resume_url !== "#" ? resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
-                                <Iconify icon={"akar-icons:paper"} width={22} height={22} />
+                              <a
+                                href={
+                                  resume_url !== '#'
+                                    ? resume_url
+                                    : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <Iconify icon={'akar-icons:paper'} width={22} height={22} />
                               </a>
                             </Button>
                           </TableCell>
@@ -512,7 +543,14 @@ export default function Request() {
                           </TableCell>
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={member_avatar} src={member_avatar !== "#" ? member_avatar : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`} />
+                              <Avatar
+                                alt={member_avatar}
+                                src={
+                                  member_avatar !== '#'
+                                    ? member_avatar
+                                    : `/static/mock-images/avatars/avatar_${(faker.datatype.number() + 1) % 24}.jpg`
+                                }
+                              />
                               <Typography variant="subtitle2" noWrap>
                                 {member_name}
                               </Typography>
@@ -522,8 +560,16 @@ export default function Request() {
 
                           <TableCell align="center">
                             <Button>
-                              <a href={resume_url !== "#" ? resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
-                                <Iconify icon={"akar-icons:paper"} width={22} height={22} />
+                              <a
+                                href={
+                                  resume_url !== '#'
+                                    ? resume_url
+                                    : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <Iconify icon={'akar-icons:paper'} width={22} height={22} />
                               </a>
                             </Button>
                           </TableCell>
