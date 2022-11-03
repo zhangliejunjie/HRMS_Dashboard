@@ -181,7 +181,7 @@ console.log(cateId)
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
 
-        <Typography variant="h3"> {'Job Campaign'} </Typography>
+        <Typography variant="h3"> {'Job Update'} </Typography>
 
         <RHFTextField
           name="name"
