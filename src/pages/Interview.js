@@ -291,15 +291,20 @@ export default function Interview() {
                         {/* <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell> */}
-                        <TableCell align="center">
+                        {/* <TableCell align="center">
                           <InterviewerAssignModal infor={row} />
-                        </TableCell>
+                        </TableCell> */}
                         {status !== 'NO' ? (
-                          <TableCell align="right">
-                            <IconButton size="large" color="inherit" onClick={(e) => handleOpenMenu(e, id)}>
-                              <Iconify icon={'eva:more-vertical-fill'} />
-                            </IconButton>
-                          </TableCell>
+                          <>
+                            <TableCell align="center">
+                              <InterviewerAssignModal infor={row} />
+                            </TableCell>
+                            <TableCell align="right">
+                              <IconButton size="large" color="inherit" onClick={(e) => handleOpenMenu(e, id)}>
+                                <Iconify icon={'eva:more-vertical-fill'} />
+                              </IconButton>
+                            </TableCell>
+                          </>
                         ) : (
                           <></>
                         )}
