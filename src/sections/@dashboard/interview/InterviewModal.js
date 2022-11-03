@@ -78,7 +78,6 @@ export default function InterviewModal({ open, handleClose, candidateId }) {
       // day: moment(),
     },
     onSubmit: (value) => {
-      console.log(value);
       axios
         .post('http://localhost:8000/api/interview', {
           candidateId: value.candidateId,
@@ -89,6 +88,7 @@ export default function InterviewModal({ open, handleClose, candidateId }) {
         .then((res) => {
           handleClose();
           dispatch(success('Booking interview successfully'));
+          console.log('value: ');
         });
     },
   });
