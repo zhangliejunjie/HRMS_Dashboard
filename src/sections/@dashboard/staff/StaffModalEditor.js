@@ -14,8 +14,8 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 import { Link as RouterLink } from 'react-router-dom';
 import Iconify from '../../../components/Iconify';
 import NewCampaignForm from 'src/sections/@dashboard/blog/NewCampaignForm.js';
-import CampaignUpdateForm from './CampaignUpdateForm';
-import JobUpdateForm from './JobUpdateForm';
+import CampaignUpdateForm from '../blog/CampaignUpdateForm';
+import StaffUpdateForm from './StaffUpdateForm';
 // Kiet uses  forkmik
 
 const style = {
@@ -28,7 +28,7 @@ const style = {
     p: 4,
 };
 
-export default function JobModalEditor({ news, openMoreMenu, onClose }) {
+export default function StaffModalEditor({ news, openMoreMenu, onClose, reloadData }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -50,11 +50,11 @@ export default function JobModalEditor({ news, openMoreMenu, onClose }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={style}>
-                    <JobUpdateForm news={news} open={open} onClose={() => {
+                    <StaffUpdateForm news={news} open={open} onClose={() => {
                         onClose();
                         handleClose(false);
                     }
-                    } />
+                    } reloadData={reloadData} />
                 </Card>
             </Modal>
         </div>

@@ -3,7 +3,7 @@ import { sentenceCase } from 'change-case';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-// material
+// material    
 import {
   Card,
   Table,
@@ -184,12 +184,10 @@ export default function User() {
                         </TableCell>
                         <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">{phone}</TableCell>
-                        <TableCell align="left">
-                          <Button>
-                            <a href={current_resume_url} target="_blank" rel="noreferrer">
-                              current CV
-                            </a>
-                          </Button>
+                        <TableCell align="center">
+                          <a href={current_resume_url !== "#" ? current_resume_url : `https://drive.google.com/file/d/1CokKuukOFgsanKxkTbpKAzYZOplZni28/view?usp=sharing`} target="_blank" rel="noreferrer">
+                            <Iconify icon={"akar-icons:paper"} width={22} height={22} />
+                          </a>
                         </TableCell>
                         {/* <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="left">

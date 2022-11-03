@@ -6,7 +6,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 // @mui
-import { Stack, Typography, Select, MenuItem, InputLabel, Chip, Button } from '@mui/material';
+import {
+  Stack,
+  IconButton,
+  InputAdornment,
+  Typography,
+  Select,
+  MenuItem,
+  InputLabel,
+  OutlinedInput,
+  Chip,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 
@@ -143,15 +153,14 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
     }),
     onSubmit: async (value) => {
       try {
-        const { data } = await axios
-          .post('http://localhost:8000/api/interview', {
-            candidateId: candidate?.id,
-            type: alignment,
-            room: Boolean(alignment === 'Online') ? 9 : value.room,
-            week: moment(value.date).week() - 1,
-            slot: (moment(value.date).day() - 1) * 4 + value.slot,
-          })
-        const { id: interview_id } = data
+        const { data } = await axios.post('http://localhost:8000/api/interview', {
+          candidateId: candidate?.id,
+          type: alignment,
+          room: Boolean(alignment === 'Online') ? 9 : value.room,
+          week: moment(value.date).week() - 1,
+          slot: (moment(value.date).day() - 1) * 4 + value.slot,
+        });
+        const { id: interview_id } = data;
 
         if (alignment === 'Online') {
           const { data } = await axios.get('http://localhost:8000/api/meeting/createMeeting', {
@@ -182,22 +191,20 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
             topic,
             join_url,
             start_url,
-            pwd
-          })
+            pwd,
+          });
         }
         reloadData();
         onClose();
         dispatch(success('Booking interview successfully!'));
-
       } catch (e) {
         console.log(e);
       }
       // console.log(value);
-
-    }
-  })
+    },
+  });
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={1}>
         <Typography variant="h6">Schedule Interview</Typography>
         <Stack spacing={1}>
@@ -221,90 +228,67 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
         <Typography variant="caption" pb={2}>
           Please pick a date and choose suitable slot and room for interview meeting
         </Typography>
-        <ToggleButtonGroup color="primary" value={alignment} exclusive onChange={handleChange} aria-label="Platform">
-          <ToggleButton value="Offline">Offline</ToggleButton>
+        <TextField
+          label="Date"
+          fullWidth
+          title="date"
+          type="date"
+          value={formik.values.date}
+          name="date"
+          validate
+          onChange={formik.handleChange}
+          defaultValue={moment(today).format('yyyy-MM-DD')}
+          error={formik.touched.date && Boolean(formik.errors.date)}
+          helperText={formik.touched.date && formik.errors.date}
+        />
+        <InputLabel id="demo-simple-select-label">Slot</InputLabel>
+        <Select
+          fullWidth
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={formik.values.slot}
+          onChange={formik.handleChange}
+          name="slot"
+          error={formik.touched.slot && Boolean(formik.errors.slot)}
+          helperText={formik.touched.slot && formik.errors.slot}
+        >
+          {slotArr.map((value) => (
+            <MenuItem value={value + 1}>{value + 1}</MenuItem>
+          ))}
+        </Select>
 
-          <ToggleButton value="Online">Online</ToggleButton>
-        </ToggleButtonGroup>
-        <>
-          <TextField
-            label="Date"
-            fullWidth
-            title="date"
-            type="date"
-            value={formik.values.date}
-            name="date"
-            validate
-            onChange={formik.handleChange}
-            defaultValue={moment(today).format('yyyy-MM-DD')}
-            error={formik.touched.date && Boolean(formik.errors.date)}
-            helperText={formik.touched.date && formik.errors.date}
-          />
-          <InputLabel id="demo-simple-select-label">Slot</InputLabel>
-          <Select
-            fullWidth
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={formik.values.slot}
-            onChange={formik.handleChange}
-            name="slot"
-            error={formik.touched.slot && Boolean(formik.errors.slot)}
-            helperText={formik.touched.slot && formik.errors.slot}
-          >
-            {slotArr.map((value) => (
-              <MenuItem value={value + 1}>{value + 1}</MenuItem>
-            ))}
-          </Select>
+        <InputLabel id="demo-simple-select-label">Room</InputLabel>
+        <Select
+          fullWidth
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={formik.values.room}
+          onChange={formik.handleChange}
+          name="room"
+          error={formik.touched.room && Boolean(formik.errors.room)}
+          helperText={formik.touched.room && formik.errors.room}
+        >
+          {roomArr.map((value) => (
+            <MenuItem value={value + 1}>{value + 1}</MenuItem>
+          ))}
+        </Select>
 
-          {(alignment === 'Offline') && (
-            <>
-              <InputLabel id="demo-simple-select-label">Room</InputLabel>
-              <Select
-                fullWidth
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={formik.values.room}
-                onChange={formik.handleChange}
-                name="room"
-                error={formik.touched.room && Boolean(formik.errors.room)}
-                helperText={formik.touched.room && formik.errors.room}
-              >
-                {roomArr.map((value) => (
-                  <MenuItem value={value + 1}>{value + 1}</MenuItem>
-                ))}
-              </Select>
-            </>
-          )}
-          <InputLabel id="note">Note</InputLabel>
-          <TextField
-            name="note"
-            label="Note"
-            id="note"
-            type="note"
-            multiline
-            value={formik.values.note}
-            onChange={formik.handleChange}
-            error={formik.touched.note && Boolean(formik.errors.note)}
-            helperText={formik.touched.note && formik.errors.note}
-          />
-        </>
-        {alignment === 'Online' && (
-          <>
-            <InputLabel id="online-meeting">Online topic</InputLabel>
-            <TextField
-              id="online-meeting"
-              name="topic"
-              placeholder="Interview meeting in mm/dd/yyyy"
-              {...formik.getFieldProps('topic')}
-              {...errorHelper(formik, 'topic')}
-            />
-          </>
-        )}
+        <RHFTextField
+          name="note"
+          label="Note"
+          id="note"
+          type="note"
+          multiline
+          value={formik.values.note}
+          onChange={formik.handleChange}
+          error={formik.touched.note && Boolean(formik.errors.note)}
+          helperText={formik.touched.note && formik.errors.note}
+        />
+
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Submit
         </LoadingButton>
-
       </Stack>
-    </form>
+    </FormProvider>
   );
 }

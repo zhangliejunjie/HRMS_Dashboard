@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { Container, Grid } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Page from 'src/components/Page';
 import { AppNewsUpdate, AppOrderTimeline, AppWidgetSummary } from 'src/sections/@dashboard/app';
 import { BlogPostCard } from 'src/sections/@dashboard/blog';
@@ -102,22 +102,16 @@ export default function BlogDetail() {
             </CardStyle>
           </Grid>
           <Grid item xs={12} sx={{ margin: 0 }}>
-            <Button
-              variant="contained"
-              component={RouterLink}
-              // to="/newJob" 
-              to={{
-                // pathname: "/newJob",
-                // search: "?sort=name",
-                // hash: "#the-hash",
-                state: { meow: "meow" },
-                query: { name: 'test' },
-                main : <NewJobForm choosedCampaign={aCampaign} />,
-              }}
-              startIcon={<Iconify
-                icon="eva:plus-fill" />}>
-              New Job
-            </Button>
+            <Link component={RouterLink}
+              to={`/dashboard/newJob/${aCampaign.id}`}>
+              <Button
+                variant="contained"
+
+                startIcon={<Iconify
+                  icon="eva:plus-fill" />}>
+                New Job
+              </Button>
+            </Link>
           </Grid>
 
           <Grid item xs={12} md={8} >
