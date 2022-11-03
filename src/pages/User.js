@@ -196,9 +196,9 @@ export default function User() {
                           </Label>
                         </TableCell>
 
-                        <TableCell align="right">
+                        {/* <TableCell align="right">
                           <UserMoreMenu />
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel, OutlinedInput, Box, Chip } from '@mui/material';
+import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel, OutlinedInput, Box, Chip, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
@@ -118,7 +118,7 @@ export default function KietInterviewChip({ candidateId, open, onClose }) {
         onSubmit: (value) => {
             console.log(candidateId.id);
             console.log([...Array(inter.length)].map((_, index) =>
-            inter[index]?.id));
+                inter[index]?.id));
             axios
                 .patch('http://localhost:8000/api/report/interviewers', {
                     candidateId: candidateId.id,
@@ -146,36 +146,37 @@ export default function KietInterviewChip({ candidateId, open, onClose }) {
     return (
         <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
             <Stack spacing={3}>
-                <Typography variant="h6">Schedule Interview</Typography>
-                {candidateId.id}
-                <Select
-                    labelId="demo-multiple-chip-label"
-                    id="demo-multiple-chip"
-                    multiple
-                    value={personName}
-                    onChange={handleChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Interviews" />}
+                <FormControl>
+                    <InputLabel id="demo-multiple-chip-label">Interviews</InputLabel>
+                    <Select
+                        labelId="demo-multiple-chip-label"
+                        id="demo-multiple-chip"
+                        label="Interviews"
+                        multiple
+                        value={personName}
+                        onChange={handleChange}
+                        input={<OutlinedInput id="select-multiple-chip" label="Interviews" />}
 
-                    renderValue={(selected) => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {selected.map((value) => (
-                                <Chip key={value.fullname} label={value.fullname} />
-                            ))}
-                        </Box>
-                    )}
-                    MenuProps={MenuProps}
-                >
-                    {interviewers.map((person) => (
-                        <MenuItem
-                            key={person}
-                            value={person}
-                            style={getStyles(person.fullname, personName, theme)}
-                        >
-                            {person.fullname}
-                        </MenuItem>
-                    ))}
-                </Select>
-
+                        renderValue={(selected) => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                {selected.map((value) => (
+                                    <Chip key={value.fullname} label={value.fullname} />
+                                ))}
+                            </Box>
+                        )}
+                        MenuProps={MenuProps}
+                    >
+                        {interviewers.map((person) => (
+                            <MenuItem
+                                key={person}
+                                value={person}
+                                style={getStyles(person.fullname, personName, theme)}
+                            >
+                                {person.fullname}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
                     Submit
                 </LoadingButton>
