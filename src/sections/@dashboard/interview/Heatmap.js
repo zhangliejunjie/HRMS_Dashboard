@@ -150,7 +150,7 @@ export default function Heatmap({ isLoad }) {
               </Button>
             </ButtonGroup>
           </Stack>
-          <HeatmapModal isOpen={isOpen} handleClose={handleClose} week={week} room={room} slot={slot} />
+          <HeatmapModal isOpen={isOpen} handleClose={() => handleClose() } week={week} room={room} slot={slot} />
         </div>
       </Box>
     </Card>
