@@ -51,8 +51,8 @@ export default function JobUserMoreMenu() {
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-        <JobModalEditor open={open} onClose={() => setOpen(false)}/>
-        
+        <JobModalEditor open={open} onClose={() => setOpen(false)} />
+
       </Menu>
     </>
   );

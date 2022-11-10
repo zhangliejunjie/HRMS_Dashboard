@@ -154,29 +154,6 @@ export default function CampaignCreateForm({ open, onClose }) {
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
         />
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                        label="Start date"
-                        value={value1}
-                        onChange={(newValue) => {
-                            setValue1(newValue);
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
-                        type="date"
-                        name="start_date"
-                        {...formik.getFieldProps('start_date')}
-                    />
-                    <DatePicker
-                        label="End date"
-                        value={value2}
-
-                        renderInput={(params) => <TextField {...params} />}
-                        type="date"
-                        name="end_date"
-                        onChange={formik.handleChange}
-
-                    />
-                </LocalizationProvider> */}
 
         <TextField
           label="Start date"
@@ -187,10 +164,10 @@ export default function CampaignCreateForm({ open, onClose }) {
           name="start_date"
           validate
           onChange={formik.handleChange}
-          // defaultValue={moment(today).format('yyyy-MM-DD')}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
         />
+
         <TextField
           label="End date"
           fullWidth
@@ -205,33 +182,13 @@ export default function CampaignCreateForm({ open, onClose }) {
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
 
-        {/* <RHFTextField name="title" label="Job Title" />
-                <RHFTextField name="description" label="Description" />
-
-                <RHFTextField name="quantity" label="Quantity" type="number" />
-                <RHFTextField name="salary" label="Salary per month" type="number" /> */}
-        {/* <RHFTextField name="email" label="Email address" /> */}
-
-        {/* <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        /> */}
         <FormControl>
           <InputLabel
-            id="demo-simple-select-label">Status</InputLabel>
+            id="statusSelect">Status</InputLabel>
           <Select
             fullWidth
-            labelId="demo-simple-select-label"
+            label='Status'
+            labelId="statusSelect"
             id="demo-simple-select"
             onChange={formik.handleChange}
             defaultValue="Processing"
