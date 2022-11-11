@@ -60,12 +60,31 @@ export default function CampaignCreateForm({ open, onClose }) {
     navigate('/dashboard', { replace: true });
   };
   // use forkmik
-  let today = Date.now();
-  let endDateBoundary = moment().add(7, 'days').toString();
-  let yesterday = moment().subtract(1, 'days').toString();
-  // custome date constraint
+
+  function removeAscent(str) {
+    if (str === null || str === undefined) return str;
+    str = str.toLowerCase();
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    return str;
+  }
+
+  function isValid(string) {
+    var re = /^[a-zA-Z!@#\$%\^\&*\)\(+=._-]{2,}$/g // regex here
+    return re.test(removeAscent(string))
+  }
+
   const validate = values => {
+
     const errors = {};
+
+    const formatedName = values.title;
+
     console.log(values.start_date);
     // Start date must be from today and before end_date at least 7 days ago
     if (!values.start_date) {
@@ -99,7 +118,7 @@ export default function CampaignCreateForm({ open, onClose }) {
     validationSchema: Yup.object().shape({
       title: Yup
         .string()
-        .matches(/^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/, 'Please enter valid name')
+        .matches(/^\b([A-ZÀ-ÿ0-9][-,a-z0-9. ']+[ ]*)+$/, 'Please enter valid campaign name')
         .max(40, () => 'Max length of campaign name is 40 characters')
         .required('Campaign name required'),
       description: Yup
@@ -140,6 +159,7 @@ export default function CampaignCreateForm({ open, onClose }) {
           id="title"
           value={formik.values.title}
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           error={formik.touched.title && Boolean(formik.errors.title)}
           helperText={formik.touched.title && formik.errors.title}
         />
@@ -151,6 +171,7 @@ export default function CampaignCreateForm({ open, onClose }) {
           multiline
           value={formik.values.description}
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
         />
@@ -164,6 +185,7 @@ export default function CampaignCreateForm({ open, onClose }) {
           name="start_date"
           validate
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           error={formik.touched.start_date && Boolean(formik.errors.start_date)}
           helperText={formik.touched.start_date && formik.errors.start_date}
         />
@@ -177,7 +199,7 @@ export default function CampaignCreateForm({ open, onClose }) {
           value={formik.values.end_date}
           name="end_date"
           onChange={formik.handleChange}
-          // defaultValue={moment(formik.values.start_date).add(7, 'days').format('yyyy-MM-DD')}
+          onBlur={formik.handleBlur}
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
         />
@@ -191,13 +213,12 @@ export default function CampaignCreateForm({ open, onClose }) {
             labelId="statusSelect"
             id="demo-simple-select"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             defaultValue="Processing"
             name="status"
           >
             <MenuItem value={'Not started'}>Not started</MenuItem>
             <MenuItem value={'Processing'}>Processing</MenuItem>
-          // The campaign has finish
-            {/* <MenuItem value={'Finished'}>Finished</MenuItem> */}
           </Select>
         </FormControl>
 
