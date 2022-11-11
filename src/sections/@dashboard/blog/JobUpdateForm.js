@@ -48,7 +48,7 @@ export default function JobUpdateForm({ news, onClose }) {
   );
 
   const [cateId, setCateId] = useState(getCategoryId[0]?.id);
-console.log(cateId)
+  console.log(cateId)
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
     description: Yup.string().required('Description required'),
@@ -164,18 +164,11 @@ console.log(cateId)
     fetchCategory();
   }, []);
 
-
-
-
-
   const renderCategory = () => {
     return categories.map((value) => {
       return <MenuItem value={value.id}>{value.name}</MenuItem>;
     });
   };
-
-
-
   return (
 
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>

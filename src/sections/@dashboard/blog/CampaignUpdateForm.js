@@ -160,6 +160,7 @@ export default function CampaignUpdateForm({ news, open, onClose }) {
           id="title"
           value={formik.values.title}
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           error={formik.touched.title && Boolean(formik.errors.title)}
           helperText={formik.touched.title && formik.errors.title}
         />
@@ -172,6 +173,7 @@ export default function CampaignUpdateForm({ news, open, onClose }) {
           multiline
           value={formik.values.description}
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           error={formik.touched.description && Boolean(formik.errors.description)}
           helperText={formik.touched.description && formik.errors.description}
         />
@@ -185,6 +187,7 @@ export default function CampaignUpdateForm({ news, open, onClose }) {
           value={formik.values.end_date}
           name="end_date"
           onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           defaultValue={moment(news.end_date).format('yyyy-MM-DD')}
           error={formik.touched.end_date && Boolean(formik.errors.end_date)}
           helperText={formik.touched.end_date && formik.errors.end_date}
@@ -198,6 +201,7 @@ export default function CampaignUpdateForm({ news, open, onClose }) {
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             defaultValue="Processing"
             name="status"
           >
