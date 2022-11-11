@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 
-export default function CategoryDeleteAlertDialog({ news }) {
+export default function CategoryDeleteAlertDialog({ news, onClose }) {
 
     const [open, setOpen] = React.useState(false);
     const [openDialog, setDialogOpen] = React.useState(false);
@@ -26,6 +26,7 @@ export default function CategoryDeleteAlertDialog({ news }) {
     };
 
     const handleClose = () => {
+        onClose();
         setOpen(false);
     };
 
@@ -39,7 +40,6 @@ export default function CategoryDeleteAlertDialog({ news }) {
         setOpen(false);
         deleteCategory();
     };
-
 
     return (
         <div>
@@ -59,7 +59,7 @@ export default function CategoryDeleteAlertDialog({ news }) {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {"Are you sure to delete " + news?.id + "?"}
+                    {"Are you sure to delete category " + news?.name + "?"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">

@@ -32,7 +32,7 @@ export default function CategoryUserMoreMenu({ post }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
-        <CategoryDeleteAlertDialog news={post} />
+        <CategoryDeleteAlertDialog news={post} onClose={() => setIsOpen(false)}/>
         <CategoryModalEditor news={post} openMoreMenu={open} onClose={() => setIsOpen(false)} />
 
       </Menu>

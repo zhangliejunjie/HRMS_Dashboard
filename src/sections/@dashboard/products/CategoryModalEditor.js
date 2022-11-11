@@ -26,10 +26,13 @@ const style = {
     p: 4,
 };
 
-export default function CategoryModalEditor({ news, openMoreMenu, onClose }) {
+export default function CategoryModalEditor({ news, onClose }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        onClose();
+        setOpen(false)
+    };
     return (
         <div>
             <MenuItem onClick={() => {
