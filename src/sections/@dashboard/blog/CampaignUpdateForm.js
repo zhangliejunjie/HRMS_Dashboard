@@ -51,7 +51,6 @@ export default function CampaignUpdateForm({ news, open, onClose }) {
   const onSubmit = async () => {
     navigate('/dashboard', { replace: true });
   };
-  // use forkmik
 
   function removeAscent(str) {
     if (str === null || str === undefined) return str;

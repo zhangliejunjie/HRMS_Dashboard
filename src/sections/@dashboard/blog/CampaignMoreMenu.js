@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
 
-import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Menu, IconButton } from '@mui/material';
 // component
 import Iconify from '../../../components/Iconify';
 // Kiet import Modal 
-import JobModalEditor from '../blog/JobModalEditor';
-import { Grid, Button, Container, Stack, Typography, Modal } from '@mui/material';
 import CampaignModalEditor from './CampaignModalEditor';
-import CampaignCreateModal from './CampaignCreateModal';
-import CampaignDeleteModal from './CampaignDeleteModal';
 import CampaignDeleteAlertDialog from './CampaignDeleteModal';
 
 // ----------------------------------------------------------------------
@@ -39,9 +34,9 @@ export default function CampaignMoreMenu({ post }) {
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             >
-                <CampaignDeleteAlertDialog news={post} onClose={() => setIsOpen(false)}/>
+                <CampaignDeleteAlertDialog news={post} onClose={() => setIsOpen(false)} />
 
-                <CampaignModalEditor news={post} openMoreMenu={open} onClose={() => setIsOpen(false)} />
+                <CampaignModalEditor news={post} onClose={() => setIsOpen(false)} />
 
             </Menu>
         </>

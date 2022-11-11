@@ -27,10 +27,13 @@ const style = {
     p: 4,
 };
 
-export default function CampaignModalEditor({ news, openMoreMenu, onClose }) {
+export default function CampaignModalEditor({ news, onClose }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        onClose();
+        setOpen(false)
+    };
     return (
         <div>
             <MenuItem onClick={() => {

@@ -32,7 +32,7 @@ export default function CampaignDeleteAlertDialog({ news, onClose }) {
   const handleDelete = (id) => {
     const deleteCampaign = async () => {
       await axios.patch(`http://localhost:8000/api/campaign/delete/${id}`).then(() => {
-        dispatch(success('Delete successfully'));
+        dispatch(success('Delete campaign successfully'));
       });
     };
     setOpen(false);
