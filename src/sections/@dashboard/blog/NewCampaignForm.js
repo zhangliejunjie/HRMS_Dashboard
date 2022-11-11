@@ -1,12 +1,11 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, IconButton, InputAdornment, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import { Stack, Typography, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
@@ -15,22 +14,15 @@ import * as React from 'react';
 // Kiet imported
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
-// import { injectIntl, FormattedMessage } from 'react-intl';
 // api import
 import moment from 'moment/moment';
-import { add, set } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 // ----------------------------------------------------------------------
 
 export default function CampaignCreateForm({ open, onClose }) {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const [value1, setValue1] = React.useState(null);
-  const [value2, setValue2] = React.useState(null);
-  // 
-
 
   const RegisterSchema = Yup.object().shape({
     title: Yup.string().required('Job title required'),
@@ -75,7 +67,7 @@ export default function CampaignCreateForm({ open, onClose }) {
   }
 
   function isValid(string) {
-    var re = /^[a-zA-Z!@#\$%\^\&*\)\(+=._-]{2,}$/g // regex here
+    var re = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{2,}$/g // regex here
     return re.test(removeAscent(string))
   }
 
@@ -84,8 +76,17 @@ export default function CampaignCreateForm({ open, onClose }) {
     const errors = {};
 
     const formatedName = values.title;
+    if (!formatedName.replaceAll(/\s/g, '') && values.title.length > 0) {
+      errors.title = 'Form input not accepting only spaces';
+    } else if (!isValid(formatedName.replaceAll(/\s/g, ''))) {
+      errors.title = 'Please enter valid campaign title';
+    }
 
-    console.log(values.start_date);
+    const formatedDescription = values.description;
+    if (!formatedDescription.replaceAll(/\s/g, '') && values.description.length > 0) {
+      errors.description = 'Form input not accepting only spaces';
+    }
+
     // Start date must be from today and before end_date at least 7 days ago
     if (!values.start_date) {
       errors.start_date = 'Start date required';
@@ -106,6 +107,7 @@ export default function CampaignCreateForm({ open, onClose }) {
 
     return errors;
   };
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -118,9 +120,8 @@ export default function CampaignCreateForm({ open, onClose }) {
     validationSchema: Yup.object().shape({
       title: Yup
         .string()
-        .matches(/^\b([A-ZÀ-ÿ0-9][-,a-z0-9. ']+[ ]*)+$/, 'Please enter valid campaign name')
-        .max(40, () => 'Max length of campaign name is 40 characters')
-        .required('Campaign name required'),
+        .max(40, () => 'Max length of campaign title is 40 characters')
+        .required('Campaign title required'),
       description: Yup
         .string()
         .max(512, () => 'Max length of campaign description is 512 characters')
@@ -144,10 +145,6 @@ export default function CampaignCreateForm({ open, onClose }) {
     },
   });
 
-  function formatDate(date) {
-    return new Date(date).toLocaleDateString();
-  }
-
   return (
     <FormProvider methods={methods} onSubmit={formik.handleSubmit}>
       <Stack spacing={3}>
@@ -155,7 +152,7 @@ export default function CampaignCreateForm({ open, onClose }) {
 
         <RHFTextField
           name="title"
-          label="Campaign Name"
+          label="Campaign Title"
           id="title"
           value={formik.values.title}
           onChange={formik.handleChange}

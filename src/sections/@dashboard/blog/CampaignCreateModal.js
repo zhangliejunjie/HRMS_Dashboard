@@ -30,7 +30,9 @@ export default function CampaignCreateModal() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Card sx={style}>
+                <Card sx={
+                    style
+                }>
                     <NewCampaignForm open={open} onClose={() => setOpen(false)} />
                 </Card>
             </Modal>

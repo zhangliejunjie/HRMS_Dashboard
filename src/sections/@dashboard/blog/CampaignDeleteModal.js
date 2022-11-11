@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { success } from 'src/store/slice/notificationSlice';
 
-export default function CampaignDeleteAlertDialog({ news }) {
+export default function CampaignDeleteAlertDialog({ news, onClose }) {
   const [open, setOpen] = React.useState(false);
   const [openDialog, setDialogOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -25,12 +25,12 @@ export default function CampaignDeleteAlertDialog({ news }) {
   };
 
   const handleClose = () => {
+    onClose();
     setOpen(false);
   };
 
   const handleDelete = (id) => {
     const deleteCampaign = async () => {
-      console.log('Help me!' + id);
       await axios.patch(`http://localhost:8000/api/campaign/delete/${id}`).then(() => {
         dispatch(success('Delete successfully'));
       });
@@ -59,7 +59,7 @@ export default function CampaignDeleteAlertDialog({ news }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Are you sure to delete ' + news.id + '?'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Are you sure to delete ' + news.title + '?'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">This campaign will be unable to see.</DialogContentText>
         </DialogContent>
