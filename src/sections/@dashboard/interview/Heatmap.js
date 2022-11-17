@@ -4,17 +4,13 @@ import moment from 'moment';
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import HeatmapModal from './HeatmapModal';
-import InterviewModal from './InterviewModal';
 
 export default function Heatmap({ isLoad }) {
   // get current date of week
-  let curr = new Date(); // get current date
-  let first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-
+  let curr = moment(); // get current date
   // create week state, change when click next or previous
-  const [firstDay, setFirstDay] = useState(new Date(curr.setDate(first)).toLocaleDateString());
-  const [lastDay, setLastDay] = useState(new Date(curr.setDate(curr.getDate() + 6)).toLocaleDateString());
-  const [week, setWeek] = useState(moment(firstDay).week());
+  const [firstDay, setFirstDay] = useState(moment(curr).startOf('week').format('DD-MM-YYYY'));
+  const [week, setWeek] = useState(moment(curr).isoWeek());
   const [room, setRoom] = useState(0);
   const [slot, setSlot] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +24,17 @@ export default function Heatmap({ isLoad }) {
     setSlot(slot);
     setIsOpen(true);
   };
+
+  const handlePreviousWeek = () => {
+    setFirstDay(moment(firstDay, 'DD-MM-YYYY').subtract(7, 'd').format('DD-MM-YYYY'));
+    setWeek(week - 1);
+  };
+
+  const handleNextWeek = () => {
+    setFirstDay(moment(firstDay, 'DD-MM-YYYY').add(7, 'd').format('DD-MM-YYYY'));
+    setWeek(week + 1);
+  };
+
   // get data for heatmap by room and week
   const [heatmapData, setHeatmapData] = useState([]);
   React.useEffect(() => {
@@ -40,12 +47,7 @@ export default function Heatmap({ isLoad }) {
 
     fetchNumCandidatesByRoomWeek();
   }, [isLoad, week]);
-  // const candidates = [...Array(candidatesNotInterview.length)].map((_, index) => ({
-  //   id: candidatesNotInterview[index]?.id,
-  //   job_id: candidatesNotInterview[index]?.job_id,
-  // }));
 
-  // generate data for heatmap
   const dataSeries = [...Array(4)].map((_, week_num) => ({
     week_num: week_num + week,
     value: heatmapData,
@@ -99,27 +101,9 @@ export default function Heatmap({ isLoad }) {
         enabled: false,
       },
       colors: ['#008FFB'],
-      // title: {
-      //   text: 'HeatMap Chart (Single color)',
-      // },
       labels: labels,
     },
   };
-
-  // get candidate that did not book an interview
-  const [candidatesNotInterview, setCandidatesNotInterview] = useState([]);
-  React.useEffect(() => {
-    async function fetchCandidatesNotInterview() {
-      const { data } = await axios.get('http://localhost:8000/api/interview/not-interview');
-      setCandidatesNotInterview(data);
-    }
-
-    fetchCandidatesNotInterview();
-  }, [isLoad]); // on going
-  const candidates = [...Array(candidatesNotInterview?.length)].map((_, index) => ({
-    id: candidatesNotInterview[index]?.id,
-    job_id: candidatesNotInterview[index]?.job_id,
-  }));
 
   return (
     <Card>
@@ -128,29 +112,15 @@ export default function Heatmap({ isLoad }) {
         <div id="chart">
           <ReactApexChart options={state.options} series={state.series} type="heatmap" height={350} />
           <Stack direction="row" spacing={2} justifyContent="space-between">
-            <Typography>{`Week: ${firstDay} - ${lastDay}`}</Typography>
+            <Typography>{`Week: ${firstDay} - ${moment(firstDay, 'DD-MM-YYYY')
+              .add(6, 'd')
+              .format('DD-MM-YYYY')}`}</Typography>
             <ButtonGroup variant="outlined">
-              <Button
-                onClick={() => {
-                  setWeek(week - 1);
-                  setFirstDay(moment(firstDay).subtract(7, 'd').format('MM/DD/YYYY'));
-                  setLastDay(moment(lastDay).subtract(7, 'd').format('MM/DD/YYYY'));
-                }}
-              >
-                Previous
-              </Button>
-              <Button
-                onClick={() => {
-                  setWeek(week + 1);
-                  setFirstDay(moment(firstDay).add(7, 'd').format('MM/DD/YYYY'));
-                  setLastDay(moment(lastDay).add(7, 'd').format('MM/DD/YYYY'));
-                }}
-              >
-                Next
-              </Button>
+              <Button onClick={handlePreviousWeek}>Previous</Button>
+              <Button onClick={handleNextWeek}>Next</Button>
             </ButtonGroup>
           </Stack>
-          <HeatmapModal isOpen={isOpen} handleClose={() => handleClose() } week={week} room={room} slot={slot} />
+          <HeatmapModal isOpen={isOpen} handleClose={() => handleClose()} week={week} room={room} slotPos={slot} />
         </div>
       </Box>
     </Card>

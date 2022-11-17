@@ -1,10 +1,16 @@
 import { Box, List, ListItem, Modal, Stack, Card, Typography, Chip } from '@mui/material';
 import axios from 'axios';
+import moment from 'moment';
 import React, { useState } from 'react';
 import Label from 'src/components/Label';
+import { login } from 'src/store/slice/staffSlice';
+import { getDateOfISOWeek } from 'src/utils/tool';
 
-export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) {
+export default function HeatmapModal({ isOpen, handleClose, week, room, slotPos }) {
   const [candidateList, setCandidateList] = useState([]);
+
+  const date = moment(getDateOfISOWeek(week, slotPos), 'MM/DD/YYYY');
+  const slot = slotPos % 4 === 0 ? 4 : slotPos % 4;
 
   const style = {
     position: 'absolute',
@@ -19,12 +25,11 @@ export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) 
   React.useEffect(() => {
     async function fetchCandidateList() {
       const { data } = await axios.post('http://localhost:8000/api/interview/candidates-by-slot', {
-        week: week,
+        date: moment(date, 'MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
         room: room,
         slot: slot,
       });
       setCandidateList(data);
-      console.log(candidateList);
     }
     fetchCandidateList();
   }, [isOpen]);
@@ -74,6 +79,7 @@ export default function HeatmapModal({ isOpen, handleClose, week, room, slot }) 
                   <Typography variant="subtitle2" noWrap>
                     Room: {room === 9 ? <a href={candidate?.start_url}>Online</a> : room}
                   </Typography>
+                  <Typography variant="body1">Date: {moment(date).format('DD-MM-YYYY')}</Typography>
                   <Typography
                     component="span"
                     variant="body1"

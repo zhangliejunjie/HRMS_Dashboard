@@ -58,8 +58,8 @@ export default function InterviewFormUpdate({ handleClose, candidateId }) {
           .patch('http://localhost:8000/api/interview/update-interview', {
             candidateId: value.candidateId,
             room: value.room,
-            week: moment(value.day).week(),
-            slot: (moment(value.day).day() - 1) * 4 + value.slot,
+            date: moment(value.day).format('YYYY-MM-DD'),
+            slot: value.slot,
           })
           .then((res) => {
             handleClose();

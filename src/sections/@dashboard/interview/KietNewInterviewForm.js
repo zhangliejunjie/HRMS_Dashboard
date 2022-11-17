@@ -42,8 +42,7 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
     salary: Yup.string().required('Salary required'),
   });
 
-  const defaultValues = {
-  };
+  const defaultValues = {};
 
   const methods = useForm({
     resolver: yupResolver(RegisterSchema),
@@ -100,8 +99,8 @@ export default function KietNewInterviewForm({ candidate, open, onClose, reloadD
           candidateId: candidate?.id,
           type: alignment,
           room: Boolean(alignment === 'Online') ? 9 : value.room,
-          week: moment(value.date).week() - 1,
-          slot: (moment(value.date).day() - 1) * 4 + value.slot,
+          date: moment(value.date).format('YYYY-MM-DD'),
+          slot: value.slot,
         });
         const { id: interview_id } = data;
 
